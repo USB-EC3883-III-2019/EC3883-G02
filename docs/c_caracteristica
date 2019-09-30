@@ -1,0 +1,5 @@
+Medidas de distancia con el Sensor Sharp
+
+Por el datasheet del fabricante, sabemos que el sensor tiene una curva potencial de la forma L=a x^b donde L es la distancia leida y X el valor de voltaje entregado por el sensor. Con tomar 2 valores de x con su correpondencia en L respectivamente se pueden despejar los valores de las constantes a y b mediante un sistema de ecuaciones.
+
+Se comprueba con 5 medidas mas para hacer algun ajuste pertinente.
