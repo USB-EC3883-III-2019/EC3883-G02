@@ -11,17 +11,17 @@
   <GeneratedFilesList>
     <GeneratedByPE>
       <File Name="Generated_Code/Bit3.c" FileDate="2019-10-07, 12:29:19" FileAge="1570467559806" FileType="45637" CompNumb="37" />
-      <File Name="Documentation/Oscilocopio-EC3882_Settings.xml" FileDate="2019-10-08, 07:43:02" FileAge="1570536782689" FileType="3072" />
+      <File Name="Documentation/Oscilocopio-EC3882_Settings.xml" FileDate="2019-10-08, 09:24:11" FileAge="1570542851000" FileType="3072" />
       <File Name="Sources/Events.h" FileDate="2019-10-08, 07:43:02" FileAge="1570536782612" FileType="131328" />
-      <File Name="Generated_Code/TI1.h" FileDate="2019-10-07, 12:29:20" FileAge="1570467560093" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/TI1.h" FileDate="2019-10-08, 09:24:10" FileAge="1570542850900" FileType="45637" CompNumb="10" />
       <File Name="Generated_Code/PE_Error.h" FileDate="2019-10-07, 12:29:20" FileAge="1570467560020" FileType="45637" />
       <File Name="Sources/Events.c" FileDate="2019-10-08, 07:43:02" FileAge="1570536782622" FileType="131328" />
-      <File Name="Generated_Code/TI1.c" FileDate="2019-10-07, 12:29:20" FileAge="1570467560069" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/TI1.c" FileDate="2019-10-08, 09:24:10" FileAge="1570542850915" FileType="45637" CompNumb="10" />
       <File Name="Generated_Code/Cpu.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559926" FileType="45637" CompNumb="4" />
       <File Name="Generated_Code/Bit2.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559783" FileType="45637" CompNumb="24" />
       <File Name="Generated_Code/Cpu.c" FileDate="2019-10-08, 07:43:02" FileAge="1570536782591" FileType="45637" CompNumb="4" />
       <File Name="Project_Settings/Linker_Files/ProcessorExpert.prm" FileDate="2019-10-07, 12:29:20" FileAge="1570467560541" FileType="8" CompNumb="4" />
-      <File Name="Documentation/Oscilocopio-EC3882_SIGNALS.txt" FileDate="2019-10-08, 07:43:02" FileAge="1570536782647" FileType="3072" />
+      <File Name="Documentation/Oscilocopio-EC3882_SIGNALS.txt" FileDate="2019-10-08, 09:24:10" FileAge="1570542850942" FileType="3072" />
       <File Name="Generated_Code/Bit4.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559878" FileType="45637" CompNumb="42" />
       <File Name="Generated_Code/Bit2.c" FileDate="2019-10-07, 12:29:19" FileAge="1570467559761" FileType="45637" CompNumb="24" />
       <File Name="Documentation/Oscilocopio-EC3882.txt" FileDate="2019-10-08, 07:43:02" FileAge="1570536782711" FileType="3072" />
@@ -34,7 +34,7 @@
       <File Name="Generated_Code/EInt1.h" FileDate="2019-10-08, 07:43:02" FileAge="1570536782547" FileType="45637" CompNumb="43" />
       <File Name="Generated_Code/Vectors.c" FileDate="2019-10-08, 07:43:02" FileAge="1570536782601" FileType="45637" CompNumb="4" />
       <File Name="Generated_Code/AD1.c" FileDate="2019-10-07, 12:29:19" FileAge="1570467559568" FileType="45637" CompNumb="8" />
-      <File Name="Sources/main.c" FileDate="2019-10-08, 07:43:02" FileAge="1570536782574" FileType="128" />
+      <File Name="Sources/main.c" FileDate="2019-10-08, 09:22:43" FileAge="1570542763836" FileType="128" />
       <File Name="Generated_Code/TI2.c" FileDate="2019-10-07, 12:29:20" FileAge="1570467560119" FileType="45637" CompNumb="41" />
       <File Name="Generated_Code/Bit1.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559736" FileType="45637" CompNumb="23" />
       <File Name="Generated_Code/EInt1.c" FileDate="2019-10-08, 07:43:02" FileAge="1570536782544" FileType="45637" CompNumb="43" />
@@ -45,5 +45,5 @@
       <File Name="Generated_Code/AS1.c" FileDate="2019-10-07, 12:29:19" FileAge="1570467559620" FileType="45637" CompNumb="9" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>3</CodeGenReference>
+  <CodeGenReference>4</CodeGenReference>
 </CodeGenerationInfo>

@@ -84,15 +84,22 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion)
 		 * los la trama de prueba sera 00000001 10000011 10000111 10001111
 		 */
 		char temp;
-		maskblock[0]= 0b00111111 & posicion	; 		// posicion garantizando la cabecera 00
-		sonar[0]	= sonar[0] & 0b00000001	;		
-		maskblock[1]= sonar[0] << 6 ;				// desplaza el bit hasta la posicion en la que inicia
-		maskblock[1]= maskblock[1] | (sonar[0] >> 2) | 0b10000000 ;	// 
+		
+		maskblock[0]= posicion; 		// posicion garantizando la cabecera 00
+
+		temp    	= sonar[1] & 0b00000001	;	
+		maskblock[1]= (temp << 6 );					// desplaza el bit hasta la posicion en la que inicia
+		maskblock[1]= maskblock[1] | (sonar[0] >> 2) | 0b10000000;	// 
+
 		maskblock[2]= (sonar[0] & 0b00000011) << 5 ;
-		maskblock[2]= maskblock[2] | 0b10000000;
+		
 		temp=lidar[0] >> 7;
+		
 		maskblock[2]= maskblock[2] | (((lidar[1] & 0b00001111)<<1)|temp) ;
-		maskblock[3]= 0b10000000 | (lidar[0]>>1);
+		maskblock[2]= maskblock[2] | 0b10000000;
+
+		maskblock[3]= lidar[1] | 0b10000000;
+
 }
 
 void main(void)
@@ -111,21 +118,23 @@ void main(void)
  
    for(;;) {
 	   
-	  sonar[1]=0b00000001;
-	  sonar[0]=0b11000111;
-	  lidar[1]=0b00001111;
-	  lidar[0]=0b00001111;
-	  posicion=0b00101010;
    
 	  if(p) {
+		  sonar[1]=0b00000001;
+		  sonar[0]=0b11000111;
+		  lidar[1]=0b00001111;
+		  lidar[0]=0b00001111;
+		  posicion=0b00101010;
+
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
-	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
+/*	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
 	   AD1_GetChanValue(0, &sonar); // Se asigna lo que se leyó a la variable sonar
 	   AD1_MeasureChan(TRUE,1); // Lee lo que se encuentra en el canal 2
 	   AD1_GetChanValue(1, &lidar); // Se asigna lo que se leyó a la variable lidar
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
 	   dig2=Bit2_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 2
+*/
 	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	
        AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
       }
