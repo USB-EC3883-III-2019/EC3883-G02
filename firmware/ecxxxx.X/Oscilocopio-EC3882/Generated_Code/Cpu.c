@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-03-28, 15:57, # CodeGen: 0
+**     Date/Time   : 2019-10-08, 07:42, # CodeGen: 2
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -75,6 +75,7 @@
 #include "Bit3.h"
 #include "TI2.h"
 #include "Bit4.h"
+#include "EInt1.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -289,12 +290,12 @@ void PE_low_level_init(void)
   clrSetReg8Bits(PTBDD, 0x01U, 0x02U);  
   /* PTBD: PTBD1=1 */
   setReg8Bits(PTBD, 0x02U);             
-  /* PTDPE: PTDPE6=1,PTDPE4=0,PTDPE3=1,PTDPE2=1 */
-  clrSetReg8Bits(PTDPE, 0x10U, 0x4CU);  
+  /* PTDPE: PTDPE6=1,PTDPE5=0,PTDPE4=0,PTDPE3=1,PTDPE2=1 */
+  clrSetReg8Bits(PTDPE, 0x30U, 0x4CU);  
   /* PTDD: PTDD6=0,PTDD4=0 */
   clrReg8Bits(PTDD, 0x50U);             
-  /* PTDDD: PTDDD6=1,PTDDD4=1,PTDDD3=0,PTDDD2=0 */
-  clrSetReg8Bits(PTDDD, 0x0CU, 0x50U);  
+  /* PTDDD: PTDDD6=1,PTDDD5=0,PTDDD4=1,PTDDD3=0,PTDDD2=0 */
+  clrSetReg8Bits(PTDDD, 0x2CU, 0x50U);  
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -345,6 +346,13 @@ void PE_low_level_init(void)
   TI2_Init();
   /* ### BitIO "Bit4" init code ... */
   Shadow_PTD &= 0xEFU;                 /* Initialize pin shadow variable bit */
+  /* ### External interrupt "EInt1" init code ... */
+  /* KBI2PE: KBIPE5=1 */
+  KBI2PE |= 0x20U;
+  /* KBI2SC: ??=0,??=0,??=0,??=0,KBF=0,KBACK=0,KBIE=0,KBIMOD=0 */
+  setReg8(KBI2SC, 0x00U);               
+  KBI2SC_KBACK = 0x01U;                /* Clear Interrupt flag */
+  KBI2SC_KBIE = 0x01U;
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }

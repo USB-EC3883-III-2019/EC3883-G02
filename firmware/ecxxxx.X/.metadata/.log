@@ -473,3 +473,9 @@ Binding(CTRL+SHIFT+H,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.cdt.ui.cViewScope,,,system)
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-10-08 07:44:59.636
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-10-08 07:45:19.880
+!MESSAGE An application file was not specified in the launch configuration.

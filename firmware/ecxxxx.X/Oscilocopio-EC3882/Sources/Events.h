@@ -42,6 +42,7 @@
 #include "Bit3.h"
 #include "TI2.h"
 #include "Bit4.h"
+#include "EInt1.h"
 
 
 void TI1_OnInterrupt(void);
@@ -148,6 +149,20 @@ void TI2_OnInterrupt(void);
 **         when the component is enabled - <Enable> and the events are
 **         enabled - <EnableEvent>). This event is enabled only if a
 **         <interrupt service/event> is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void EInt1_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  EInt1_OnInterrupt (module Events)
+**
+**     Component   :  EInt1 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================
