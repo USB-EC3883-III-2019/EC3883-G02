@@ -299,3 +299,6 @@ java.net.UnknownHostException: freescale.com
 
 !ENTRY com.freescale.core.ide.wizard.ui 4 0 2019-10-08 07:11:19.928
 !MESSAGE Unknown UI Element ID: mcu.projectwizard.twrboard.family.v4e
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-10-08 07:15:37.451
+!MESSAGE Indexed 'Oscilocopio-EC3882' (14 sources, 19 headers) in 1.20 sec: 3,621 declarations; 3,327 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
