@@ -71,31 +71,36 @@ char k=0;
 
 // Función para acomodar los datos según el protocolo
 
-void mask1(char maskblock[4],char block1[],char block2[],char dig,char dig2)
+void mask1(char maskblock[4],char sonar[],char lidar[],char posicion)
 {
 	   /* Las variables son:
 	    * maskblock hace referencia a los 4 bytes completos que envía el demoQE, sería la trama según el protocolo
-	    * block1 cuenta con 2 bytes del canal 1
-	    * block2 son los 2 bytes del canal 2
+	    * sonar cuenta con 2 bytes del sonar
+	    * lidar son los 2 bytes del canal 2
 	    */
 	
 		/* funcionamiento:
 		 * Se enviara una trama teniendo en cuenta la cabezera de la trama 
 		 * los la trama de prueba sera 00000001 10000011 10000111 10001111
 		 */
-	
-		maskblock[0]= 0b00000001; // prueba de comunicacion
-		maskblock[1]= 0b10000011;
-		maskblock[2]= 0b10000111;
-		maskblock[3]= 0b00001111;		
+		char temp;
+		maskblock[0]= 0b00111111 & posicion	; 		// posicion garantizando la cabecera 00
+		sonar[0]	= sonar[0] & 0b00000001	;		
+		maskblock[1]= sonar[0] << 6 ;				// desplaza el bit hasta la posicion en la que inicia
+		maskblock[1]= maskblock[1] | (sonar[0] >> 2) | 0b10000000 ;	// 
+		maskblock[2]= (sonar[0] & 0b00000011) << 5 ;
+		maskblock[2]= maskblock[2] | 0b10000000;
+		temp=lidar[0] >> 7;
+		maskblock[2]= maskblock[2] | (((lidar[1] & 0b00001111)<<1)|temp) ;
+		maskblock[3]= 0b10000000 | (lidar[0]>>1);
 }
 
 void main(void)
 {
   /* Write your local variable definition here */
-char block1[2],block2[2],maskblock[4]; // Variables descritas anteriormente
-unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
-char dig,dig2; // Canales digitales
+ char sonar[2],lidar[2],maskblock[4],posicion; // Variables descritas anteriormente
+ unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
+ char dig,dig2; // Canales digitales
 
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
@@ -106,16 +111,22 @@ char dig,dig2; // Canales digitales
  
    for(;;) {
 	   
+	  sonar[1]=0b00000001;
+	  sonar[0]=0b11000111;
+	  lidar[1]=0b00001111;
+	  lidar[0]=0b00001111;
+	  posicion=0b00101010;
+   
 	  if(p) {
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
 	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
-	   AD1_GetChanValue(0, &block1); // Se asigna lo que se leyó a la variable block1
+	   AD1_GetChanValue(0, &sonar); // Se asigna lo que se leyó a la variable sonar
 	   AD1_MeasureChan(TRUE,1); // Lee lo que se encuentra en el canal 2
-	   AD1_GetChanValue(1, &block2); // Se asigna lo que se leyó a la variable block2
+	   AD1_GetChanValue(1, &lidar); // Se asigna lo que se leyó a la variable lidar
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
 	   dig2=Bit2_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 2
-	   mask1(maskblock,block1,block2,dig,dig2);	// Llamamos al procedimiento mask1	
+	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	
        AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
       }
   }
