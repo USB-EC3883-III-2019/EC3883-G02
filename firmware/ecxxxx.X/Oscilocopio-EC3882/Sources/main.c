@@ -54,10 +54,10 @@
  * 	-----------------------------------------------------------------------
  *  1	VDD	   	+3V							O		SALIDA DE VOLTAGE POSITIVO DEMOQE	
  *  3	VSS	   	0							O		TIERRA DEL DEMOQE 
- *  13	PTC0	MOTOR 1						O		BOBINA MOTOR
- *  15	PTC1	MOTOR 2						O		BOBINA MOTOR
- *  33	PTC2	MOTOR 3						O		BOBINA MOTOR
- *  35	PTC3	MOTOR 4						O		BOBINA MOTOR
+ *  13	PTC0	MOTOR 1 (VERDE)				O		BOBINA MOTOR
+ *  15	PTC1	MOTOR 2	(ROJO)				O		BOBINA MOTOR
+ *  33	PTC2	MOTOR 3	(GRIS1)					O		BOBINA MOTOR
+ *  35	PTC3	MOTOR 4	(GRIS2)					O		BOBINA MOTOR
  *  27	PTD2	ZERO IZQ					I		SENSOR PARA DETECTAR MAXIMO IZQUIERDA
  *  			ZERO DER					I		SENSOR PARA DETECTAR MAXIMO DERECHA
  *  31	PTD3	FILTRO						I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
@@ -106,14 +106,14 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 
 void mover(char posicion)
 {
-	char secuencia[8]={0b00111010,0b00111000,0b00111001,0b00110001,0b00110101,0b00110100,0b00110110,0b00110010};
-	Byte1_PutVal(secuencia[posicion%8]);
+	char secuencia[8]={0b00110101,0b00110001,0b00111001,0b00111000,0b00111010,0b00110010,0b00110110,0b00110100};
+	Byte1_PutVal(secuencia[posicion]);
 }
 
 void main(void)
 {
   /* Write your local variable definition here */
- char sonar[2],lidar[2],maskblock[4],posicion; // Variables descritas anteriormente
+ char sonar[2],lidar[2],maskblock[4],posicion=31,control=0; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
  char dig,dig2; // Canales digitales
  char i=0;
@@ -128,12 +128,10 @@ void main(void)
 	   
    
 	  if(p) {
-		  /*sonar[1]=0b00000001;
+		  sonar[1]=0b00000001;
 		  sonar[0]=0b11000111;
 		  lidar[1]=0b00001111;
 		  lidar[0]=0b00001111;
-		  posicion=0b00101010;
-	   */
 	   
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
@@ -144,9 +142,29 @@ void main(void)
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
 	   dig2=Bit2_GetVal(); 	// Asignamos el valor de un bit a la variable del canal digital 2
 */
-	   posicion++;
-	   if(posicion>50){posicion=0;}
-	   mover(posicion);
+	   if(posicion>63)
+	   {
+		   control=0;
+		   posicion=63;
+	   }
+	   
+	   if(posicion<1)
+	   {
+		   control=1;
+		   posicion=1;
+	   }
+	   
+	   switch(control)
+	   {
+	   case 0:
+		   posicion--;
+		   break;
+	   case 1:
+		   posicion++;
+		   break;
+	   
+	   }
+	   mover(posicion%8);
 	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	    
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
        }

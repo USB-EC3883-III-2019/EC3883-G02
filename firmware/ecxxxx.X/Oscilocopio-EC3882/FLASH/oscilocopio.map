@@ -44,7 +44,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata                            4     R     0x20DB     0x20DE   ROM
 NON_BANKED                       471     R     0x20DF     0x22B5   ROM
 .copy                              2     R     0x22B6     0x22B7   ROM
-.text                            417     R     0x8000     0x81A0   PPAGE_0
+.text                            456     R     0x8000     0x81C7   PPAGE_0
 .abs_section_ffbd                  1     R     0xFFBD     0xFFBD   .absSeg0
 .abs_section_ffbf                  1     R     0xFFBF     0xFFBF   .absSeg1
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg2
@@ -229,15 +229,15 @@ NON_BANKED                       471     R     0x20DF     0x22B5   ROM
 .abs_section_1870                  2   N/I     0x1870     0x1871   .absSeg181
 .abs_section_ffc0                 64     R     0xFFC0     0xFFFF   .absSeg182
 .bss                              14   R/W       0xA0       0xAD   RAM
-AD1_CODE                          16     R     0x81A1     0x81B0   PPAGE_0
-AS1_CODE                         202     R     0x81B1     0x827A   PPAGE_0
-TI1_CODE                          20     R     0x827B     0x828E   PPAGE_0
-TI2_CODE                          20     R     0x828F     0x82A2   PPAGE_0
+AD1_CODE                          16     R     0x81C8     0x81D7   PPAGE_0
+AS1_CODE                         202     R     0x81D8     0x82A1   PPAGE_0
+TI1_CODE                          20     R     0x82A2     0x82B5   PPAGE_0
+TI2_CODE                          20     R     0x82B6     0x82C9   PPAGE_0
 .common                            8   R/W       0xAE       0xB5   RAM
 .stack                           512   R/W       0xB6      0x2B5   RAM
 
 Summary of section sizes per section type:
-READ_ONLY (R):         51D (dec:     1309)
+READ_ONLY (R):         544 (dec:     1348)
 READ_WRITE (R/W):      216 (dec:      534)
 NO_INIT (N/I):          CF (dec:      207)
 
@@ -264,8 +264,8 @@ MODULE:                 -- Events_c.obj --
 MODULE:                 -- main_c.obj --
 - PROCEDURES:
      mask1                                     8012      61      97       2   .text       
-     mover                                     8073      38      56       2   .text       
-     main                                      80AB      57      87       2   .text       
+     mover                                     8073      32      50       2   .text       
+     main                                      80A5      84     132       2   .text       
 - VARIABLES:
      p                                           A0       1       1       3   .bss        
      h                                           A1       1       1       1   .bss        
@@ -281,7 +281,7 @@ MODULE:                 -- start08_c.obj --
 MODULE:                 -- AD1_c.obj --
 - PROCEDURES:
      AD1_Interrupt                             2164      7F     127       1   NON_BANKED  
-     AD1_Init                                  81A1      10      16       2   AD1_CODE    
+     AD1_Init                                  81C8      10      16       2   AD1_CODE    
 - VARIABLES:
      Table                                     20DB       2       2       1   .rodata     
      Channels                                  20DD       2       2       1   .rodata     
@@ -294,8 +294,8 @@ MODULE:                 -- AS1_c.obj --
      AS1_InterruptRx                           21E3      45      69       1   NON_BANKED  
      AS1_InterruptTx                           2228      5C      92       1   NON_BANKED  
      AS1_InterruptError                        2284      12      18       1   NON_BANKED  
-     AS1_SendBlock                             81B1      A0     160       2   AS1_CODE    
-     AS1_Init                                  8251      2A      42       2   AS1_CODE    
+     AS1_SendBlock                             81D8      A0     160       2   AS1_CODE    
+     AS1_Init                                  8278      2A      42       2   AS1_CODE    
 - VARIABLES:
      SerFlag                                     A5       1       1      11   .bss        
      BufferRead                                  A6       1       1       1   .bss        
@@ -306,7 +306,7 @@ MODULE:                 -- AS1_c.obj --
      AS1_OutLen                                  B2       1       1       6   .common     
 MODULE:                 -- Cpu_c.obj --
 - PROCEDURES:
-     PE_low_level_init                         8102      9F     159       2   .text       
+     PE_low_level_init                         8129      9F     159       2   .text       
      Cpu_Interrupt                             2080       4       4      24   .init       
      _EntryPoint                               2084      45      69       1   .init       
 - VARIABLES:
@@ -314,7 +314,7 @@ MODULE:                 -- Cpu_c.obj --
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
      CCR_reg                                     B3       1       1       2   .common     
      CCR_lock                                    B4       1       1       5   .common     
-     Shadow_PTD                                  B5       1       1       2   .common     
+     Shadow_PTD                                  B5       1       1       3   .common     
 MODULE:                 -- EInt1_c.obj --
 - PROCEDURES:
      EInt1_Interrupt                           2296       9       9       1   NON_BANKED  
@@ -505,12 +505,12 @@ MODULE:                 -- IO_Map_c.obj --
 MODULE:                 -- TI1_c.obj --
 - PROCEDURES:
      TI1_Interrupt                             229F       E      14       1   NON_BANKED  
-     TI1_Init                                  827B      14      20       2   TI1_CODE    
+     TI1_Init                                  82A2      14      20       2   TI1_CODE    
 - VARIABLES:
 MODULE:                 -- TI2_c.obj --
 - PROCEDURES:
      TI2_Interrupt                             22AD       9       9       1   NON_BANKED  
-     TI2_Init                                  828F      14      20       2   TI2_CODE    
+     TI2_Init                                  82B6      14      20       2   TI2_CODE    
 - VARIABLES:
 MODULE:                 -- Vectors_c.obj --
 - PROCEDURES:
@@ -522,7 +522,7 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   Events_c.obj                                 0     18      0
-  main_c.obj                                   2    240      0
+  main_c.obj                                   2    279      0
   start08_c.obj                                0    133      0
   AD1_c.obj                                    7    143      4
   AS1_c.obj                                   10    381      0
@@ -1045,7 +1045,7 @@ OBJECT LIST SORTED BY ADDRESS
      AS1_OutLen                                  B2       1       1       6   .common     
      CCR_reg                                     B3       1       1       2   .common     
      CCR_lock                                    B4       1       1       5   .common     
-     Shadow_PTD                                  B5       1       1       2   .common     
+     Shadow_PTD                                  B5       1       1       3   .common     
      _SRS                                      1800       1       1       0   .abs_section_1800
      _SBDFR                                    1801       1       1       0   .abs_section_1801
      _SOPT1                                    1802       1       1       1   .abs_section_1802
@@ -1151,14 +1151,14 @@ OBJECT LIST SORTED BY ADDRESS
      TI2_OnInterrupt                           800B       6       6       2   .text       
      EInt1_OnInterrupt                         8011       1       1       2   .text       
      mask1                                     8012      61      97       2   .text       
-     mover                                     8073      38      56       2   .text       
-     main                                      80AB      57      87       2   .text       
-     PE_low_level_init                         8102      9F     159       2   .text       
-     AD1_Init                                  81A1      10      16       2   AD1_CODE    
-     AS1_SendBlock                             81B1      A0     160       2   AS1_CODE    
-     AS1_Init                                  8251      2A      42       2   AS1_CODE    
-     TI1_Init                                  827B      14      20       2   TI1_CODE    
-     TI2_Init                                  828F      14      20       2   TI2_CODE    
+     mover                                     8073      32      50       2   .text       
+     main                                      80A5      84     132       2   .text       
+     PE_low_level_init                         8129      9F     159       2   .text       
+     AD1_Init                                  81C8      10      16       2   AD1_CODE    
+     AS1_SendBlock                             81D8      A0     160       2   AS1_CODE    
+     AS1_Init                                  8278      2A      42       2   AS1_CODE    
+     TI1_Init                                  82A2      14      20       2   TI1_CODE    
+     TI2_Init                                  82B6      14      20       2   TI2_CODE    
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
      _vect                                     FFC0      40      64       0   .abs_section_ffc0
@@ -1303,6 +1303,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 10
-Total size of all blocks to be downloaded: 1309
+Number of blocks to be downloaded: 9
+Total size of all blocks to be downloaded: 1348
 
