@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-08, 07:42, # CodeGen: 2
+**     Date/Time   : 2019-10-09, 05:23, # CodeGen: 4
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -76,6 +76,7 @@
 #include "TI2.h"
 #include "Bit4.h"
 #include "EInt1.h"
+#include "Byte1.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -296,6 +297,12 @@ void PE_low_level_init(void)
   clrReg8Bits(PTDD, 0x50U);             
   /* PTDDD: PTDDD6=1,PTDDD5=0,PTDDD4=1,PTDDD3=0,PTDDD2=0 */
   clrSetReg8Bits(PTDDD, 0x2CU, 0x50U);  
+  /* PTCD: PTCD7=0,PTCD6=0,PTCD5=0,PTCD4=0,PTCD3=0,PTCD2=0,PTCD1=0,PTCD0=0 */
+  setReg8(PTCD, 0x00U);                 
+  /* PTCPE: PTCPE7=0,PTCPE6=0,PTCPE5=0,PTCPE4=0,PTCPE3=0,PTCPE2=0,PTCPE1=0,PTCPE0=0 */
+  setReg8(PTCPE, 0x00U);                
+  /* PTCDD: PTCDD7=1,PTCDD6=1,PTCDD5=1,PTCDD4=1,PTCDD3=1,PTCDD2=1,PTCDD1=1,PTCDD0=1 */
+  setReg8(PTCDD, 0xFFU);                
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -353,6 +360,7 @@ void PE_low_level_init(void)
   setReg8(KBI2SC, 0x00U);               
   KBI2SC_KBACK = 0x01U;                /* Clear Interrupt flag */
   KBI2SC_KBIE = 0x01U;
+  /* ### ByteIO "Byte1" init code ... */
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }

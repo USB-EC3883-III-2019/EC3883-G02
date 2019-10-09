@@ -39,6 +39,7 @@
 #include "TI2.h"
 #include "Bit4.h"
 #include "EInt1.h"
+#include "Byte1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -49,20 +50,21 @@
 
 /*	INFO GENERAL
  * 
- * 	PIN NOMBRE	DESCRIPCION 	I/O		NOTAS
+ * 	PIN NOMBRE	DESCRIPCION 	VARIABLE	I/O		NOTAS
  * 	-----------------------------------------------------------------------
- *  1	VDD	   	+3V				O		SALIDA DE VOLTAGE POSITIVO DEMOQE	
- *  3	VSS	   	0				O		TIERRA DEL DEMOQE 
- *  13	PTC0	MOTOR 1			O		BOBINA MOTOR
- *  15	PTC1	MOTOR 2			O		BOBINA MOTOR
- *  33	PTC2	MOTOR 3			O		BOBINA MOTOR
- *  35	PTC3	MOTOR 4			O		BOBINA MOTOR
- *  30	PTD4	ZERO IZQ		I		SENSOR PARA DETECTAR MAXIMO IZQUIERDA
- *  34	PTD6	ZERO DER		I		SENSOR PARA DETECTAR MAXIMO DERECHA
- *  36	PTD7	FILTRO			I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
- *  32	PTD5	SONAR			I		INTERRUPCION PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
- *  14	PTA0	LIDAR			I		SENSOR SHARP
- *  16	PTA1	POTENCIOMETRO	I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
+ *  1	VDD	   	+3V							O		SALIDA DE VOLTAGE POSITIVO DEMOQE	
+ *  3	VSS	   	0							O		TIERRA DEL DEMOQE 
+ *  13	PTC0	MOTOR 1						O		BOBINA MOTOR
+ *  15	PTC1	MOTOR 2						O		BOBINA MOTOR
+ *  33	PTC2	MOTOR 3						O		BOBINA MOTOR
+ *  35	PTC3	MOTOR 4						O		BOBINA MOTOR
+ *  27	PTD2	ZERO IZQ					I		SENSOR PARA DETECTAR MAXIMO IZQUIERDA
+ *  			ZERO DER					I		SENSOR PARA DETECTAR MAXIMO DERECHA
+ *  31	PTD3	FILTRO						I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
+ *  32	PTD5	SONAR			ELNT1		I		INTERRUPCION PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
+ *  34	PTD6	TRIGGER			BIT3		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION
+ *  14	PTA0	LIDAR						I		SENSOR SHARP
+ *  16	PTA1	POTENCIOMETRO				I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
  */
 
 char p=0;
@@ -71,7 +73,7 @@ char k=0;
 
 // Función para acomodar los datos según el protocolo
 
-void mask1(char maskblock[4],char sonar[],char lidar[],char posicion)
+void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATIVO Y PROBADO
 {
 	   /* Las variables son:
 	    * maskblock hace referencia a los 4 bytes completos que envía el demoQE, sería la trama según el protocolo
@@ -102,13 +104,19 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion)
 
 }
 
+void mover(char posicion)
+{
+	char secuencia[8]={0b00111010,0b00111000,0b00111001,0b00110001,0b00110101,0b00110100,0b00110110,0b00110010};
+	Byte1_PutVal(secuencia[posicion%8]);
+}
+
 void main(void)
 {
   /* Write your local variable definition here */
  char sonar[2],lidar[2],maskblock[4],posicion; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
  char dig,dig2; // Canales digitales
-
+ char i=0;
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
   /*** End of Processor Expert internal initialization.                    ***/
@@ -120,12 +128,13 @@ void main(void)
 	   
    
 	  if(p) {
-		  sonar[1]=0b00000001;
+		  /*sonar[1]=0b00000001;
 		  sonar[0]=0b11000111;
 		  lidar[1]=0b00001111;
 		  lidar[0]=0b00001111;
 		  posicion=0b00101010;
-
+	   */
+	   
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
 /*	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
@@ -133,13 +142,17 @@ void main(void)
 	   AD1_MeasureChan(TRUE,1); // Lee lo que se encuentra en el canal 2
 	   AD1_GetChanValue(1, &lidar); // Se asigna lo que se leyó a la variable lidar
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
-	   dig2=Bit2_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 2
+	   dig2=Bit2_GetVal(); 	// Asignamos el valor de un bit a la variable del canal digital 2
 */
-	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	
-       AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
-      }
+	   posicion++;
+	   if(posicion>50){posicion=0;}
+	   mover(posicion);
+	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	    
+	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
+       }
   }
-  /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
+
+   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
   #ifdef PEX_RTOS_START
     PEX_RTOS_START();                  /* Startup of the selected RTOS. Macro is defined by the RTOS component. */

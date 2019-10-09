@@ -1019,7 +1019,7 @@ Autoselect
         <Interrupt v="Vrtc" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="500 &amp;#181;s" />
+      <Interrupt_period v="1 sec" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1261,12 +1261,7 @@ autoselected pull
 
         <EmptySection_DummyValue />
       </Pull_resistor>
-      <Generate_interrupt_on sel_value="falling edge">
-        
-rising or falling edge
-
-        <EmptySection_DummyValue />
-      </Generate_interrupt_on>
+      <Generate_interrupt_on v="falling edge" />
       <Invert_interrupt_trigger_condition v="no" />
       <Interrupt v="Vkeyboard" />
       <Interrupt_priority v="medium priority" />
@@ -1286,6 +1281,60 @@ rising or falling edge
         <Event_procedure_name v="EInt1_OnInterrupt" />
         <Priority v="same as interrupt" />
       </event>
+    </Events>
+  </Bean>
+  <Bean name="Byte1" type="ByteIO">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="Byte1" />
+      <Port v="PTC" />
+      <Pull_resistor sel_value="no pull resistor">
+        
+autoselected pull
+
+        <EmptySection_DummyValue />
+      </Pull_resistor>
+      <Open_drain v="push-pull" />
+      <Direction v="Output" />
+      <group name="Initialization">
+        <Init__direction v="Output" />
+        <Init__value v="0" />
+      </group>
+      <Safe_mode v="yes" />
+      <group name="PORT C">
+        <Slew_rate_control_for_PTC0 v="no" />
+        <Slew_rate_control_for_PTC1 v="no" />
+        <Slew_rate_control_for_PTC2 v="no" />
+        <Slew_rate_control_for_PTC3 v="no" />
+        <Slew_rate_control_for_PTC4 v="no" />
+        <Slew_rate_control_for_PTC5 v="no" />
+        <Slew_rate_control_for_PTC6 v="no" />
+        <Slew_rate_control_for_PTC7 v="no" />
+        <Drive_strength_for_PTC0 v="High" />
+        <Drive_strength_for_PTC1 v="High" />
+        <Drive_strength_for_PTC2 v="High" />
+        <Drive_strength_for_PTC3 v="High" />
+        <Drive_strength_for_PTC4 v="High" />
+        <Drive_strength_for_PTC5 v="High" />
+        <Drive_strength_for_PTC6 v="High" />
+        <Drive_strength_for_PTC7 v="High" />
+      </group>
+    </Properties>
+    <Methods>
+      <GetDir v="generate code" />
+      <SetDir v="don&amp;apos;t generate code" />
+      <SetInput v="don&amp;apos;t generate code" />
+      <SetOutput v="don&amp;apos;t generate code" />
+      <GetVal v="generate code" />
+      <PutVal v="generate code" />
+      <GetBit v="generate code" />
+      <PutBit v="generate code" />
+      <SetBit v="generate code" />
+      <ClrBit v="generate code" />
+      <NegBit v="generate code" />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
     </Events>
   </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>
