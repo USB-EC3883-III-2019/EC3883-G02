@@ -56,8 +56,8 @@
  *  3	VSS	   	0							O		TIERRA DEL DEMOQE 
  *  13	PTC0	MOTOR 1 (VERDE)				O		BOBINA MOTOR
  *  15	PTC1	MOTOR 2	(ROJO)				O		BOBINA MOTOR
- *  33	PTC2	MOTOR 3	(GRIS1)					O		BOBINA MOTOR
- *  35	PTC3	MOTOR 4	(GRIS2)					O		BOBINA MOTOR
+ *  33	PTC2	MOTOR 3	(GRIS1)				O		BOBINA MOTOR
+ *  35	PTC3	MOTOR 4	(GRIS2)				O		BOBINA MOTOR
  *  27	PTD2	ZERO IZQ					I		SENSOR PARA DETECTAR MAXIMO IZQUIERDA
  *  			ZERO DER					I		SENSOR PARA DETECTAR MAXIMO DERECHA
  *  31	PTD3	FILTRO						I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
@@ -113,7 +113,7 @@ void mover(char posicion)
 void main(void)
 {
   /* Write your local variable definition here */
- char sonar[2],lidar[2],maskblock[4],posicion=31,control=0; // Variables descritas anteriormente
+ char sonar[2],lidar[2],maskblock[4],posicion,control=0; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
  char dig,dig2; // Canales digitales
  char i=0;
@@ -142,10 +142,10 @@ void main(void)
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
 	   dig2=Bit2_GetVal(); 	// Asignamos el valor de un bit a la variable del canal digital 2
 */
-	   if(posicion>63)
+	   if(posicion>128)
 	   {
 		   control=0;
-		   posicion=63;
+		   posicion=128;
 	   }
 	   
 	   if(posicion<1)
