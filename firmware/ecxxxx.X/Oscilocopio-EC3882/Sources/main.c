@@ -38,9 +38,9 @@
 #include "Bit3.h"
 #include "TI2.h"
 #include "Bit4.h"
-#include "EInt1.h"
 #include "Byte1.h"
 #include "PWM1.h"
+#include "Cap1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -62,7 +62,7 @@
  *  27	PTD2	ZERO IZQ					I		SENSOR PARA DETECTAR MAXIMO IZQUIERDA
  *  			ZERO DER					I		SENSOR PARA DETECTAR MAXIMO DERECHA
  *  31	PTD3	FILTRO						I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
- *  32	PTD5	SONAR			ELNT1		I		INTERRUPCION PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
+ *  23	PTB5	SONAR			Cap1		I		COMPONENTE DE CAPTURA PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
  *  24	PTA7	TRIGGER			PWM1		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION, SE HACE MEDIANTE UNA ONDA CUADRADA QUE SE GENERA CADA 15ms
  *  14	PTA0	LIDAR						I		SENSOR SHARP
  *  16	PTA1	POTENCIOMETRO				I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
@@ -128,23 +128,26 @@ void main(void)
    for(;;) {
    
 	  if(p) {
+	  
+		   lidar[0]=0b00000000;
+		   lidar[1]=0b00000000;
+		   sonar[0]=0b00000000;
+		   sonar[1]=0b00000000;
+	  
 		  
-		  
-		  
-		  sonar[1]=0b00000001;
-		  sonar[0]=0b11000111;
-		  lidar[1]=0b00001111;
-		  lidar[0]=0b00001111;
 	   
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
-/*	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
-	   AD1_GetChanValue(0, &sonar); // Se asigna lo que se leyó a la variable sonar
-	   AD1_MeasureChan(TRUE,1); // Lee lo que se encuentra en el canal 2
-	   AD1_GetChanValue(1, &lidar); // Se asigna lo que se leyó a la variable lidar
+
+	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
+	   AD1_GetChanValue(0, &lidar); // Se asigna lo que se leyó a la variable sonar
+
+	   /*	   AD1_MeasureChan(TRUE,1); // Lee lo que se encuentra en el canal 2
+	   AD1_GetChanValue(1, &sonar); // Se asigna lo que se leyó a la variable lidar
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
 	   dig2=Bit2_GetVal(); 	// Asignamos el valor de un bit a la variable del canal digital 2
 */
+	   
 	   if(posicion>128)
 	   {
 		   control=0;
@@ -168,7 +171,11 @@ void main(void)
 	   
 	   }
 	   mover(posicion%8);
+	   
 	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	    
+
+	
+	   
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
        }
   }

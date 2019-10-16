@@ -1678,3 +1678,12 @@ Binding(CTRL+SHIFT+H,
 
 !ENTRY org.eclipse.cdt.debug.core 4 105 2019-10-16 09:00:01.664
 !MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-10-16 12:24:29.871
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-10-16 12:50:47.906
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-10-16 12:51:09.644
+!MESSAGE An application file was not specified in the launch configuration.

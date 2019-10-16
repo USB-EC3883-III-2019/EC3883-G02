@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-16, 08:44, # CodeGen: 31
+**     Date/Time   : 2019-10-16, 12:24, # CodeGen: 46
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -75,9 +75,9 @@
 #include "Bit3.h"
 #include "TI2.h"
 #include "Bit4.h"
-#include "EInt1.h"
 #include "Byte1.h"
 #include "PWM1.h"
+#include "Cap1.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -235,6 +235,8 @@ void _EntryPoint(void)
   /* Common initialization of the write once registers */
   /* SOPT1: COPE=0,COPT=1,STOPE=0,??=0,??=0,RSTOPE=0,BKGDPE=1,RSTPE=0 */
   setReg8(SOPT1, 0x42U);                
+  /* SOPT2: COPCLKS=0,??=0,??=0,??=0,SPI1PS=0,ACIC2=0,IIC1PS=0,ACIC1=0 */
+  setReg8(SOPT2, 0x00U);                
   /* SPMSC1: LVDF=0,LVDACK=0,LVDIE=0,LVDRE=1,LVDSE=1,LVDE=1,??=0,BGBE=0 */
   setReg8(SPMSC1, 0x1CU);               
   /* SPMSC2: LPR=0,LPRS=0,LPWUI=0,??=0,PPDF=0,PPDACK=0,PPDE=1,PPDC=0 */
@@ -289,16 +291,16 @@ void PE_low_level_init(void)
   /* Common initialization of the CPU registers */
   /* APCTL1: ADPC1=1,ADPC0=1 */
   setReg8Bits(APCTL1, 0x03U);           
-  /* PTBDD: PTBDD1=1,PTBDD0=0 */
-  clrSetReg8Bits(PTBDD, 0x01U, 0x02U);  
+  /* PTBDD: PTBDD5=0,PTBDD1=1,PTBDD0=0 */
+  clrSetReg8Bits(PTBDD, 0x21U, 0x02U);  
   /* PTBD: PTBD1=1 */
   setReg8Bits(PTBD, 0x02U);             
-  /* PTDPE: PTDPE6=1,PTDPE5=0,PTDPE4=0,PTDPE3=1,PTDPE2=1 */
-  clrSetReg8Bits(PTDPE, 0x30U, 0x4CU);  
+  /* PTDPE: PTDPE6=1,PTDPE4=0,PTDPE3=1,PTDPE2=1 */
+  clrSetReg8Bits(PTDPE, 0x10U, 0x4CU);  
   /* PTDD: PTDD6=0,PTDD4=0 */
   clrReg8Bits(PTDD, 0x50U);             
-  /* PTDDD: PTDDD6=1,PTDDD5=0,PTDDD4=1,PTDDD3=0,PTDDD2=0 */
-  clrSetReg8Bits(PTDDD, 0x2CU, 0x50U);  
+  /* PTDDD: PTDDD6=1,PTDDD4=1,PTDDD3=0,PTDDD2=0 */
+  clrSetReg8Bits(PTDDD, 0x0CU, 0x50U);  
   /* PTCD: PTCD7=0,PTCD6=0,PTCD5=0,PTCD4=0,PTCD3=0,PTCD2=0,PTCD1=0,PTCD0=0 */
   setReg8(PTCD, 0x00U);                 
   /* PTCPE: PTCPE7=0,PTCPE6=0,PTCPE5=0,PTCPE4=0,PTCPE3=0,PTCPE2=0,PTCPE1=0,PTCPE0=0 */
@@ -309,6 +311,8 @@ void PE_low_level_init(void)
   setReg8Bits(PTADD, 0x80U);            
   /* PTAD: PTAD7=0 */
   clrReg8Bits(PTAD, 0x80U);             
+  /* PTBPE: PTBPE5=0 */
+  clrReg8Bits(PTBPE, 0x20U);            
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -359,16 +363,14 @@ void PE_low_level_init(void)
   TI2_Init();
   /* ### BitIO "Bit4" init code ... */
   Shadow_PTD &= 0xEFU;                 /* Initialize pin shadow variable bit */
-  /* ### External interrupt "EInt1" init code ... */
-  /* KBI2PE: KBIPE5=1 */
-  KBI2PE |= 0x20U;
-  /* KBI2SC: ??=0,??=0,??=0,??=0,KBF=0,KBACK=0,KBIE=0,KBIMOD=0 */
-  setReg8(KBI2SC, 0x00U);               
-  KBI2SC_KBACK = 0x01U;                /* Clear Interrupt flag */
-  KBI2SC_KBIE = 0x01U;
   /* ### ByteIO "Byte1" init code ... */
   /* ### Programable pulse generation "PWM1" init code ... */
   PWM1_Init();
+  /* ### Timer capture encapsulation "Cap1" init code ... */
+  Cap1_Init();
+  /* Common peripheral initialization - ENABLE */
+  /* TPM1SC: CLKSB=0,CLKSA=1 */
+  clrSetReg8Bits(TPM1SC, 0x10U, 0x08U); 
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }
