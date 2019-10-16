@@ -40,6 +40,7 @@
 #include "Bit4.h"
 #include "EInt1.h"
 #include "Byte1.h"
+#include "PWM1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -62,7 +63,7 @@
  *  			ZERO DER					I		SENSOR PARA DETECTAR MAXIMO DERECHA
  *  31	PTD3	FILTRO						I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
  *  32	PTD5	SONAR			ELNT1		I		INTERRUPCION PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
- *  34	PTD6	TRIGGER			BIT3		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION
+ *  24	PTA7	TRIGGER			PWM1		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION, SE HACE MEDIANTE UNA ONDA CUADRADA QUE SE GENERA CADA 15ms
  *  14	PTA0	LIDAR						I		SENSOR SHARP
  *  16	PTA1	POTENCIOMETRO				I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
  */
@@ -125,9 +126,11 @@ void main(void)
   /* For example: for(;;) { } */
  
    for(;;) {
-	   
    
 	  if(p) {
+		  
+		  
+		  
 		  sonar[1]=0b00000001;
 		  sonar[0]=0b11000111;
 		  lidar[1]=0b00001111;

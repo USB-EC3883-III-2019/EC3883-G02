@@ -34,6 +34,7 @@
 #include "PE_Error.h"
 #include "PE_Const.h"
 #include "IO_Map.h"
+#include "PE_Timer.h"
 #include "AD1.h"
 #include "AS1.h"
 #include "TI1.h"
@@ -44,6 +45,7 @@
 #include "Bit4.h"
 #include "EInt1.h"
 #include "Byte1.h"
+#include "PWM1.h"
 
 
 void TI1_OnInterrupt(void);

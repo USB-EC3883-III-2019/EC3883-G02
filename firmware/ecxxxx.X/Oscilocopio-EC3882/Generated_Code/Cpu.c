@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-09, 05:23, # CodeGen: 4
+**     Date/Time   : 2019-10-16, 08:44, # CodeGen: 31
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -77,10 +77,12 @@
 #include "Bit4.h"
 #include "EInt1.h"
 #include "Byte1.h"
+#include "PWM1.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
 #include "IO_Map.h"
+#include "PE_Timer.h"
 #include "Events.h"
 #include "Cpu.h"
 
@@ -303,6 +305,10 @@ void PE_low_level_init(void)
   setReg8(PTCPE, 0x00U);                
   /* PTCDD: PTCDD7=1,PTCDD6=1,PTCDD5=1,PTCDD4=1,PTCDD3=1,PTCDD2=1,PTCDD1=1,PTCDD0=1 */
   setReg8(PTCDD, 0xFFU);                
+  /* PTADD: PTADD7=1 */
+  setReg8Bits(PTADD, 0x80U);            
+  /* PTAD: PTAD7=0 */
+  clrReg8Bits(PTAD, 0x80U);             
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -361,6 +367,8 @@ void PE_low_level_init(void)
   KBI2SC_KBACK = 0x01U;                /* Clear Interrupt flag */
   KBI2SC_KBIE = 0x01U;
   /* ### ByteIO "Byte1" init code ... */
+  /* ### Programable pulse generation "PWM1" init code ... */
+  PWM1_Init();
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }
