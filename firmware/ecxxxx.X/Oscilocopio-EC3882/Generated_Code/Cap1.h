@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-16, 12:24, # CodeGen: 46
+**     Date/Time   : 2019-10-18, 18:02, # CodeGen: 49
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -53,12 +53,14 @@
 **         Bit number (in port)        : 5
 **         Bit mask of the port        : $0020
 **
-**         Signal edge/level           : rising
+**         Signal edge/level           : both
+**         Priority                    : 
 **         Pull option                 : off
 **
 **     Contents    :
 **         Reset           - byte Cap1_Reset(void);
 **         GetCaptureValue - byte Cap1_GetCaptureValue(Cap1_TCapturedValue *Value);
+**         GetPinValue     - bool Cap1_GetPinValue(void);
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -180,6 +182,22 @@ extern volatile word Cap1_CntrState;   /* Content of counter */
 ** ===================================================================
 */
 
+#define Cap1_GetPinValue() ((PTBD & 0x20U) ? TRUE : FALSE)
+/*
+** ===================================================================
+**     Method      :  Cap1_GetPinValue (component Capture)
+**     Description :
+**         The method reads the Capture pin value. The method is
+**         available only if it is possible to read the pin value
+**         (usually not available for internal signals).
+**     Parameters  : None
+**     Returns     :
+**         ---             - Capture pin value.
+**                           <true> - high level
+**                           <false> - low level.
+** ===================================================================
+*/
+
 void Cap1_Init(void);
 /*
 ** ===================================================================
@@ -189,6 +207,20 @@ void Cap1_Init(void);
 **         Initializes the associated peripheral(s) and the component 
 **         internal variables. The method is called automatically as a 
 **         part of the application initialization code.
+**         This method is internal. It is used by Processor Expert only.
+** ===================================================================
+*/
+
+#pragma CODE_SEG __NEAR_SEG NON_BANKED
+__interrupt void Cap1_Interrupt(void);
+#pragma CODE_SEG Cap1_CODE
+/*
+** ===================================================================
+**     Method      :  Interrupt (component Capture)
+**
+**     Description :
+**         The method services the interrupt of the selected peripheral(s)
+**         and eventually invokes event(s) of the component.
 **         This method is internal. It is used by Processor Expert only.
 ** ===================================================================
 */

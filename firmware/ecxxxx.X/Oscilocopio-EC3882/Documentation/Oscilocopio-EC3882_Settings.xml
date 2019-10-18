@@ -845,12 +845,7 @@ asm(BGND);
           <A_D_channel__pin_ v="PTA1_KBI1P1_TPM2CH0_ADP1_ACMP1MINUS" />
         </group>
       </list>
-      <A_D_resolution sel_value="12 bits">
-        
-Autoselect
-
-        <EmptySection_DummyValue />
-      </A_D_resolution>
+      <A_D_resolution v="12 bits" />
       <Conversion_time v="3.078528 &amp;#181;s" />
       <Low_power_mode v="Disabled" />
       <Sample_time v="short" />
@@ -1366,13 +1361,12 @@ autoselected pull
 
         <EmptySection_DummyValue />
       </Pull_resistor>
-      <Edge sel_value="rising edge">
-        
-rising or falling edge
-
-        <EmptySection_DummyValue />
-      </Edge>
-      <boolgroup name="Interrupt service/event" v="Disabled" />
+      <Edge v="both edges" />
+      <boolgroup name="Interrupt service/event" v="Enabled">
+        <Capture_interrupt v="Vtpm1ch1" />
+        <Capture_priority v="medium priority" />
+        <boolgroup name="Overflow support" v="Disabled" />
+      </boolgroup>
       <Maximum_time_of_event v="8.771929 ms" />
       <group name="Initialization">
         <Enabled_in_init__code v="yes" />
@@ -1392,13 +1386,16 @@ rising or falling edge
       <Reset v="generate code" />
       <GetCaptureValue v="generate code" />
       <GetStatus v="don&amp;apos;t generate code" />
-      <GetPinValue v="don&amp;apos;t generate code" />
+      <GetPinValue v="generate code" />
     </Methods>
     <Events>
       <Event_module_name v="Events" />
       <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
       <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="OnCapture" v="don&amp;apos;t generate code" />
+      <event name="OnCapture" v="generate code">
+        <Event_procedure_name v="Cap1_OnCapture" />
+        <Priority v="same as interrupt" />
+      </event>
       <event name="OnOverflow" v="don&amp;apos;t generate code" />
     </Events>
   </Bean>

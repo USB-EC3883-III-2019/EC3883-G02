@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-16, 12:24, # CodeGen: 46
+**     Date/Time   : 2019-10-18, 18:02, # CodeGen: 49
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -53,12 +53,14 @@
 **         Bit number (in port)        : 5
 **         Bit mask of the port        : $0020
 **
-**         Signal edge/level           : rising
+**         Signal edge/level           : both
+**         Priority                    : 
 **         Pull option                 : off
 **
 **     Contents    :
 **         Reset           - byte Cap1_Reset(void);
 **         GetCaptureValue - byte Cap1_GetCaptureValue(Cap1_TCapturedValue *Value);
+**         GetPinValue     - bool Cap1_GetPinValue(void);
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -108,6 +110,7 @@
 
 /* MODULE Cap1. */
 
+#include "Events.h"
 #include "Cap1.h"
 
 #pragma CODE_SEG Cap1_CODE
@@ -161,6 +164,26 @@ byte Cap1_GetCaptureValue(Cap1_TCapturedValue *Value)
 
 /*
 ** ===================================================================
+**     Method      :  Cap1_GetPinValue (component Capture)
+**     Description :
+**         The method reads the Capture pin value. The method is
+**         available only if it is possible to read the pin value
+**         (usually not available for internal signals).
+**     Parameters  : None
+**     Returns     :
+**         ---             - Capture pin value.
+**                           <true> - high level
+**                           <false> - low level.
+** ===================================================================
+*/
+/*
+bool Cap1_GetPinValue(void)
+
+**  This method is implemented as a macro. See Cap1.h file.  **
+*/
+
+/*
+** ===================================================================
 **     Method      :  Cap1_Init (component Capture)
 **
 **     Description :
@@ -175,9 +198,31 @@ void Cap1_Init(void)
   /* TPM1C1V: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0,BIT7=0,BIT6=0,BIT5=0,BIT4=0,BIT3=0,BIT2=0,BIT1=0,BIT0=0 */
   setReg16(TPM1C1V, 0x00U);            /* Clear capture register */ 
   Cap1_CntrState = 0x00U;              /* Clear variable */
-  /* TPM1C1SC: CH1F=0,CH1IE=0,MS1B=0,MS1A=0,ELS1B=0,ELS1A=1,??=0,??=0 */
-  setReg8(TPM1C1SC, 0x04U);            /* Enable capture function */ 
+  /* TPM1C1SC: CH1F=0,CH1IE=1,MS1B=0,MS1A=0,ELS1B=1,ELS1A=1,??=0,??=0 */
+  setReg8(TPM1C1SC, 0x4CU);            /* Enable both interrupt and capture function */ 
 }
+
+#pragma CODE_SEG __NEAR_SEG NON_BANKED
+
+/*
+** ===================================================================
+**     Method      :  Interrupt (component Capture)
+**
+**     Description :
+**         The method services the interrupt of the selected peripheral(s)
+**         and eventually invokes event(s) of the component.
+**         This method is internal. It is used by Processor Expert only.
+** ===================================================================
+*/
+ISR(Cap1_Interrupt)
+{
+  (void)TPM1C1SC;                      /* Dummy read to reset interrupt request flag */
+  /* TPM1C1SC: CH1F=0 */
+  clrReg8Bits(TPM1C1SC, 0x80U);        /* Reset interrupt request flag */ 
+  Cap1_OnCapture();                    /* Invoke user event */
+}
+
+#pragma CODE_SEG Cap1_CODE
 
 
 /* END Cap1. */

@@ -33,6 +33,10 @@
 
 extern char p;
 extern char h;
+extern unsigned int  time;
+extern unsigned char estado;
+
+
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
 /*
@@ -167,6 +171,29 @@ void TI2_OnInterrupt(void)
   h=1;
   /* Write your code here ... */
 
+}
+
+/*
+** ===================================================================
+**     Event       :  Cap1_OnCapture (module Events)
+**
+**     Component   :  Cap1 [Capture]
+**     Description :
+**         This event is called on capturing of Timer/Counter actual
+**         value (only when the component is enabled - <Enable> and the
+**         events are enabled - <EnableEvent>.This event is available
+**         only if a <interrupt service/event> is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void Cap1_OnCapture(void)
+{
+  /* Write your code here ... */
+	
+	if(!Cap1_GetPinValue())
+		  Cap1_Reset();
+	  else Cap1_GetCaptureValue(&time);
 }
 
 /* END Events */

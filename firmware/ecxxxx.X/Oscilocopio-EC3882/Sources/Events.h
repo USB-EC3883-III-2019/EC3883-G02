@@ -47,8 +47,8 @@
 #include "PWM1.h"
 #include "Cap1.h"
 
-
 void TI1_OnInterrupt(void);
+
 /*
 ** ===================================================================
 **     Event       :  TI1_OnInterrupt (module Events)
@@ -152,6 +152,22 @@ void TI2_OnInterrupt(void);
 **         when the component is enabled - <Enable> and the events are
 **         enabled - <EnableEvent>). This event is enabled only if a
 **         <interrupt service/event> is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void Cap1_OnCapture(void);
+/*
+** ===================================================================
+**     Event       :  Cap1_OnCapture (module Events)
+**
+**     Component   :  Cap1 [Capture]
+**     Description :
+**         This event is called on capturing of Timer/Counter actual
+**         value (only when the component is enabled - <Enable> and the
+**         events are enabled - <EnableEvent>.This event is available
+**         only if a <interrupt service/event> is enabled.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================

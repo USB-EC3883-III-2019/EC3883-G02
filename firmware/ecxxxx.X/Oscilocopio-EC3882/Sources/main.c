@@ -71,6 +71,7 @@
 char p=0;
 char h=0;
 char k=0;
+unsigned int time;
 
 // Función para acomodar los datos según el protocolo
 
@@ -95,14 +96,13 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 		maskblock[1]= maskblock[1] | (sonar[0] >> 2) | 0b10000000;	// 
 
 		maskblock[2]= (sonar[0] & 0b00000011) << 5 ;
-		
+
 		temp=lidar[0] >> 7;
-		
+
 		maskblock[2]= maskblock[2] | (((lidar[1] & 0b00001111)<<1)|temp) ;
 		maskblock[2]= maskblock[2] | 0b10000000;
 
 		maskblock[3]= lidar[1] | 0b10000000;
-
 }
 
 void mover(char posicion)
@@ -177,8 +177,9 @@ void main(void)
 	
 	   
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
-       }
-  }
+	   
+	  }
+  }	   
 
    /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
