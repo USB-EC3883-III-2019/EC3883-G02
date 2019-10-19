@@ -116,6 +116,7 @@ void main(void)
   /* Write your local variable definition here */
  char sonar[2],lidar[2],maskblock[4],posicion,control=0; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
+ unsigned int t;
  char dig,dig2; // Canales digitales
  char i=0;
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
@@ -169,6 +170,7 @@ void main(void)
 		   break;
 	   
 	   }
+	   t=time;
 	   mover(posicion%8);
 	   
 	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	    
