@@ -147,7 +147,6 @@ void main(void)
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
 	   dig2=Bit2_GetVal(); 	// Asignamos el valor de un bit a la variable del canal digital 2
 */
-	   
 	   if(posicion>128)
 	   {
 		   control=0;
@@ -174,10 +173,7 @@ void main(void)
 	   
 	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	    
 
-	
-	   
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
-	   
 	  }
   }	   
 
