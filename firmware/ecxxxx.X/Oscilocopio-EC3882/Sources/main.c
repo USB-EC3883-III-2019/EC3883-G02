@@ -128,7 +128,7 @@ void mover(char posicion)
 void main(void)
 {
   /* Write your local variable definition here */
- char sonar[2],lidar[2],maskblock[4],maskblock2[4],posicion=64,control=0; // Variables descritas anteriormente
+ char sonar[2],lidar[2],maskblock[4],maskblock2[4],posicion=63,control=0; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
  unsigned int t;
  char i=0;
@@ -162,13 +162,13 @@ void main(void)
 
 	   if(h)
 	   {	   
-	   if(posicion>128)
+	   if(posicion>=63)
 	   {
 		   control=0;
-		   posicion=128;
+		   posicion=63;
 	   }
 	   
-	   if(posicion<1)
+	   if(posicion<=1)
 	   {
 		   control=1;
 		   posicion=1;
