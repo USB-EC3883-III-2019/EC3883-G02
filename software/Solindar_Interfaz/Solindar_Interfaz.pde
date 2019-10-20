@@ -118,34 +118,32 @@ void serialEvent (Serial puerto) {
   if(p==0 && ((inBuffer & 128) == 0)){
     U1 = inBuffer;
     p++;
-    print("U1 = ");
-    println(binary(U1));
+    //print("U1 = ");
+    //println(U1);
   }
   
   else if(p==1){
     U2 = inBuffer;
     p++;
-    print("U2 = ");
-    println(binary(U2));
+    //print("U2 = ");
+    //println(binary(U2));
   }
   
   else if(p==2){
     H1 = inBuffer;
     p++;
-    print("H1 = ");
-    println(binary(H1));
+    //print("H1 = ");
+    //println(binary(H1));
   }
   
   else if(p==3){
     H2 = inBuffer;
     p=0;
-    print("H2 = ");
-    println(binary(H2));
+    //print("H2 = ");
+    //println(binary(H2));
   }
   
-
-  
-  //arreglar();
+  arreglar();
 }
 
 //esta parte es para asigar que hara cada boton
@@ -163,31 +161,37 @@ void actionPerformed (GUIEvent e) {
 
 
 void arreglar(){  // desenmascarar la trama
-  for(int i=0;i<muestras;i++){ 
-    int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110    
+//  for(int i=0;i<muestras;i++){ 
+    //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
+    int temp1 = U1 & 126;
     posicion = temp1 >> 1;
-    //print("Posicion ");
-    //println(posicion);
-    //iAngle = map(posicion, 0, 63, 0, 240);
-    int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar    
+    print("Posicion ");
+    println(posicion);
+    iAngle = map(posicion, 0, 63, 0, 220);
+    //int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
+    int temp2 = U1 & 1;
     int temp3 = temp2 << 9;    
     //temp3 es el primer bit del sonar
-    int temp4 = U2V[i] & 127; // quitamos el primer bit del byte 2, y son los siguientes 7 bits del sonar    
+    //int temp4 = U2V[i] & 127; // quitamos el primer bit del byte 2, y son los siguientes 7 bits del sonar
+    int temp4 = U2 & 127;
     int temp5 = temp4 << 2;    
-    int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
+    //int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
+    int temp6 = H1 & 96;
     int temp7 = temp6 >> 5;    
     sonar = temp3 | temp5 | temp7; // hacemos un OR entre los tres bytes del sonar
-    //print("Sonar ");
-    //println(sonar);
-    int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar    
+    print("Sonar ");
+    println(sonar);
+    //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
+    int temp8 = H1 & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
-    int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar    
+    //int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
+    int temp10 = H2 & 127;
     lidar = temp9 | temp10;
-    //print("Lidar ");
-    //println(lidar);
+    print("Lidar ");
+    println(lidar);
 
     
-  }
+  //}
 }
 
 /*void serialEvent (Serial myPort) { // starts reading data from the Serial Port
@@ -234,6 +238,44 @@ void drawRadar() {
   popMatrix();
 }
 
+void drawLine() {
+
+  //iAngle = map(motor, 0, 63, 0, 240);
+  // if(motor == aux + 1 || motor == aux + 2 ){
+  //  //println("primera cond");
+  //  if(motor < 63){
+  //    aux = motor;
+  //    motor = motor + 1;
+  //    //println("segunda cond");
+  //  } 
+  //  else if (motor == 63){
+  //    aux = motor;
+  //   motor = motor - 2;
+  //   //println("tercera cond");
+  //  }
+  //}
+  //if(motor == aux - 2 || motor == aux - 1){
+  //  //println("cuarta cond");
+  //  if(motor > 0){
+  //    //println("quinta cond");
+  //    aux = motor;
+  //    motor = motor - 1;;
+  //  } 
+  //  else if (motor == 0){
+  //    aux = motor;
+  //    motor = motor + 2;
+  //    //println("sexta cond");
+  //  }
+  //}
+  pushMatrix();
+  strokeWeight(6);
+  stroke(30,250,60);
+  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+  line(0,0,(height-height*0.35)*cos(radians(iAngle) - radians(30)),-(height-height*0.35)*sin(radians(iAngle) - radians(30))); // draws the line according to the angle
+  popMatrix();
+ 
+}
+
 void drawObject() {
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
@@ -246,44 +288,6 @@ void drawObject() {
   line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
   }
   popMatrix();
-}
-
-void drawLine() {
-
-  iAngle = map(motor, 0, 63, 0, 240);
-   if(motor == aux + 1 || motor == aux + 2 ){
-    //println("primera cond");
-    if(motor < 63){
-      aux = motor;
-      motor = motor + 1;
-      //println("segunda cond");
-    } 
-    else if (motor == 63){
-      aux = motor;
-     motor = motor - 2;
-     //println("tercera cond");
-    }
-  }
-  if(motor == aux - 2 || motor == aux - 1){
-    //println("cuarta cond");
-    if(motor > 0){
-      //println("quinta cond");
-      aux = motor;
-      motor = motor - 1;;
-    } 
-    else if (motor == 0){
-      aux = motor;
-      motor = motor + 2;
-      //println("sexta cond");
-    }
-  }
-  pushMatrix();
-  strokeWeight(6);
-  stroke(30,250,60);
-  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  line(0,0,(height-height*0.35)*cos(radians(iAngle) - radians(30)),-(height-height*0.35)*sin(radians(iAngle) - radians(30))); // draws the line according to the angle
-  popMatrix();
- 
 }
 
 void drawText() { // draws the texts on the screen
