@@ -2356,3 +2356,6 @@ org.eclipse.core.runtime.CoreException: HC/RS/S12Z GDI Protocol Adapter : Can't 
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
 !SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-10-20 12:55:16.236
 !MESSAGE HC/RS/S12Z GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 0 2019-10-20 13:31:34.430
+!MESSAGE A debug session is already in progress.

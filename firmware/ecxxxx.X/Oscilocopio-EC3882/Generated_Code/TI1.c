@@ -6,7 +6,7 @@
 **     Component   : TimerInt
 **     Version     : Component 02.161, Driver 01.23, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-20, 09:17, # CodeGen: 62
+**     Date/Time   : 2019-10-20, 13:31, # CodeGen: 63
 **     Abstract    :
 **         This component "TimerInt" implements a periodic interrupt.
 **         When the component and its events are enabled, the "OnInterrupt"
@@ -21,13 +21,13 @@
 **
 **         High speed mode
 **             Prescaler               : divide-by-1
-**             Clock                   : 66 Hz
+**             Clock                   : 2048 Hz
 **           Initial period/frequency
-**             Xtal ticks              : 98500
-**             microseconds            : 3005981
-**             milliseconds            : 3006
-**             seconds                 : 3
-**             seconds (real)          : 3.005981445312
+**             Xtal ticks              : 3280
+**             microseconds            : 100098
+**             milliseconds            : 100
+**             seconds (real)          : 0.10009765625
+**             Hz                      : 10
 **
 **         Runtime setting             : none
 **
@@ -138,10 +138,10 @@ void TI1_Init(void)
 {
   /* RTCSC: RTIF=0,RTCLKS=0,RTIE=0,RTCPS=0 */
   setReg8(RTCSC, 0x00U);               /* Stop HW */ 
-  TI1_SetCV(0xC4U);                    /* Initialize appropriate value to the compare/modulo/reload register */
+  TI1_SetCV(0xCCU);                    /* Initialize appropriate value to the compare/modulo/reload register */
   RTCMOD = RTCMOD;                     /* Reset HW counter */
-  /* RTCSC: RTIF=1,RTCLKS=2,RTIE=1,RTCPS=0x0E */
-  setReg8(RTCSC, 0xDEU);               /* Run RTC (select clock source, set frequency and enable interrupt) */ 
+  /* RTCSC: RTIF=1,RTCLKS=2,RTIE=1,RTCPS=0x0C */
+  setReg8(RTCSC, 0xDCU);               /* Run RTC (select clock source, set frequency and enable interrupt) */ 
 }
 
 
