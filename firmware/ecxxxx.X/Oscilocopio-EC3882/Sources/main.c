@@ -101,7 +101,7 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 		
 		sonar[0]=(sonar[0]>>2) | (sonar[1]<<6);
 		sonar[1]=(sonar[1]>>2) & 0b00000011;
-				
+		
 		maskblock[0]= posicion & 0b00111111; 		// posicion garantizando la cabecera 00
 
 		temp    	= sonar[1] & 0b00000001	;	
@@ -188,6 +188,7 @@ void main(void)
 	   {	   
 	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 	   //mask2(maskblock2,time);	   
+	   
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
 	   h=0;
 	   }
