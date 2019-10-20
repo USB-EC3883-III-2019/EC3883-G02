@@ -34,6 +34,8 @@ int sonar;
 int lidar;
 int motor = 1;
 int p = 0;
+int f1=0, f2=0, f3=0, f4=0;
+
 
 int[] cha1V = new int[muestras]; //vectores para los canales
 int[] cha2V = new int[muestras];
@@ -147,14 +149,52 @@ void serialEvent (Serial puerto) {
 }
 
 //esta parte es para asigar que hara cada boton
-void actionPerformed (GUIEvent e) {
-  if (e.getSource() == sn) {
-    background(100, 155, 100);
-  } else if (e.getSource() == ld) {
-    background(100, 100, 130);
-  } else if (e.getSource() == fs) {
-    background(100, 200, 130);
-  } else if (e.getSource() == fl) {
+void actionPerformed (GUIEvent e){
+  if (e.getSource() == sn){
+    if(f1 == 0){
+      background(100, 155, 100);
+      f1 = 1;
+    }
+    else if(f1 == 1){
+      background(100, 155, 100);
+      f1 = 0;
+    }
+  } 
+  
+  else if (e.getSource() == ld){
+    if(f2 == 0){
+      background(100, 100, 130);
+      f2 = 1;
+    }
+    else if(f2 == 1){
+      background(100, 155, 100);
+      f2 = 0;
+    }
+    
+  }
+  
+  else if (e.getSource() == fs){
+    if(f3 == 0){
+      background(100, 200, 130);
+      f3 = 1;
+    }
+    else if(f3 == 1){
+      background(100, 155, 100);
+      f3 = 0;
+    }
+    
+  } 
+  
+  else if (e.getSource() == fl){
+    if(f4 == 0){
+      background(100, 200, 130);
+      f4 = 1;
+    }
+    else if(f4 == 1){
+      background(100, 155, 100);
+      f4 = 0;
+    }
+    
     background(100, 250, 100);
   }
 }
@@ -283,7 +323,7 @@ void drawObject() {
   stroke(255,10,10); // red color
   pixsDistance = iDistance*((height-height*0.1666)*0.025); // covers the distance from the sensor from cm to pixels
   // limiting the range to 40 cms
-  if(iDistance<40){
+  if(iDistance<80){
     // draws the object according to the angle and the distance
   line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
   }
