@@ -91,35 +91,36 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 	    * sonar cuenta con 2 bytes del sonar
 	    * lidar son los 2 bytes del canal 2
 	    */
-	
+		
 		/* funcionamiento:
 		 * Se enviara una trama teniendo en cuenta la cabezera de la trama 
 		 * los la trama de prueba sera 00000001 10000011 10000111 10001111
 		 */
-
+		
 		char temp;
 		
-		sonar[0]=(sonar[0]>>2) | (sonar[1]<<6);
-		sonar[1]=(sonar[1]>>2) & 0b00000011;
+		sonar[0]=(sonar[0]>>1);
+		sonar[0]=(sonar[1]<<7) | sonar[0];
+		sonar[1]=(sonar[1]>>1) & 0b00000011;
 		
 		maskblock[0]= posicion & 0b00111111; 		// posicion garantizando la cabecera 00
-
+		
 		temp    	= sonar[1] & 0b00000001	;	
 		maskblock[1]= (temp << 6 );					// desplaza el bit hasta la posicion en la que inicia
 		maskblock[1]= maskblock[1] | (sonar[0] >> 2) | 0b10000000;	// 
-
+		
 		maskblock[2]= (sonar[0] & 0b00000011) << 5 ;
-
+		
 		temp=lidar[0] >> 7;
-
+		
 		maskblock[2]= maskblock[2] | (((lidar[1] & 0b00001111)<<1)|temp) ;
 		maskblock[2]= maskblock[2] | 0b10000000;
-
+		
 		maskblock[3]= lidar[1] | 0b10000000;
-}
-
+}		
+		
 void mover(char posicion)
-{
+{		
 	char secuencia[8]={0b00110101,0b00110001,0b00111001,0b00111000,0b00111010,0b00110010,0b00110110,0b00110100};
 	Byte1_PutVal(secuencia[posicion]);
 }
@@ -188,7 +189,6 @@ void main(void)
 	   {	   
 	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 	   //mask2(maskblock2,time);	   
-	   
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
 	   h=0;
 	   }
