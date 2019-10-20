@@ -56,7 +56,8 @@ extern unsigned char estado;
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
- p=1;
+ p=p*(-1);
+ h=1;
 }
 
 /*
@@ -168,7 +169,6 @@ void AD1_OnEnd(void)
 */
 void TI2_OnInterrupt(void)
 {
-  h=1;
   /* Write your code here ... */
 
 }
