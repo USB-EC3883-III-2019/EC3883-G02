@@ -103,7 +103,7 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 		sonar[0]=(sonar[1]<<7) | sonar[0];
 		sonar[1]=(sonar[1]>>1) & 0b00000011;
 		
-		maskblock[0]= posicion & 0b00111111; 		// posicion garantizando la cabecera 00
+		maskblock[0]= (posicion<<1) & 0b01111110; 		// posicion garantizando la cabecera 00
 		
 		temp    	= sonar[1] & 0b00000001	;	
 		maskblock[1]= (temp << 6 );					// desplaza el bit hasta la posicion en la que inicia
@@ -128,7 +128,7 @@ void mover(char posicion)
 void main(void)
 {
   /* Write your local variable definition here */
- char sonar[2],lidar[2],maskblock[4],maskblock2[4],posicion,control=0; // Variables descritas anteriormente
+ char sonar[2],lidar[2],maskblock[4],maskblock2[4],posicion=64,control=0; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
  unsigned int t;
  char i=0;
@@ -160,7 +160,8 @@ void main(void)
 	   dig2=Bit2_GetVal(); 	// Asignamos el valor de un bit a la variable del canal digital 2
 */
 
-	   
+	   if(h)
+	   {	   
 	   if(posicion>128)
 	   {
 		   control=0;
@@ -185,8 +186,7 @@ void main(void)
 	   }
 	   mover(posicion%8);
 	   
-	   if(h)
-	   {	   
+	   
 	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 	   //mask2(maskblock2,time);	   
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
