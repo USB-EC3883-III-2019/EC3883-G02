@@ -1014,7 +1014,7 @@ asm(BGND);
         <Interrupt v="Vrtc" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="500 ms" />
+      <Interrupt_period v="100 ms" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1308,8 +1308,8 @@ autoselected pull
       <Output_pin v="PTA7_TPM2CH2_ADP9" />
       <Counter v="TPM2" />
       <boolgroup name="Interrupt service/event" v="Disabled" />
-      <Period v="4500 &amp;#181;s" />
-      <Starting_pulse_width v="10 &amp;#181;s" />
+      <Period v="15000 &amp;#181;s" />
+      <Starting_pulse_width v="4950 &amp;#181;s" />
       <Aligned v="Edge" />
       <Initial_polarity v="low" />
       <Same_period_in_modes v="no" />
@@ -1367,7 +1367,7 @@ autoselected pull
         <Capture_priority v="medium priority" />
         <boolgroup name="Overflow support" v="Disabled" />
       </boolgroup>
-      <Maximum_time_of_event v="8.771929 ms" />
+      <Maximum_time_of_event v="17.543859 ms" />
       <group name="Initialization">
         <Enabled_in_init__code v="yes" />
         <Events_enabled_in_init_ v="yes" />
@@ -1386,7 +1386,7 @@ autoselected pull
       <Reset v="generate code" />
       <GetCaptureValue v="generate code" />
       <GetStatus v="don&amp;apos;t generate code" />
-      <GetPinValue v="don&amp;apos;t generate code" />
+      <GetPinValue v="generate code" />
     </Methods>
     <Events>
       <Event_module_name v="Events" />
