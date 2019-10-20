@@ -27,12 +27,13 @@ float i=0; // solo una variable para ir imprimiendo y saber por que numero de le
 //int iAngle2 = 0; //valor pasado
 
 int cha1, cha2, chd1, chd2; //valores de los canales
-int muestras=1;//para guardar muestreo
+int muestras = 1;//para guardar muestreo
 
 int posicion;
 int sonar;
 int lidar;
 int motor = 1;
+int p = 0;
 
 int[] cha1V = new int[muestras]; //vectores para los canales
 int[] cha2V = new int[muestras];
@@ -43,6 +44,7 @@ int[] U1V = new int[muestras];
 int[] U2V = new int[muestras];
 int[] H1V = new int[muestras];
 int[] H2V = new int[muestras];
+
 
 float[] y = new float[muestras];
 int time=1;
@@ -109,38 +111,41 @@ void draw() {
 }
 
 void serialEvent (Serial puerto) {
-   //f=0;
-    int q=0;
-    //for(q=0;q<muestras;q++)
-    {
-      if(puerto.available()>0){
-      U1=puerto.read(); //debido a que la lectura del puerto guarda solo un byte, y recibiremos 4, se llama esta funcion 4 veces 
-       U2=puerto.read(); 
-       H1=puerto.read();
-       H2=puerto.read();
-      
-      if((U1 & 128) == 0)
-      {
-       
-       U1V[q]=U1;
-       print("U1 = ");
-       println(U1);
-       U2V[q]=U2;
-       print("U2 = ");
-       println(U2);
-       H1V[q]=H1;
-       print("H1 = ");
-       println(H1);
-       H2V[q]=H2;
-       print("H2 = ");
-       println(H2);
-       }
-       else{
-         // puerto.clear();
-       }
-      } 
-    }  
-  arreglar();
+
+  char inBuffer;
+  inBuffer = puerto.readChar();
+
+  if(p==0 && ((inBuffer & 128) == 0)){
+    U1 = inBuffer;
+    p++;
+    print("U1 = ");
+    println(binary(U1));
+  }
+  
+  else if(p==1){
+    U2 = inBuffer;
+    p++;
+    print("U2 = ");
+    println(binary(U2));
+  }
+  
+  else if(p==2){
+    H1 = inBuffer;
+    p++;
+    print("H1 = ");
+    println(binary(H1));
+  }
+  
+  else if(p==3){
+    H2 = inBuffer;
+    p=0;
+    print("H2 = ");
+    println(binary(H2));
+  }
+  
+
+  
+  //arreglar();
 }
 
 //esta parte es para asigar que hara cada boton
