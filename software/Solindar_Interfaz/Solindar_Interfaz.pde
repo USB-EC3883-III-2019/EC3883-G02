@@ -27,12 +27,15 @@ float i=0; // solo una variable para ir imprimiendo y saber por que numero de le
 //int iAngle2 = 0; //valor pasado
 
 int cha1, cha2, chd1, chd2; //valores de los canales
-int muestras=1;//para guardar muestreo
+int muestras = 1;//para guardar muestreo
 
 int posicion;
 int sonar;
 int lidar;
 int motor = 1;
+int p = 0;
+int f1=0, f2=0, f3=0, f4=0;
+
 
 int[] cha1V = new int[muestras]; //vectores para los canales
 int[] cha2V = new int[muestras];
@@ -43,6 +46,7 @@ int[] U1V = new int[muestras];
 int[] U2V = new int[muestras];
 int[] H1V = new int[muestras];
 int[] H2V = new int[muestras];
+
 
 float[] y = new float[muestras];
 int time=1;
@@ -109,80 +113,125 @@ void draw() {
 }
 
 void serialEvent (Serial puerto) {
-   //f=0;
-    int q=0;
-    //for(q=0;q<muestras;q++)
-    {
-      if(puerto.available()>0){
-      U1=puerto.read(); //debido a que la lectura del puerto guarda solo un byte, y recibiremos 4, se llama esta funcion 4 veces 
-       U2=puerto.read(); 
-       H1=puerto.read();
-       H2=puerto.read();
-      
-      if((U1 & 128) == 0)
-      {
-       
-       U1V[q]=U1;
-       print("U1 = ");
-       println(U1);
-       U2V[q]=U2;
-       print("U2 = ");
-       println(U2);
-       H1V[q]=H1;
-       print("H1 = ");
-       println(H1);
-       H2V[q]=H2;
-       print("H2 = ");
-       println(H2);
-       }
-       else{
-         // puerto.clear();
-       }
-      } 
-    }  
+
+  char inBuffer;
+  inBuffer = puerto.readChar();
+
+  if(p==0 && ((inBuffer & 128) == 0)){
+    U1 = inBuffer;
+    p++;
+    //print("U1 = ");
+    //println(U1);
+  }
+  
+  else if(p==1){
+    U2 = inBuffer;
+    p++;
+    //print("U2 = ");
+    //println(binary(U2));
+  }
+  
+  else if(p==2){
+    H1 = inBuffer;
+    p++;
+    //print("H1 = ");
+    //println(binary(H1));
+  }
+  
+  else if(p==3){
+    H2 = inBuffer;
+    p=0;
+    //print("H2 = ");
+    //println(binary(H2));
+  }
+  
   arreglar();
 }
 
 //esta parte es para asigar que hara cada boton
-void actionPerformed (GUIEvent e) {
-  if (e.getSource() == sn) {
-    background(100, 155, 100);
-  } else if (e.getSource() == ld) {
-    background(100, 100, 130);
-  } else if (e.getSource() == fs) {
-    background(100, 200, 130);
-  } else if (e.getSource() == fl) {
+void actionPerformed (GUIEvent e){
+  if (e.getSource() == sn){
+    if(f1 == 0){
+      background(100, 155, 100);
+      f1 = 1;
+    }
+    else if(f1 == 1){
+      background(100, 155, 100);
+      f1 = 0;
+    }
+  } 
+  
+  else if (e.getSource() == ld){
+    if(f2 == 0){
+      background(100, 100, 130);
+      f2 = 1;
+    }
+    else if(f2 == 1){
+      background(100, 155, 100);
+      f2 = 0;
+    }
+    
+  }
+  
+  else if (e.getSource() == fs){
+    if(f3 == 0){
+      background(100, 200, 130);
+      f3 = 1;
+    }
+    else if(f3 == 1){
+      background(100, 155, 100);
+      f3 = 0;
+    }
+    
+  } 
+  
+  else if (e.getSource() == fl){
+    if(f4 == 0){
+      background(100, 200, 130);
+      f4 = 1;
+    }
+    else if(f4 == 1){
+      background(100, 155, 100);
+      f4 = 0;
+    }
+    
     background(100, 250, 100);
   }
 }
 
 
 void arreglar(){  // desenmascarar la trama
-  for(int i=0;i<muestras;i++){ 
-    int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110    
+//  for(int i=0;i<muestras;i++){ 
+    //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
+    int temp1 = U1 & 126;
     posicion = temp1 >> 1;
-    //print("Posicion ");
-    //println(posicion);
-    //iAngle = map(posicion, 0, 63, 0, 240);
-    int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar    
+    print("Posicion ");
+    println(posicion);
+    iAngle = map(posicion, 0, 63, 0, 220);
+    //int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
+    int temp2 = U1 & 1;
     int temp3 = temp2 << 9;    
     //temp3 es el primer bit del sonar
-    int temp4 = U2V[i] & 127; // quitamos el primer bit del byte 2, y son los siguientes 7 bits del sonar    
+    //int temp4 = U2V[i] & 127; // quitamos el primer bit del byte 2, y son los siguientes 7 bits del sonar
+    int temp4 = U2 & 127;
     int temp5 = temp4 << 2;    
-    int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
+    //int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
+    int temp6 = H1 & 96;
     int temp7 = temp6 >> 5;    
     sonar = temp3 | temp5 | temp7; // hacemos un OR entre los tres bytes del sonar
-    //print("Sonar ");
-    //println(sonar);
-    int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar    
+    print("Sonar ");
+    println(sonar);
+    //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
+    int temp8 = H1 & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
-    int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar    
+    //int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
+    int temp10 = H2 & 127;
     lidar = temp9 | temp10;
-    //print("Lidar ");
-    //println(lidar);
+    print("Lidar ");
+    println(lidar);
 
     
-  }
+  //}
 }
 
 /*void serialEvent (Serial myPort) { // starts reading data from the Serial Port
@@ -229,49 +278,35 @@ void drawRadar() {
   popMatrix();
 }
 
-void drawObject() {
-  pushMatrix();
-  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  strokeWeight(6);
-  stroke(255,10,10); // red color
-  pixsDistance = iDistance*((height-height*0.1666)*0.025); // covers the distance from the sensor from cm to pixels
-  // limiting the range to 40 cms
-  if(iDistance<40){
-    // draws the object according to the angle and the distance
-  line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
-  }
-  popMatrix();
-}
-
 void drawLine() {
 
-  iAngle = map(motor, 0, 63, 0, 240);
-   if(motor == aux + 1 || motor == aux + 2 ){
-    //println("primera cond");
-    if(motor < 63){
-      aux = motor;
-      motor = motor + 1;
-      //println("segunda cond");
-    } 
-    else if (motor == 63){
-      aux = motor;
-     motor = motor - 2;
-     //println("tercera cond");
-    }
-  }
-  if(motor == aux - 2 || motor == aux - 1){
-    //println("cuarta cond");
-    if(motor > 0){
-      //println("quinta cond");
-      aux = motor;
-      motor = motor - 1;;
-    } 
-    else if (motor == 0){
-      aux = motor;
-      motor = motor + 2;
-      //println("sexta cond");
-    }
-  }
+  //iAngle = map(motor, 0, 63, 0, 240);
+  // if(motor == aux + 1 || motor == aux + 2 ){
+  //  //println("primera cond");
+  //  if(motor < 63){
+  //    aux = motor;
+  //    motor = motor + 1;
+  //    //println("segunda cond");
+  //  } 
+  //  else if (motor == 63){
+  //    aux = motor;
+  //   motor = motor - 2;
+  //   //println("tercera cond");
+  //  }
+  //}
+  //if(motor == aux - 2 || motor == aux - 1){
+  //  //println("cuarta cond");
+  //  if(motor > 0){
+  //    //println("quinta cond");
+  //    aux = motor;
+  //    motor = motor - 1;;
+  //  } 
+  //  else if (motor == 0){
+  //    aux = motor;
+  //    motor = motor + 2;
+  //    //println("sexta cond");
+  //  }
+  //}
   pushMatrix();
   strokeWeight(6);
   stroke(30,250,60);
@@ -279,6 +314,20 @@ void drawLine() {
   line(0,0,(height-height*0.35)*cos(radians(iAngle) - radians(30)),-(height-height*0.35)*sin(radians(iAngle) - radians(30))); // draws the line according to the angle
   popMatrix();
  
+}
+
+void drawObject() {
+  pushMatrix();
+  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+  strokeWeight(6);
+  stroke(255,10,10); // red color
+  pixsDistance = iDistance*((height-height*0.1666)*0.025); // covers the distance from the sensor from cm to pixels
+  // limiting the range to 40 cms
+  if(iDistance<80){
+    // draws the object according to the angle and the distance
+  line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
+  }
+  popMatrix();
 }
 
 void drawText() { // draws the texts on the screen
