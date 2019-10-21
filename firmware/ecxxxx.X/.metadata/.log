@@ -2359,3 +2359,6 @@ org.eclipse.core.runtime.CoreException: HC/RS/S12Z GDI Protocol Adapter : Can't 
 
 !ENTRY com.freescale.core.debugger.cdt 4 0 2019-10-20 13:31:34.430
 !MESSAGE A debug session is already in progress.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-10-20 19:09:43.551
+!MESSAGE An application file was not specified in the launch configuration.

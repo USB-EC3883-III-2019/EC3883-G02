@@ -99,30 +99,24 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 		
 		char temp;
 		
-		sonar[1]=sonar[1] & 0b00000011;
-
-		/*
 		sonar[0]=(sonar[0]>>1);
 		sonar[0]=(sonar[1]<<7) | sonar[0];
 		sonar[1]=(sonar[1]>>1) & 0b00000011;
-*/
 		
 		maskblock[0]= (posicion<<1) & 0b01111110; 		// posicion garantizando la cabecera 00
-		maskblock[0]= maskblock[0] | (sonar[1] >> 1);
 		
-		maskblock[1]= (sonar[1] & 0b00000001) << 6;					// desplaza el bit hasta la posicion en la que inicia
-		maskblock[1]= maskblock[1] | (sonar[0] >> 2);	// 
-		maskblock[1]= maskblock[1] | 0b10000000;		
+		temp    	= sonar[1] & 0b00000001	;	
+		maskblock[1]= (temp << 6 );					// desplaza el bit hasta la posicion en la que inicia
+		maskblock[1]= maskblock[1] | (sonar[0] >> 2) | 0b10000000;	// 
 		
 		maskblock[2]= (sonar[0] & 0b00000011) << 5 ;
-		lidar[1]	= lidar[1] & 0b00001111;
-		maskblock[2]= maskblock[2] | (lidar[1]<< 1);
-		maskblock[2]= maskblock[2] | ((lidar[0] << 1) >> 7);
+		
+		temp=lidar[0] >> 7;
+		
+		maskblock[2]= maskblock[2] | (((lidar[1] & 0b00001111)<<1)|temp) ;
 		maskblock[2]= maskblock[2] | 0b10000000;
 		
-		maskblock[3]= lidar[0] & 0b01111111;
-		
-		maskblock[3]= maskblock[3] | 0b10000000;
+		maskblock[3]= lidar[1] | 0b10000000;
 }		
 		
 void mover(char posicion)
@@ -134,7 +128,7 @@ void mover(char posicion)
 void main(void)
 {
   /* Write your local variable definition here */
- char sonar[2],lidar[2],maskblock[4],maskblock2[4],posicion=31,control=0; // Variables descritas anteriormente
+ char sonar[2],lidar[2],maskblock[4],maskblock2[4],posicion=63,control=0; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
  unsigned int t;
  char i=0;
@@ -148,7 +142,12 @@ void main(void)
    for(;;) {
    
 	  if(p==1) {
-	  		 
+	  		  
+		   lidar[0]=0b00000000;
+		   lidar[1]=0b00000000;
+		   sonar[0]=0b00000000;
+		   sonar[1]=0b00000000;
+	  
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   //p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
 
@@ -160,6 +159,7 @@ void main(void)
 	   dig=Bit1_GetVal(); // Asignamos el valor de un bit a la variable del canal digital 1
 	   dig2=Bit2_GetVal(); 	// Asignamos el valor de un bit a la variable del canal digital 2
 */
+
 	   if(h)
 	   {	   
 	   if(posicion>=63)
@@ -184,11 +184,14 @@ void main(void)
 		   break;
 	   
 	   }
-	   mover(posicion%8);	   
+	   mover(posicion%8);
+	   
+	   
+	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
+	   //mask2(maskblock2,time);	   
+	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
 	   h=0;
 	   }
-	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
-	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
 	  }
   }	   
 
