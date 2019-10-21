@@ -184,7 +184,15 @@ void main(void)
 		   break;
 	   
 	   }
-	   mover(posicion%8);	   
+	   mover(posicion%8);
+	   
+	   lidar[0]=0b11001100;
+	   lidar[1]=0b00001001;
+	   
+	   sonar[1]=0b00000011;
+	   sonar[0]=0b11000011;
+	   
+	   //mask2(maskblock2,time);	   
 	   h=0;
 	   }
 	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
