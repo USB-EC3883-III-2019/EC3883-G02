@@ -100,16 +100,16 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 		char temp;
 		
 		sonar[1]=sonar[1] & 0b00000011;
-
+		posicion=posicion & 0b00111111;
 		/*
 		sonar[0]=(sonar[0]>>1);
 		sonar[0]=(sonar[1]<<7) | sonar[0];
 		sonar[1]=(sonar[1]>>1) & 0b00000011;
 */
 		
-		maskblock[0]= (posicion<<1) & 0b01111110; 		// posicion garantizando la cabecera 00
+		maskblock[0]= (posicion<<1) ;//& 0b01111110; 		// posicion garantizando la cabecera 00
 		maskblock[0]= maskblock[0] | (sonar[1] >> 1);
-		
+		//maskblock[0]= maskblock[0] & 0b10000000;
 		maskblock[1]= (sonar[1] & 0b00000001) << 6;					// desplaza el bit hasta la posicion en la que inicia
 		maskblock[1]= maskblock[1] | (sonar[0] >> 2);	// 
 		maskblock[1]= maskblock[1] | 0b10000000;		
@@ -186,9 +186,22 @@ void main(void)
 	   }
 	   mover(posicion%8);	   
 	   h=0;
-	   }
-	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
+	   lidar[1]=0b00000000;
+   	   lidar[0]=0b00000000;
+
+   	   sonar[1]=0b00000011;
+   	   sonar[0]=0b11111111;
+  
+   	   posicion=0b11111111;
+   	   
+	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
+
+	   
+	   }
+	   	   
+//	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
+//	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
 	  }
   }	   
 
