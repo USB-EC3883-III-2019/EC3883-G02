@@ -71,7 +71,7 @@
 char p=-1;
 char h=0;
 char k=0;
-unsigned char time[2];
+unsigned int time;
 
 // Función para acomodar los datos según el protocolo
 
@@ -84,7 +84,7 @@ void mask2(char maskblock2[4],char sonar[])
  maskblock2[3]=0;//sonar[0];
 }
 
-void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATIVO Y PROBADO
+void mask1(char maskblock[4],unsigned int sonar2,char lidar[],char posicion) // OPERATIVO Y PROBADO
 {
 	   /* Las variables son:
 	    * maskblock hace referencia a los 4 bytes completos que envía el demoQE, sería la trama según el protocolo
@@ -96,33 +96,46 @@ void mask1(char maskblock[4],char sonar[],char lidar[],char posicion) // OPERATI
 		 * Se enviara una trama teniendo en cuenta la cabezera de la trama 
 		 * los la trama de prueba sera 00000001 10000011 10000111 10001111
 		 */
+		unsigned int ptr2;
+		char temp2[2];
+	
 		
-		char temp;
-		
-		sonar[1]=sonar[1] & 0b00000011;
 		posicion=posicion & 0b00111111;
-		/*
-		sonar[0]=(sonar[0]>>1);
-		sonar[0]=(sonar[1]<<7) | sonar[0];
-		sonar[1]=(sonar[1]>>1) & 0b00000011;
-*/
+
+		temp2[0]=sonar2;
+
+		temp2[1]=(temp2[1]>>5) | (temp2[0]<< 3);
+		temp2[0]=(temp2[0] & 0b01111111) >> 5;
+/*		
+	   AS1_SendBlock(temp2,2,&ptr2); // Devolvemos el valor de maskblock (la trama)
 		
-		maskblock[0]= (posicion<<1) ;//& 0b01111110; 		// posicion garantizando la cabecera 00
-		maskblock[0]= maskblock[0] | (sonar[1] >> 1);
-		//maskblock[0]= maskblock[0] & 0b10000000;
-		maskblock[1]= (sonar[1] & 0b00000001) << 6;					// desplaza el bit hasta la posicion en la que inicia
-		maskblock[1]= maskblock[1] | (sonar[0] >> 2);	// 
+		temp2[0]=0b00000011;
+		temp2[1]=0b11100111;
+		// sonar = 999
+		
+		lidar[0]=0b00001010;
+		lidar[1]=0b11001100;
+		// lidar = 2764
+*/	
+		maskblock[0]= (posicion<<1) ;//& 0b01111110; 		// posicion garantizando la cabecera 00	
+		maskblock[0]= maskblock[0] | ((temp2[0] & 0b00000011) >> 1);
+		maskblock[1]= (temp2[0] & 0b00000001) << 6;					// desplaza el bit hasta la posicion en la que inicia
+		maskblock[1]= maskblock[1] | (temp2[1] >> 2);	// 
 		maskblock[1]= maskblock[1] | 0b10000000;		
+		maskblock[2]= (temp2[1] & 0b00000011) << 5 ;
+
 		
-		maskblock[2]= (sonar[0] & 0b00000011) << 5 ;
-		lidar[1]	= lidar[1] & 0b00001111;
-		maskblock[2]= maskblock[2] | (lidar[1]<< 1);
-		maskblock[2]= maskblock[2] | ((lidar[0] << 1) >> 7);
+		lidar[0]	= lidar[0] & 0b00001111;
+		maskblock[2]= maskblock[2] | (lidar[0]<< 1);
+	
+		maskblock[2]= maskblock[2] | (lidar[1] >> 7);
+	
 		maskblock[2]= maskblock[2] | 0b10000000;
-		
-		maskblock[3]= lidar[0] & 0b01111111;
+	
+		maskblock[3]= lidar[1] & 0b01111111;
 		
 		maskblock[3]= maskblock[3] | 0b10000000;
+
 }		
 		
 void mover(char posicion)
@@ -134,9 +147,9 @@ void mover(char posicion)
 void main(void)
 {
   /* Write your local variable definition here */
- char sonar[2],lidar[2],maskblock[4],maskblock2[4],posicion=31,control=0; // Variables descritas anteriormente
+ char lidar[2],maskblock[4],sonar[2],posicion=31,control=0; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
- unsigned int t;
+ unsigned int t2;
  char i=0;
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
@@ -181,24 +194,17 @@ void main(void)
 		   break;
 	   case 1:
 		   posicion++;
-		   break;
-	   
+		   break;	   
 	   }
-	   mover(posicion%8);	   
 	   h=0;
-	   lidar[1]=0b00000000;
-   	   lidar[0]=0b00000000;
-
-   	   sonar[1]=0b00000011;
-   	   sonar[0]=0b11111111;
-  
-   	   posicion=0b11111111;
-   	   
-	   mask1(maskblock,sonar,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
-	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
-
 	   
+	   
+	   mover(posicion%8);	   
+	   t2=time/58;
+	   mask1(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
+	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
 	   }
+	   
 	   	   
 //	   mask1(maskblock,time,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 //	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)

@@ -6,7 +6,7 @@
 **     Component   : PWM
 **     Version     : Component 02.240, Driver 01.28, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-20, 07:31, # CodeGen: 61
+**     Date/Time   : 2019-10-21, 14:14, # CodeGen: 80
 **     Abstract    :
 **         This component implements a pulse-width modulation generator
 **         that generates signal with variable duty and fixed cycle. 
@@ -39,13 +39,13 @@
 **              Timer                  : Enabled
 **              Event                  : Enabled
 **         High speed mode
-**             Prescaler               : divide-by-2
-**             Clock                   : 3735552 Hz
+**             Prescaler               : divide-by-4
+**             Clock                   : 1867776 Hz
 **           Initial value of            period     pulse width
-**             Xtal ticks              : 492        162
-**             microseconds            : 15000      4950
-**             milliseconds            : 15         5
-**             seconds (real)          : 0.014999925045 0.004950004711
+**             Xtal ticks              : 983        981
+**             microseconds            : 30000      29950
+**             milliseconds            : 30         30
+**             seconds (real)          : 0.029999850089 0.029950058251
 **
 **     Contents    :
 **         Enable     - byte PWM1_Enable(void);
@@ -166,7 +166,7 @@ byte PWM1_SetDutyUS(word Time);
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in microseconds]
-**                      (0 to 15000 us in high speed mode)
+**                      (0 to 30000 us in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK
@@ -188,7 +188,7 @@ byte PWM1_SetDutyMS(word Time);
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in milliseconds]
-**                      (0 to 15 ms in high speed mode)
+**                      (0 to 30 ms in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK

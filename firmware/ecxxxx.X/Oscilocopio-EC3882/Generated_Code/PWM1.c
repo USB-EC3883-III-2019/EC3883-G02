@@ -6,7 +6,7 @@
 **     Component   : PWM
 **     Version     : Component 02.240, Driver 01.28, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-20, 07:31, # CodeGen: 61
+**     Date/Time   : 2019-10-21, 14:14, # CodeGen: 80
 **     Abstract    :
 **         This component implements a pulse-width modulation generator
 **         that generates signal with variable duty and fixed cycle. 
@@ -39,13 +39,13 @@
 **              Timer                  : Enabled
 **              Event                  : Enabled
 **         High speed mode
-**             Prescaler               : divide-by-2
-**             Clock                   : 3735552 Hz
+**             Prescaler               : divide-by-4
+**             Clock                   : 1867776 Hz
 **           Initial value of            period     pulse width
-**             Xtal ticks              : 492        162
-**             microseconds            : 15000      4950
-**             milliseconds            : 15         5
-**             seconds (real)          : 0.014999925045 0.004950004711
+**             Xtal ticks              : 983        981
+**             microseconds            : 30000      29950
+**             milliseconds            : 30         30
+**             seconds (real)          : 0.029999850089 0.029950058251
 **
 **     Contents    :
 **         Enable     - byte PWM1_Enable(void);
@@ -191,8 +191,8 @@ static void SetRatio(void)
 */
 byte PWM1_Enable(void)
 {
-  /* TPM2SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=0,PS1=0,PS0=1 */
-  setReg8(TPM2SC, 0x09U);              /* Run the counter (set CLKSB:CLKSA) */ 
+  /* TPM2SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=0,PS1=1,PS0=0 */
+  setReg8(TPM2SC, 0x0AU);              /* Run the counter (set CLKSB:CLKSA) */ 
   return ERR_OK;                       /* OK */
 }
 
@@ -235,7 +235,7 @@ byte PWM1_SetRatio16(word Ratio)
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in microseconds]
-**                      (0 to 15000 us in high speed mode)
+**                      (0 to 30000 us in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK
@@ -248,10 +248,10 @@ byte PWM1_SetRatio16(word Ratio)
 byte PWM1_SetDutyUS(word Time)
 {
   dlong rtval;                         /* Result of two 32-bit numbers multiplication */
-  if (Time > 0x3A98U) {                /* Is the given value out of range? */
+  if (Time > 0x7530U) {                /* Is the given value out of range? */
     return ERR_RANGE;                  /* If yes then error */
   }
-  PE_Timer_LngMul((dword)Time, 0x045E7C95UL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
+  PE_Timer_LngMul((dword)Time, 0x022F3E4BUL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
   if (PE_Timer_LngHi3(rtval[0], rtval[1], &ActualRatio.Value)) { /* Is the result greater or equal than 65536 ? */
     ActualRatio.Value = 0xFFFFU;       /* If yes then use maximal possible value */
   }
@@ -269,7 +269,7 @@ byte PWM1_SetDutyUS(word Time)
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in milliseconds]
-**                      (0 to 15 ms in high speed mode)
+**                      (0 to 30 ms in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK
@@ -282,10 +282,10 @@ byte PWM1_SetDutyUS(word Time)
 byte PWM1_SetDutyMS(word Time)
 {
   dlong rtval;                         /* Result of two 32-bit numbers multiplication */
-  if (Time > 0x0FU) {                  /* Is the given value out of range? */
+  if (Time > 0x1EU) {                  /* Is the given value out of range? */
     return ERR_RANGE;                  /* If yes then error */
   }
-  PE_Timer_LngMul((dword)Time, 0x111116A8UL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
+  PE_Timer_LngMul((dword)Time, 0x08888B54UL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
   if (PE_Timer_LngHi2(rtval[0], rtval[1], &ActualRatio.Value)) { /* Is the result greater or equal than 65536 ? */
     ActualRatio.Value = 0xFFFFU;       /* If yes then use maximal possible value */
   }
@@ -310,12 +310,12 @@ void PWM1_Init(void)
   setReg8(TPM2SC, 0x00U);              /* Disable device */ 
   /* TPM2C2SC: CH2F=0,CH2IE=0,MS2B=1,MS2A=1,ELS2B=1,ELS2A=1,??=0,??=0 */
   setReg8(TPM2C2SC, 0x3CU);            /* Set up PWM mode with output signal level low */ 
-  ActualRatio.Value = 0x547CU;         /* Store initial value of the ratio */
+  ActualRatio.Value = 0xFF94U;         /* Store initial value of the ratio */
   /* TPM2MOD: BIT15=1,BIT14=1,BIT13=0,BIT12=1,BIT11=1,BIT10=0,BIT9=1,BIT8=0,BIT7=1,BIT6=1,BIT5=1,BIT4=0,BIT3=0,BIT2=0,BIT1=0,BIT0=0 */
   setReg16(TPM2MOD, 0xDAE0U);          /* Set modulo register */ 
   SetRatio();                          /* Calculate and set up new values of the compare according to the selected speed CPU mode */
-  /* TPM2SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=0,PS1=0,PS0=1 */
-  setReg8(TPM2SC, 0x09U);              /* Run the counter (set CLKSB:CLKSA) */ 
+  /* TPM2SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=0,PS1=1,PS0=0 */
+  setReg8(TPM2SC, 0x0AU);              /* Run the counter (set CLKSB:CLKSA) */ 
 }
 
 /* END PWM1. */

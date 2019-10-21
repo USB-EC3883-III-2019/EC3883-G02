@@ -34,7 +34,6 @@
 extern char p;
 extern char h;
 extern unsigned int  time;
-extern unsigned char estado;
 
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
@@ -191,7 +190,7 @@ void Cap1_OnCapture(void)
 {
   /* Write your code here ... */
 	
-	if(!Cap1_GetPinValue())
+	if(Cap1_GetPinValue())
 		  Cap1_Reset();
 	  else Cap1_GetCaptureValue(&time);
 }
