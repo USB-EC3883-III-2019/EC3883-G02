@@ -152,7 +152,7 @@ void serialEvent (Serial puerto) {
 void actionPerformed (GUIEvent e){
   if (e.getSource() == sn){
     if(f1 == 0){
-      background(100, 155, 100);
+      background(50, 155, 50);
       f1 = 1;
     }
     else if(f1 == 1){
@@ -187,7 +187,7 @@ void actionPerformed (GUIEvent e){
   
   else if (e.getSource() == fl){
     if(f4 == 0){
-      background(100, 200, 130);
+          background(100, 250, 100);
       f4 = 1;
     }
     else if(f4 == 1){
@@ -195,7 +195,6 @@ void actionPerformed (GUIEvent e){
       f4 = 0;
     }
     
-    background(100, 250, 100);
   }
 }
 
@@ -205,8 +204,8 @@ void arreglar(){  // desenmascarar la trama
     //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
     int temp1 = U1 & 126;
     posicion = temp1 >> 1;
-    print("Posicion ");
-    println(posicion);
+    //print("Posicion ");
+    //println(posicion);
     iAngle = map(posicion, 0, 63, 0, 220);
     //int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
     int temp2 = U1 & 1;
@@ -218,9 +217,9 @@ void arreglar(){  // desenmascarar la trama
     //int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
     int temp6 = H1 & 96;
     int temp7 = temp6 >> 5;    
-    sonar = temp3 | temp5 | temp7; // hacemos un OR entre los tres bytes del sonar
-    print("Sonar ");
-    println(sonar);
+    sonar = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
+    //print("Sonar ");
+    //println(sonar);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1 & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
