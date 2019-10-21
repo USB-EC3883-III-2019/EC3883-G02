@@ -120,8 +120,8 @@ void serialEvent (Serial puerto) {
   if(p==0 && ((inBuffer & 128) == 0)){
     U1 = inBuffer;
     p++;
-    //print("U1 = ");
-    //println(U1);
+    print("U1 = ");
+    println(binary(U1));
   }
   
   else if(p==1){
@@ -218,8 +218,8 @@ void arreglar(){  // desenmascarar la trama
     int temp6 = H1 & 96;
     int temp7 = temp6 >> 5;    
     sonar = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
-    //print("Sonar ");
-    //println(sonar);
+    print("Sonar ");
+    println(sonar);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1 & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
