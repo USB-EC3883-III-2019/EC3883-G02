@@ -51,6 +51,7 @@ int[] H2V = new int[muestras];
 float[] y = new float[muestras];
 int time=1;
 
+float dsonar; //variable para la distancia del sonar
 
 int principal=0; //variable de conteo
 
@@ -101,6 +102,7 @@ void draw() {
   // simulating motion blur and slow fade of the moving line
   noStroke();
   fill(20,50);
+  
   rect(0, 0, width, height);
 
   fill(98,245,31); // green color
@@ -109,6 +111,8 @@ void draw() {
   drawLine();
   drawObject();
   drawText();
+  //translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+  //line(0,0,10,10);
   
 }
 
@@ -120,8 +124,8 @@ void serialEvent (Serial puerto) {
   if(p==0 && ((inBuffer & 128) == 0)){
     U1 = inBuffer;
     p++;
-    print("U1 = ");
-    println(binary(U1));
+    //print("U1 = ");
+    //println(binary(U1));
   }
   
   else if(p==1){
@@ -218,16 +222,19 @@ void arreglar(){  // desenmascarar la trama
     int temp6 = H1 & 96;
     int temp7 = temp6 >> 5;    
     sonar = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
+    
+    dsonar = 0.136*sonar+0.632;
+    
     print("Sonar ");
-    println(sonar);
+    println(dsonar);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1 & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
     //int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
     int temp10 = H2 & 127;
     lidar = temp9 | temp10;
-    print("Lidar ");
-    println(lidar);
+    //print("Lidar ");
+    //println(lidar);
 
     
   //}
@@ -275,6 +282,7 @@ void drawRadar() {
   line(0,0,(-width/2)*cos(radians(210)),(-width/2)*sin(radians(210)));
   line((-width/2)*cos(radians(30)),0,width/2,0);
   popMatrix();
+  stroke(10);
 }
 
 void drawLine() {
@@ -320,9 +328,12 @@ void drawObject() {
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
-  pixsDistance = iDistance*((height-height*0.1666)*0.025); // covers the distance from the sensor from cm to pixels
+  //pixsDistance = dsonar*((height-height*0.1666)*0.025); // covers the distance from the sensor from cm to pixels
+  pixsDistance = map(dsonar, 25, 70, 0, width/2);
+ // print("pixsDistance = ");
+ // println(pixsDistance);
   // limiting the range to 40 cms
-  if(iDistance<80){
+  if(dsonar<80){
     // draws the object according to the angle and the distance
   line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
   }
@@ -332,7 +343,7 @@ void drawObject() {
 void drawText() { // draws the texts on the screen
 
   pushMatrix();
-  if(iDistance>40) {
+  if(dsonar>80) {
   noObject = "Out of Range";
   }
   else {
