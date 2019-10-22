@@ -164,6 +164,8 @@ void main(void)
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   //p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
 
+	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
+	   AD1_GetChanValue(0, &lidar); // Se asigna lo que se leyó a la variable sonar
 
 	   /*	   AD1_MeasureChan(TRUE,1); // Lee lo que se encuentra en el canal 2
 	   AD1_GetChanValue(1, &sonar); // Se asigna lo que se leyó a la variable lidar
@@ -194,15 +196,11 @@ void main(void)
 		   break;	   
 	   }
 	   h=0;
-
-	   AD1_MeasureChan(TRUE,0); // Lee lo que se encuentra en el canal 1
-	   AD1_GetChanValue(0, &lidar); // Se asigna lo que se leyó a la variable sonar
 	   
 	   
 	   mover(posicion%8);	   
 	   t2=time/58;
 	   mask1(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
-
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
 	   }
 	   

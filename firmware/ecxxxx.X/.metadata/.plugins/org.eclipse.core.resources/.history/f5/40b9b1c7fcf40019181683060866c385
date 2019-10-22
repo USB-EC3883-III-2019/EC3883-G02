@@ -1367,7 +1367,7 @@ autoselected pull
         <Capture_priority v="medium priority" />
         <boolgroup name="Overflow support" v="Disabled" />
       </boolgroup>
-      <Maximum_time_of_event v="50 ms" />
+      <Maximum_time_of_event v="35.087719 ms" />
       <group name="Initialization">
         <Enabled_in_init__code v="yes" />
         <Events_enabled_in_init_ v="yes" />

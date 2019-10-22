@@ -11,7 +11,7 @@
   <GeneratedFilesList>
     <GeneratedByPE>
       <File Name="Generated_Code/Byte1.c" FileDate="2019-10-09, 05:24:01" FileAge="1570614841031" FileType="45637" CompNumb="47" />
-      <File Name="Generated_Code/TI1.c" FileDate="2019-10-22, 14:20:13" FileAge="1571770213011" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/TI1.c" FileDate="2019-10-21, 13:16:31" FileAge="1571679991299" FileType="45637" CompNumb="10" />
       <File Name="Generated_Code/Bit4.c" FileDate="2019-10-07, 12:29:19" FileAge="1570467559852" FileType="45637" CompNumb="42" />
       <File Name="Generated_Code/Vectors.c" FileDate="2019-10-18, 16:28:25" FileAge="1571432305185" FileType="45637" CompNumb="4" />
       <File Name="Generated_Code/Bit3.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559829" FileType="45637" CompNumb="37" />
@@ -35,7 +35,7 @@
       <File Name="Generated_Code/PE_Timer.h" FileDate="2019-10-16, 09:25:54" FileAge="1571234154593" FileType="45637" />
       <File Name="Generated_Code/Cpu.c" FileDate="2019-10-16, 12:24:25" FileAge="1571244865440" FileType="45637" CompNumb="4" />
       <File Name="Generated_Code/PE_Timer.c" FileDate="2019-10-16, 09:25:54" FileAge="1571234154609" FileType="45637" />
-      <File Name="Documentation/Oscilocopio-EC3882_SIGNALS.txt" FileDate="2019-10-22, 14:20:13" FileAge="1571770213043" FileType="3072" />
+      <File Name="Documentation/Oscilocopio-EC3882_SIGNALS.txt" FileDate="2019-10-22, 14:16:22" FileAge="1571769982415" FileType="3072" />
       <File Name="Generated_Code/PWM1.h" FileDate="2019-10-21, 14:14:44" FileAge="1571683484147" FileType="45637" CompNumb="48" />
       <File Name="Generated_Code/TI2.h" FileDate="2019-10-21, 14:15:57" FileAge="1571683557405" FileType="45637" CompNumb="41" />
       <File Name="Generated_Code/PWM1.c" FileDate="2019-10-21, 14:14:44" FileAge="1571683484173" FileType="45637" CompNumb="48" />
@@ -44,12 +44,12 @@
       <File Name="Generated_Code/PE_Const.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559996" FileType="45637" />
       <File Name="Generated_Code/Byte1.h" FileDate="2019-10-09, 05:24:01" FileAge="1570614841039" FileType="45637" CompNumb="47" />
       <File Name="Sources/Events.c" FileDate="2019-10-21, 14:41:38" FileAge="1571685098038" FileType="131328" />
-      <File Name="Documentation/Oscilocopio-EC3882_Settings.xml" FileDate="2019-10-22, 14:20:13" FileAge="1571770213107" FileType="3072" />
-      <File Name="Generated_Code/TI1.h" FileDate="2019-10-22, 14:20:13" FileAge="1571770213000" FileType="45637" CompNumb="10" />
+      <File Name="Documentation/Oscilocopio-EC3882_Settings.xml" FileDate="2019-10-21, 14:15:57" FileAge="1571683557531" FileType="3072" />
+      <File Name="Generated_Code/TI1.h" FileDate="2019-10-21, 13:16:31" FileAge="1571679991277" FileType="45637" CompNumb="10" />
       <File Name="Generated_Code/PE_Types.h" FileDate="2019-10-07, 12:29:20" FileAge="1570467560046" FileType="45637" />
       <File Name="Generated_Code/Bit4.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559878" FileType="45637" CompNumb="42" />
       <File Name="Generated_Code/PE_Error.h" FileDate="2019-10-07, 12:29:20" FileAge="1570467560020" FileType="45637" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>84</CodeGenReference>
+  <CodeGenReference>83</CodeGenReference>
 </CodeGenerationInfo>
