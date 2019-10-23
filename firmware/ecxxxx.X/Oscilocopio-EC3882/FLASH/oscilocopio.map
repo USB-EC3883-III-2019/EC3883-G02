@@ -47,7 +47,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata                            4     R     0x20DF     0x20E2   ROM
 NON_BANKED                       608     R     0x20E3     0x2342   ROM
 .copy                              7     R     0x2343     0x2349   ROM
-.text                            623     R     0x8000     0x826E   PPAGE_0
+.text                            627     R     0x8000     0x8272   PPAGE_0
 .abs_section_ffbd                  1     R     0xFFBD     0xFFBD   .absSeg0
 .abs_section_ffbf                  1     R     0xFFBF     0xFFBF   .absSeg1
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg2
@@ -232,17 +232,17 @@ NON_BANKED                       608     R     0x20E3     0x2342   ROM
 .abs_section_1870                  2   N/I     0x1870     0x1871   .absSeg181
 .abs_section_ffc0                 64     R     0xFFC0     0xFFFF   .absSeg182
 .bss                              17   R/W       0xA1       0xB1   RAM
-AD1_CODE                         181     R     0x826F     0x8323   PPAGE_0
-AS1_CODE                         202     R     0x8324     0x83ED   PPAGE_0
-TI1_CODE                          20     R     0x83EE     0x8401   PPAGE_0
-TI2_CODE                          39     R     0x8402     0x8428   PPAGE_0
-PWM1_CODE                        161     R     0x8429     0x84C9   PPAGE_0
-Cap1_CODE                         11     R     0x84CA     0x84D4   PPAGE_0
+AD1_CODE                         181     R     0x8273     0x8327   PPAGE_0
+AS1_CODE                         202     R     0x8328     0x83F1   PPAGE_0
+TI1_CODE                          20     R     0x83F2     0x8405   PPAGE_0
+TI2_CODE                          33     R     0x8406     0x8426   PPAGE_0
+PWM1_CODE                        161     R     0x8427     0x84C7   PPAGE_0
+Cap1_CODE                         11     R     0x84C8     0x84D2   PPAGE_0
 .common                           12   R/W       0xB2       0xBD   RAM
 .stack                           512   R/W       0xBE      0x2BD   RAM
 
 Summary of section sizes per section type:
-READ_ONLY (R):         7E1 (dec:     2017)
+READ_ONLY (R):         7DF (dec:     2015)
 READ_WRITE (R/W):      21E (dec:      542)
 NO_INIT (N/I):          CF (dec:      207)
 
@@ -257,22 +257,22 @@ OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 MODULE:                 -- Events_c.obj --
 - PROCEDURES:
-     TI1_OnInterrupt                           8000       A      10       2   .text       
-     AS1_OnError                               800A       1       1       4   .text       
-     AS1_OnRxChar                              800B       1       1       2   .text       
-     AS1_OnTxChar                              800C       1       1       2   .text       
-     AS1_OnFreeTxBuf                           800D       1       1       2   .text       
-     AD1_OnEnd                                 800E       1       1       2   .text       
-     TI2_OnInterrupt                           800F       1       1       2   .text       
-     Cap1_OnCapture                            8010      27      39       2   .text       
+     TI1_OnInterrupt                           8000       6       6       2   .text       
+     AS1_OnError                               8006       1       1       4   .text       
+     AS1_OnRxChar                              8007       1       1       2   .text       
+     AS1_OnTxChar                              8008       1       1       2   .text       
+     AS1_OnFreeTxBuf                           8009       1       1       2   .text       
+     AD1_OnEnd                                 800A       1       1       2   .text       
+     TI2_OnInterrupt                           800B       6       6       2   .text       
+     Cap1_OnCapture                            8011      27      39       2   .text       
 - VARIABLES:
 MODULE:                 -- main_c.obj --
 - PROCEDURES:
-     mask1                                     8037      A8     168       2   .text       
-     mover                                     80DF      32      50       2   .text       
-     main                                      8111      AC     172       5   .text       
+     mask1                                     8038      A8     168       2   .text       
+     mover                                     80E0      32      50       2   .text       
+     main                                      8112      AF     175       5   .text       
 - VARIABLES:
-     p                                           A0       1       1       2   .data       
+     p                                           A0       1       1       3   .data       
      h                                           A1       1       1       3   .bss        
      time                                        B2       2       2       2   .common     
 MODULE:                 -- start08_c.obj --
@@ -287,11 +287,11 @@ MODULE:                 -- start08_c.obj --
 MODULE:                 -- AD1_c.obj --
 - PROCEDURES:
      AD1_Interrupt                             2168      7F     127       1   NON_BANKED  
-     ClrSumV                                   826F       9       9       2   AD1_CODE    
-     AD1_HWEnDi                                8278      3B      59       2   AD1_CODE    
-     AD1_MeasureChan                           82B3      2B      43       2   AD1_CODE    
-     AD1_GetChanValue                          82DE      36      54       2   AD1_CODE    
-     AD1_Init                                  8314      10      16       2   AD1_CODE    
+     ClrSumV                                   8273       9       9       2   AD1_CODE    
+     AD1_HWEnDi                                827C      3B      59       2   AD1_CODE    
+     AD1_MeasureChan                           82B7      2B      43       2   AD1_CODE    
+     AD1_GetChanValue                          82E2      36      54       2   AD1_CODE    
+     AD1_Init                                  8318      10      16       2   AD1_CODE    
 - VARIABLES:
      Table                                     20DF       2       2       3   .rodata     
      Channels                                  20E1       2       2       2   .rodata     
@@ -304,8 +304,8 @@ MODULE:                 -- AS1_c.obj --
      AS1_InterruptRx                           21E7      45      69       1   NON_BANKED  
      AS1_InterruptTx                           222C      5C      92       1   NON_BANKED  
      AS1_InterruptError                        2288      12      18       1   NON_BANKED  
-     AS1_SendBlock                             8324      A0     160       2   AS1_CODE    
-     AS1_Init                                  83C4      2A      42       2   AS1_CODE    
+     AS1_SendBlock                             8328      A0     160       2   AS1_CODE    
+     AS1_Init                                  83C8      2A      42       2   AS1_CODE    
 - VARIABLES:
      SerFlag                                     A5       1       1      11   .bss        
      BufferRead                                  A6       1       1       1   .bss        
@@ -317,12 +317,12 @@ MODULE:                 -- AS1_c.obj --
 MODULE:                 -- Cap1_c.obj --
 - PROCEDURES:
      Cap1_Interrupt                            229A       B      11       1   NON_BANKED  
-     Cap1_Init                                 84CA       B      11       2   Cap1_CODE   
+     Cap1_Init                                 84C8       B      11       2   Cap1_CODE   
 - VARIABLES:
      Cap1_CntrState                              B9       2       2       3   .common     
 MODULE:                 -- Cpu_c.obj --
 - PROCEDURES:
-     PE_low_level_init                         81BD      B2     178       2   .text       
+     PE_low_level_init                         81C1      B2     178       2   .text       
      Cpu_Interrupt                             2080       4       4      24   .init       
      _EntryPoint                               2084      49      73       1   .init       
 - VARIABLES:
@@ -516,19 +516,19 @@ MODULE:                 -- IO_Map_c.obj --
      _SCI2BD                                   1870       2       2       0   .abs_section_1870
 MODULE:                 -- PWM1_c.obj --
 - PROCEDURES:
-     SetRatio                                  8429      89     137       2   PWM1_CODE   
-     PWM1_Init                                 84B2      18      24       2   PWM1_CODE   
+     SetRatio                                  8427      89     137       2   PWM1_CODE   
+     PWM1_Init                                 84B0      18      24       2   PWM1_CODE   
 - VARIABLES:
      ActualRatio                                 AE       2       2       6   .bss        
 MODULE:                 -- TI1_c.obj --
 - PROCEDURES:
      TI1_Interrupt                             22A5       E      14       1   NON_BANKED  
-     TI1_Init                                  83EE      14      20       2   TI1_CODE    
+     TI1_Init                                  83F2      14      20       2   TI1_CODE    
 - VARIABLES:
 MODULE:                 -- TI2_c.obj --
 - PROCEDURES:
      TI2_Interrupt                             22B3      1A      26       1   NON_BANKED  
-     TI2_Init                                  8402      27      39       2   TI2_CODE    
+     TI2_Init                                  8406      21      33       2   TI2_CODE    
 - VARIABLES:
      CmpVal                                      B0       2       2       3   .bss        
 MODULE:                 -- Vectors_c.obj --
@@ -545,8 +545,8 @@ MODULE:                 -- rtshc08.o (ansibim.lib) --
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
-  Events_c.obj                                 0     55      0
-  main_c.obj                                   4    390      0
+  Events_c.obj                                 0     56      0
+  main_c.obj                                   4    393      0
   start08_c.obj                                0    133      0
   AD1_c.obj                                    7    308      4
   AS1_c.obj                                   10    381      0
@@ -555,7 +555,7 @@ MODULE STATISTIC
   IO_Map_c.obj                               207      0      0
   PWM1_c.obj                                   2    161      0
   TI1_c.obj                                    0     34      0
-  TI2_c.obj                                    2     65      0
+  TI2_c.obj                                    2     59      0
   Vectors_c.obj                                0      0     64
   rtshc08.o (ansibim.lib)                      0    118      0
   other                                      512     18      7
@@ -1062,7 +1062,7 @@ OBJECT LIST SORTED BY ADDRESS
      _LBP                                        7D       1       1       0   .abs_section_7d
      _LB                                         7E       1       1       0   .abs_section_7e
      _LAPAB                                      7F       1       1       0   .abs_section_7f
-     p                                           A0       1       1       2   .data       
+     p                                           A0       1       1       3   .data       
      h                                           A1       1       1       3   .bss        
      OutFlg                                      A2       1       1       8   .bss        
      SumChan                                     A3       1       1      13   .bss        
@@ -1180,30 +1180,30 @@ OBJECT LIST SORTED BY ADDRESS
      TI2_Interrupt                             22B3      1A      26       1   NON_BANKED  
      _IDIVMOD                                  22CD      69     105       1   NON_BANKED  
      _IDIVU_STAR08                             2336       D      13       1   NON_BANKED  
-     TI1_OnInterrupt                           8000       A      10       2   .text       
-     AS1_OnError                               800A       1       1       4   .text       
-     AS1_OnRxChar                              800B       1       1       2   .text       
-     AS1_OnTxChar                              800C       1       1       2   .text       
-     AS1_OnFreeTxBuf                           800D       1       1       2   .text       
-     AD1_OnEnd                                 800E       1       1       2   .text       
-     TI2_OnInterrupt                           800F       1       1       2   .text       
-     Cap1_OnCapture                            8010      27      39       2   .text       
-     mask1                                     8037      A8     168       2   .text       
-     mover                                     80DF      32      50       2   .text       
-     main                                      8111      AC     172       5   .text       
-     PE_low_level_init                         81BD      B2     178       2   .text       
-     ClrSumV                                   826F       9       9       2   AD1_CODE    
-     AD1_HWEnDi                                8278      3B      59       2   AD1_CODE    
-     AD1_MeasureChan                           82B3      2B      43       2   AD1_CODE    
-     AD1_GetChanValue                          82DE      36      54       2   AD1_CODE    
-     AD1_Init                                  8314      10      16       2   AD1_CODE    
-     AS1_SendBlock                             8324      A0     160       2   AS1_CODE    
-     AS1_Init                                  83C4      2A      42       2   AS1_CODE    
-     TI1_Init                                  83EE      14      20       2   TI1_CODE    
-     TI2_Init                                  8402      27      39       2   TI2_CODE    
-     SetRatio                                  8429      89     137       2   PWM1_CODE   
-     PWM1_Init                                 84B2      18      24       2   PWM1_CODE   
-     Cap1_Init                                 84CA       B      11       2   Cap1_CODE   
+     TI1_OnInterrupt                           8000       6       6       2   .text       
+     AS1_OnError                               8006       1       1       4   .text       
+     AS1_OnRxChar                              8007       1       1       2   .text       
+     AS1_OnTxChar                              8008       1       1       2   .text       
+     AS1_OnFreeTxBuf                           8009       1       1       2   .text       
+     AD1_OnEnd                                 800A       1       1       2   .text       
+     TI2_OnInterrupt                           800B       6       6       2   .text       
+     Cap1_OnCapture                            8011      27      39       2   .text       
+     mask1                                     8038      A8     168       2   .text       
+     mover                                     80E0      32      50       2   .text       
+     main                                      8112      AF     175       5   .text       
+     PE_low_level_init                         81C1      B2     178       2   .text       
+     ClrSumV                                   8273       9       9       2   AD1_CODE    
+     AD1_HWEnDi                                827C      3B      59       2   AD1_CODE    
+     AD1_MeasureChan                           82B7      2B      43       2   AD1_CODE    
+     AD1_GetChanValue                          82E2      36      54       2   AD1_CODE    
+     AD1_Init                                  8318      10      16       2   AD1_CODE    
+     AS1_SendBlock                             8328      A0     160       2   AS1_CODE    
+     AS1_Init                                  83C8      2A      42       2   AS1_CODE    
+     TI1_Init                                  83F2      14      20       2   TI1_CODE    
+     TI2_Init                                  8406      21      33       2   TI2_CODE    
+     SetRatio                                  8427      89     137       2   PWM1_CODE   
+     PWM1_Init                                 84B0      18      24       2   PWM1_CODE   
+     Cap1_Init                                 84C8       B      11       2   Cap1_CODE   
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
      _vect                                     FFC0      40      64       0   .abs_section_ffc0
@@ -1279,12 +1279,13 @@ Cap1_Interrupt            USES _TPM1C1SC Cap1_OnCapture
 TI1_Interrupt             USES _RTCSC TI1_OnInterrupt 
 TI2_Interrupt             USES _TPM1C0SC _TPM1C0V CmpVal TI2_OnInterrupt 
 _IDIVU_STAR08             USES _IDIVMOD 
-TI1_OnInterrupt           USES p h 
+TI1_OnInterrupt           USES p 
+TI2_OnInterrupt           USES h 
 Cap1_OnCapture            USES _PTBD _TPM1CNT Cap1_CntrState _TPM1C1V time 
 mover                     USES _PTCD 
-main                      USES PE_low_level_init main p _PTDD Shadow_PTD h 
-                                AD1_MeasureChan AD1_GetChanValue mover time _IDIVU_STAR08 
-                                mask1 AS1_SendBlock 
+main                      USES PE_low_level_init main p h mover _PTDD 
+                                Shadow_PTD AD1_MeasureChan AD1_GetChanValue time 
+                                _IDIVU_STAR08 mask1 AS1_SendBlock 
 PE_low_level_init         USES _SCGC1 _SCGC2 _APCTL1 _PTBDD _PTBD _PTDPE _PTDD 
                                 _PTDDD _PTCD _PTCPE _PTCDD _PTADD _PTAD _PTBPE _PTASE 
                                 _PTBSE _PTCSE _PTDSE _PTESE _PTFSE _PTGSE _PTHSE 
@@ -1336,6 +1337,8 @@ DEPENDENCY TREE
  |  |  |       
  |  |  +- Cap1_Init           
  |  |       
+ |  +- mover               
+ |  |    
  |  +- AD1_MeasureChan     
  |  |  | 
  |  |  +- AD1_HWEnDi          
@@ -1343,8 +1346,6 @@ DEPENDENCY TREE
  |  |     +- ClrSumV             
  |  |          
  |  +- AD1_GetChanValue    
- |  |    
- |  +- mover               
  |  |    
  |  +- _IDIVU_STAR08       
  |  |  | 
@@ -1409,5 +1410,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 12
-Total size of all blocks to be downloaded: 2017
+Total size of all blocks to be downloaded: 2015
 

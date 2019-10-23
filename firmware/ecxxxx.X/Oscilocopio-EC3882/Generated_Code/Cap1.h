@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-21, 14:15, # CodeGen: 81
+**     Date/Time   : 2019-10-22, 18:46, # CodeGen: 90
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -21,15 +21,15 @@
 **             Counter shared          : Yes
 **
 **         High speed mode
-**             Prescaler               : divide-by-8
+**             Prescaler               : divide-by-32
 **           Maximal time for capture register
-**             Xtal ticks              : 2300
-**             microseconds            : 70175
-**             milliseconds            : 70
-**             seconds (real)          : 0.070175438596
-**             Hz                      : 14
+**             Xtal ticks              : 9198
+**             microseconds            : 280702
+**             milliseconds            : 281
+**             seconds (real)          : 0.280701754386
+**             Hz                      : 4
 **           One tick of timer is
-**             microseconds            : 1.070792
+**             microseconds            : 4.283169
 **
 **         Initialization:
 **              Timer                  : Enabled
@@ -123,11 +123,11 @@
 #include "Cpu.h"
 
 /* PUBLISHED CONSTANTS */
-#define Cap1_PRESCALER_VALUE           0x08U /* Prescaler value of the timer in high speed mode */
-#define Cap1_COUNTER_INPUT_CLOCK_HZ    0x000E4000LU /* Initial counter input clock frequency [Hz] */
+#define Cap1_PRESCALER_VALUE           0x20U /* Prescaler value of the timer in high speed mode */
+#define Cap1_COUNTER_INPUT_CLOCK_HZ    0x00039000LU /* Initial counter input clock frequency [Hz] */
 #define Cap1_TIMER_INPUT_CLOCK         0x00720000LU /* Deprecated, Initial timer input clock frequency [Hz] */
-#define Cap1_PRESCALER_VALUE_HIGH      0x08U /* Prescaler value of the timer in high speed mode */
-#define Cap1_COUNTER_INPUT_CLOCK_HZ_HIGH 0x000E4000LU /* Counter input clock frequency in high speed mode [Hz] */
+#define Cap1_PRESCALER_VALUE_HIGH      0x20U /* Prescaler value of the timer in high speed mode */
+#define Cap1_COUNTER_INPUT_CLOCK_HZ_HIGH 0x00039000LU /* Counter input clock frequency in high speed mode [Hz] */
 #define Cap1_TIMER_INPUT_CLOCK_HIGH    0x00720000LU /* Deprecated, Timer input clock frequency in high speed mode[Hz] */
 
 #ifndef __BWUserType_Cap1_TCapturedValue
@@ -169,7 +169,7 @@ extern volatile word Cap1_CntrState;   /* Content of counter */
 **     Description :
 **         This method gets the last value captured by enabled timer.
 **         Note: one tick of timer is
-**               1.070792 us in high speed mode
+**               4.283169 us in high speed mode
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **       * Value           - A pointer to the content of the
