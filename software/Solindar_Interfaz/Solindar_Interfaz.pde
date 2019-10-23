@@ -278,8 +278,8 @@ void arreglar(){  // desenmascarar la trama
    
     dsonar[i] = 0.568*sonar[i]-1.69; //CURVA SONAR 2
     
-    //print("Sonar ");
-    //println(dsonar[i]);
+    print("Sonar ");
+    println(dsonar[i]);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
@@ -287,10 +287,13 @@ void arreglar(){  // desenmascarar la trama
     int temp10 = H2V[i] & 127;
     lidar[i] = temp9 | temp10;
     
-    dlidar[i] = 158*exp(-0.00201*lidar[i]); //DATOS SHARP 
+    dlidar[i] = 158*exp(-0.00201*lidar[i]); //DATOS SHARP
+    //dlidar[i] = 161*exp(-0.00206*lidar[i]);    
     
-    print("Lidar ");
-    println(dlidar[i]);
+    
+    
+    //print("Lidar ");
+    //println(dlidar[i]);
 
     
   }
@@ -371,18 +374,17 @@ void drawObject() {
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
-  //stroke(255,255,255);
-  //pixsDistance = dsonar*((height-height*0.1666)*0.025); // covers the distance from the sensor from cm to pixels
-  pixsDistance = map(dfsonar, 0, 70, 0, width/2);
- // print("pixsDistance = ");
- // println(pixsDistance);
+  //pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+  pixsDistance = map(dsonar[0], 0, 70, 0, width/2);
+  //print("pixsDistance = ");
+  //println(pixsDistance);
   // limiting the range to 40 cms
- // print("Sonar ");
- // println(dfsonar);
+  //print("Sonar ");
+  //println(dfsonar);
   if(dfsonar<80){
-    // draws the object according to the angle and the distance
-  line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
-  point(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)));  
+  // draws the object according to the angle and the distance
+  //line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
+  line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
 }
   popMatrix();
 }
