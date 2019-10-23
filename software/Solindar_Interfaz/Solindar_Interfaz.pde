@@ -1,10 +1,10 @@
 import processing.serial.*; // imports library for serial communication
-import java.awt.event.KeyEvent; // imports library for reading the data from the serial port
-import java.io.IOException;
+//import java.awt.event.KeyEvent; // imports library for reading the data from the serial port
+//import java.io.IOException;
 import interfascia.*;
 
 GUIController c;
-IFButton sn, ld, fs, fl;
+IFButton sn, ld, fs, fl, refresh;
 IFLabel l;
 
 // defubes variables
@@ -23,18 +23,21 @@ PFont orcFont;
 Serial puerto;
 String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
-float i=0; // solo una variable para ir imprimiendo y saber por que numero de lecutra va
+//float i=0; // solo una variable para ir imprimiendo y saber por que numero de lecutra va
 //int iAngle2 = 0; //valor pasado
 
-int cha1, cha2, chd1, chd2; //valores de los canales
-int muestras = 1;//para guardar muestreo
+
+int muestras = 2;//para guardar muestreo
 
 int posicion;
-int sonar;
-int lidar;
+//int sonar;
+int[] sonar = new int [muestras];
+//int lidar;
+int[] lidar = new int [muestras];
 int motor = 1;
 int p = 0;
 int f1=0, f2=0, f3=0, f4=0;
+int i = 0; //<>//
 
 
 int[] cha1V = new int[muestras]; //vectores para los canales
@@ -51,7 +54,10 @@ int[] H2V = new int[muestras];
 float[] y = new float[muestras];
 int time=1;
 
-float dsonar; //variable para la distancia del sonar
+float dfsonar = 0; //variable para la distancia del sonar
+float[] dsonar = new float[muestras];
+float dflidar = 0;
+float[] dlidar = new float[muestras];
 
 int principal=0; //variable de conteo
 
@@ -100,8 +106,9 @@ void draw() {
 
   fill(98,245,31);
   // simulating motion blur and slow fade of the moving line
-  noStroke();
-  fill(20,50);
+  //noStroke();
+  //fill(20,50);
+  fill(20,15);
   
   rect(0, 0, width, height);
 
@@ -120,33 +127,72 @@ void serialEvent (Serial puerto) {
 
   char inBuffer;
   inBuffer = puerto.readChar();
-
+  
+  if(i<muestras){
+    
+    
+    
   if(p==0 && ((inBuffer & 128) == 0)){
-    U1 = inBuffer;
+    U1V[i] = inBuffer;
     p++;
     //print("U1 = ");
-    //println(binary(U1));
+    //println(binary(U1V[i]));
   }
   
   else if(p==1){
-    U2 = inBuffer;
+    U2V[i] = inBuffer;
     p++;
     //print("U2 = ");
-    //println(binary(U2));
+    //println(binary(U2V[i]));
   }
   
   else if(p==2){
-    H1 = inBuffer;
+    H1V[i] = inBuffer;
     p++;
     //print("H1 = ");
-    //println(binary(H1));
+    //println(binary(H1V[i]));
   }
   
   else if(p==3){
-    H2 = inBuffer;
+    H2V[i] = inBuffer;
     p=0;
     //print("H2 = ");
-    //println(binary(H2));
+    //println(binary(H2V[i]));
+    i++;
+  }
+  
+  }
+  else{
+    i=0;
+    if(p==0 && ((inBuffer & 128) == 0)){
+    U1V[i] = inBuffer;
+    p++;
+    //print("U1 = ");
+    //println(binary(U1V[i]));
+  }
+  
+  else if(p==1){
+    U2V[i] = inBuffer;
+    p++;
+    //print("U2 = ");
+    //println(binary(U2V[i]));
+  }
+  
+  else if(p==2){
+    H1V[i] = inBuffer;
+    p++;
+    //print("H1 = ");
+    //println(binary(H1V[i]));
+  }
+  
+  else if(p==3){
+    H2V[i] = inBuffer;
+    p=0;
+    //print("H2 = ");
+    //println(binary(H2V[i]));
+    i++;
+  }
+  
   }
   
   arreglar();
@@ -181,17 +227,22 @@ void actionPerformed (GUIEvent e){
     if(f3 == 0){
       background(100, 200, 130);
       f3 = 1;
+      for (i=0;i<muestras; i++){
+      dfsonar = dfsonar + dsonar[i];
+      }
+      dfsonar = dfsonar / muestras;
     }
     else if(f3 == 1){
-      background(100, 155, 100);
+      background(255, 255, 255);
       f3 = 0;
+      dfsonar = dsonar[0];
     }
     
   } 
   
   else if (e.getSource() == fl){
     if(f4 == 0){
-          background(100, 250, 100);
+      background(100, 250, 100);
       f4 = 1;
     }
     else if(f4 == 1){
@@ -204,55 +255,47 @@ void actionPerformed (GUIEvent e){
 
 
 void arreglar(){  // desenmascarar la trama
-//  for(int i=0;i<muestras;i++){ 
+  for(int i=0;i<muestras;i++){ 
     //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
-    int temp1 = U1 & 126;
+    int temp1 = U1V[i] & 126;
     posicion = temp1 >> 1;
     //print("Posicion ");
     //println(posicion);
     iAngle = map(posicion, 0, 63, 0, 220);
     //int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
-    int temp2 = U1 & 1;
+    int temp2 = U1V[i] & 1;
     int temp3 = temp2 << 9;    
     //temp3 es el primer bit del sonar
     //int temp4 = U2V[i] & 127; // quitamos el primer bit del byte 2, y son los siguientes 7 bits del sonar
-    int temp4 = U2 & 127;
+    int temp4 = U2V[i] & 127;
     int temp5 = temp4 << 2;    
     //int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
-    int temp6 = H1 & 96;
+    int temp6 = H1V[i] & 96;
     int temp7 = temp6 >> 5;    
-    sonar = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
+    sonar[i] = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
     
-    dsonar = 0.136*sonar+0.632;
+   // dsonar[i] = 0.136*sonar[i]+0.632; //CURVA SONAR
+   
+    dsonar[i] = 0.568*sonar[i]-1.69; //CURVA SONAR 2
     
-    print("Sonar ");
-    println(dsonar);
+    //print("Sonar ");
+    //println(dsonar[i]);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
-    int temp8 = H1 & 31;
+    int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
     //int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
-    int temp10 = H2 & 127;
-    lidar = temp9 | temp10;
-    //print("Lidar ");
-    //println(lidar);
+    int temp10 = H2V[i] & 127;
+    lidar[i] = temp9 | temp10;
+    
+    dlidar[i] = 158*exp(-0.00201*lidar[i]); //DATOS SHARP 
+    
+    print("Lidar ");
+    println(dlidar[i]);
 
     
-  //}
+  }
 }
 
-/*void serialEvent (Serial myPort) { // starts reading data from the Serial Port
-  // reads the data from the Serial Port up to the character '.' and puts it into the String variable "data".
-  data = myPort.readStringUntil('.');
-  data = data.substring(0,data.length()-1);
-
-  index1 = data.indexOf(","); // find the character ',' and puts it into the variable "index1"
-  angle= data.substring(0, index1); // read the data from position "0" to position of the variable index1 or thats the value of the angle the Arduino Board sent into the Serial Port
-  distance= data.substring(index1+1, data.length()); // read the data from position "index1" to the end of the data pr thats the value of the distance
-
-  // converts the String variables into Integer
-  iAngle = int(angle);
-  iDistance = int(distance);
-}*/
 
 
 void drawRadar() {
@@ -328,22 +371,26 @@ void drawObject() {
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
+  //stroke(255,255,255);
   //pixsDistance = dsonar*((height-height*0.1666)*0.025); // covers the distance from the sensor from cm to pixels
-  pixsDistance = map(dsonar, 25, 70, 0, width/2);
+  pixsDistance = map(dfsonar, 0, 70, 0, width/2);
  // print("pixsDistance = ");
  // println(pixsDistance);
   // limiting the range to 40 cms
-  if(dsonar<80){
+ // print("Sonar ");
+ // println(dfsonar);
+  if(dfsonar<80){
     // draws the object according to the angle and the distance
   line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
-  }
+  point(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)));  
+}
   popMatrix();
 }
 
 void drawText() { // draws the texts on the screen
 
   pushMatrix();
-  if(dsonar>80) {
+  if(dfsonar>80) {
   noObject = "Out of Range";
   }
   else {
