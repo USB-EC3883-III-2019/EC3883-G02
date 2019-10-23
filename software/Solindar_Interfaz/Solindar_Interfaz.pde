@@ -1,11 +1,11 @@
 import processing.serial.*; // imports library for serial communication
 //import java.awt.event.KeyEvent; // imports library for reading the data from the serial port
 //import java.io.IOException;
-import interfascia.*;
+//import interfascia.*;
 
-GUIController c;
-IFButton sn, ld, fs, fl, refresh;
-IFLabel l;
+//GUIController c;
+//IFButton sn, ld, fs, fl, refresh;
+//IFLabel l;
 
 // defubes variables
 String angle="";
@@ -36,7 +36,7 @@ int[] sonar = new int [muestras];
 int[] lidar = new int [muestras];
 int motor = 1;
 int p = 0;
-int f1=0, f2=0, f3=0, f4=0;
+boolean f1, f2, f3, f4;
 int i = 0; //<>//
 
 
@@ -73,22 +73,22 @@ void setup() {
  smooth();
  puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
   
-  c = new GUIController (this);
+  //c = new GUIController (this);
   
-  sn = new IFButton ("Sonar", 310, 580, 60, 17);
-  ld = new IFButton ("Lidar", 390, 580, 60, 17);
-  fs = new IFButton ("Fusión", 470, 580, 60, 17);
-  fl = new IFButton ("Filtro", 550, 580, 60, 17);
+  //sn = new IFButton ("Sonar", 310, 580, 60, 17);
+  //ld = new IFButton ("Lidar", 390, 580, 60, 17);
+  //fs = new IFButton ("Fusión", 470, 580, 60, 17);
+  //fl = new IFButton ("Filtro", 550, 580, 60, 17);
 
-  sn.addActionListener(this);
-  ld.addActionListener(this);
-  fs.addActionListener(this);
-  fl.addActionListener(this);
+  //sn.addActionListener(this);
+  //ld.addActionListener(this);
+  //fs.addActionListener(this);
+  //fl.addActionListener(this);
 
-  c.add (sn);
-  c.add (ld);
-  c.add (fs);
-  c.add (fl);
+  //c.add (sn);
+  //c.add (ld);
+  //c.add (fs);
+  //c.add (fl);
   
   puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
@@ -121,6 +121,44 @@ void draw() {
   //translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   //line(0,0,10,10);
   
+}
+
+
+void botnuevo(int x, int y, int ancho, int alto, String texto){//Funcion que crea botones rectangulares
+  stroke(0);                                                         // Recibe coordenadas de punto superior izquierdo, ancho y alto, y el texto que recibe
+  fill(230);
+  rect(x,y,ancho, alto);
+  fill(0);
+  textSize(15);
+  text(texto,x+10,y+20);
+}
+
+boolean boton (int xizq, int yizq, int ancho, int alto) { //Funcion que determina si se presiona sobre uno de los botones rectangulares
+  if ((mouseX>=xizq) && (mouseX<=xizq+ancho) && (mouseY>=yizq) && (mouseY<=yizq+alto))
+    {return true;
+  }
+  else {
+  return false;
+  }
+}
+
+void mousePressed (){//Funcion que define la accion a realizar si se presiona el mouse
+  if (boton(550, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton
+    if (!f3){ 
+      background(100, 200, 130);
+      f3 = true;
+      for (i=0;i<muestras; i++){
+      dfsonar = dfsonar + dsonar[i];
+      }
+      dfsonar = dfsonar / muestras;
+    }
+    else {
+      background(255, 255, 255);
+      f3 = false;
+      dfsonar = dsonar[0];
+    }
+    
+  }
 }
 
 void serialEvent (Serial puerto) {
@@ -199,59 +237,59 @@ void serialEvent (Serial puerto) {
 }
 
 //esta parte es para asigar que hara cada boton
-void actionPerformed (GUIEvent e){
-  if (e.getSource() == sn){
-    if(f1 == 0){
-      background(50, 155, 50);
-      f1 = 1;
-    }
-    else if(f1 == 1){
-      background(100, 155, 100);
-      f1 = 0;
-    }
-  } 
+//void actionPerformed (GUIEvent e){
+//  if (e.getSource() == sn){
+//    if(f1 == 0){
+//      background(50, 155, 50);
+//      f1 = 1;
+//    }
+//    else if(f1 == 1){
+//      background(100, 155, 100);
+//      f1 = 0;
+//    }
+//  } 
   
-  else if (e.getSource() == ld){
-    if(f2 == 0){
-      background(100, 100, 130);
-      f2 = 1;
-    }
-    else if(f2 == 1){
-      background(100, 155, 100);
-      f2 = 0;
-    }
+//  else if (e.getSource() == ld){
+//    if(f2 == 0){
+//      background(100, 100, 130);
+//      f2 = 1;
+//    }
+//    else if(f2 == 1){
+//      background(100, 155, 100);
+//      f2 = 0;
+//    }
     
-  }
+//  }
   
-  else if (e.getSource() == fs){
-    if(f3 == 0){
-      background(100, 200, 130);
-      f3 = 1;
-      for (i=0;i<muestras; i++){
-      dfsonar = dfsonar + dsonar[i];
-      }
-      dfsonar = dfsonar / muestras;
-    }
-    else if(f3 == 1){
-      background(255, 255, 255);
-      f3 = 0;
-      dfsonar = dsonar[0];
-    }
+//  else if (e.getSource() == fs){
+//    if(f3 == 0){
+//      background(100, 200, 130);
+//      f3 = 1;
+//      for (i=0;i<muestras; i++){
+//      dfsonar = dfsonar + dsonar[i];
+//      }
+//      dfsonar = dfsonar / muestras;
+//    }
+//    else if(f3 == 1){
+//      background(255, 255, 255);
+//      f3 = 0;
+//      dfsonar = dsonar[0];
+//    }
     
-  } 
+//  } 
   
-  else if (e.getSource() == fl){
-    if(f4 == 0){
-      background(100, 250, 100);
-      f4 = 1;
-    }
-    else if(f4 == 1){
-      background(100, 155, 100);
-      f4 = 0;
-    }
+//  else if (e.getSource() == fl){
+//    if(f4 == 0){
+//      background(100, 250, 100);
+//      f4 = 1;
+//    }
+//    else if(f4 == 1){
+//      background(100, 155, 100);
+//      f4 = 0;
+//    }
     
-  }
-}
+//  }
+//}
 
 
 void arreglar(){  // desenmascarar la trama
@@ -329,37 +367,14 @@ void drawRadar() {
   line((-width/2)*cos(radians(30)),0,width/2,0);
   popMatrix();
   stroke(10);
+  
+  botnuevo(550, 580, 60, 25, "Filtro"); //AQUI VA EL NUEVO BOTON, EL DE FILTRO
+  
+  
 }
 
 void drawLine() {
-
-  //iAngle = map(motor, 0, 63, 0, 240);
-  // if(motor == aux + 1 || motor == aux + 2 ){
-  //  //println("primera cond");
-  //  if(motor < 63){
-  //    aux = motor;
-  //    motor = motor + 1;
-  //    //println("segunda cond");
-  //  } 
-  //  else if (motor == 63){
-  //    aux = motor;
-  //   motor = motor - 2;
-  //   //println("tercera cond");
-  //  }
-  //}
-  //if(motor == aux - 2 || motor == aux - 1){
-  //  //println("cuarta cond");
-  //  if(motor > 0){
-  //    //println("quinta cond");
-  //    aux = motor;
-  //    motor = motor - 1;;
-  //  } 
-  //  else if (motor == 0){
-  //    aux = motor;
-  //    motor = motor + 2;
-  //    //println("sexta cond");
-  //  }
-  //}
+  
   pushMatrix();
   strokeWeight(6);
   stroke(30,250,60);
@@ -374,8 +389,8 @@ void drawObject() {
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
-  //pixsDistance = map(dfsonar, 0, 70, 0, width/2);
-  pixsDistance = map(dsonar[0], 0, 70, 0, width/2);
+  pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+  //pixsDistance = map(dsonar[0], 0, 70, 0, width/2);
   //print("pixsDistance = ");
   //println(pixsDistance);
   // limiting the range to 40 cms
@@ -383,8 +398,7 @@ void drawObject() {
   //println(dfsonar);
   if(dfsonar<80){
   // draws the object according to the angle and the distance
-  //line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(width-width*0.505)*cos(radians(iAngle) - radians(30)),-(width-width*0.505)*sin(radians(iAngle) - radians(30)));
-  line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
 }
   popMatrix();
 }
