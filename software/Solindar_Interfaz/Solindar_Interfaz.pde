@@ -18,6 +18,8 @@ int iDistance;
 int index1=0;
 int index2=0;
 PFont orcFont;
+float tempsonar=0;
+int k=0;
 
 //variables del puerto
 Serial puerto;
@@ -35,9 +37,9 @@ int[] sonar = new int [muestras];
 //int lidar;
 int[] lidar = new int [muestras];
 int motor = 1;
-int p = 0;
-boolean f1, f2, f3, f4;
-int i = 0; //<>//
+int p = 0; //<>//
+boolean f1, f2, f3, f4, ACTIVO;
+int i = 0;
 
 
 int[] cha1V = new int[muestras]; //vectores para los canales
@@ -114,6 +116,11 @@ void draw() {
 
   fill(98,245,31); // green color
   // calls the functions for drawing the radar
+  filtrar();
+  //print("Sonar ");
+  //println(dfsonar);
+  print("Lidar ");
+  println(dflidar);
   drawRadar();
   drawLine();
   drawObject();
@@ -142,22 +149,33 @@ boolean boton (int xizq, int yizq, int ancho, int alto) { //Funcion que determin
   }
 }
 
-void mousePressed (){//Funcion que define la accion a realizar si se presiona el mouse
-  if (boton(550, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton
+void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el flag f3 este activo
     if (!f3){ 
-      background(100, 200, 130);
-      f3 = true;
-      for (i=0;i<muestras; i++){
-      dfsonar = dfsonar + dsonar[i];
+      println("Filtro : ACTIVO " + k);
+      if(k<muestras){
+      tempsonar += dlidar[k];
+      k++;
+
+    }else{
+      dflidar = tempsonar / muestras;
+      k=0;
+      tempsonar=0;
       }
-      dfsonar = dfsonar / muestras;
     }
     else {
-      background(255, 255, 255);
-      f3 = false;
-      dfsonar = dsonar[0];
+      println("Filtro : NO ACTIVO");
+      dflidar = dlidar[0];
     }
-    
+  }
+  
+
+  void mousePressed (){// Este evento se dispara si se presiona el mouse
+  if (boton(550, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+    if (!f3){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
+      f3 = true;                  
+    }else {
+      f3 = false;                
+    }  
   }
 }
 
@@ -316,8 +334,8 @@ void arreglar(){  // desenmascarar la trama
    
     dsonar[i] = 0.568*sonar[i]-1.69; //CURVA SONAR 2
     
-    print("Sonar ");
-    println(dsonar[i]);
+//    print("Sonar ");
+//    println(dsonar[i]);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
@@ -389,14 +407,15 @@ void drawObject() {
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
-  pixsDistance = map(dfsonar, 0, 70, 0, width/2);
-  //pixsDistance = map(dsonar[0], 0, 70, 0, width/2);
+  pixsDistance = map(dflidar, 0, 70, 0, width/2);
+  
   //print("pixsDistance = ");
   //println(pixsDistance);
   // limiting the range to 40 cms
   //print("Sonar ");
   //println(dfsonar);
-  if(dfsonar<80){
+  
+  if(dflidar<80){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
 }
