@@ -6,7 +6,7 @@
 **     Component   : TimerInt
 **     Version     : Component 02.161, Driver 01.23, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-21, 14:15, # CodeGen: 81
+**     Date/Time   : 2019-10-22, 18:46, # CodeGen: 90
 **     Abstract    :
 **         This component "TimerInt" implements a periodic interrupt.
 **         When the component and its events are enabled, the "OnInterrupt"
@@ -20,14 +20,14 @@
 **         Counter shared              : Yes
 **
 **         High speed mode
-**             Prescaler               : divide-by-8
-**             Clock                   : 933888 Hz
+**             Prescaler               : divide-by-32
+**             Clock                   : 233472 Hz
 **           Initial period/frequency
-**             Xtal ticks              : 8
-**             microseconds            : 249
-**             seconds (real)          : 0.000249494586
-**             Hz                      : 4008
-**             kHz                     : 4
+**             Xtal ticks              : 8192
+**             microseconds            : 250000
+**             milliseconds            : 250
+**             seconds (real)          : 0.25
+**             Hz                      : 4
 **
 **         Runtime setting             : none
 **
@@ -145,11 +145,11 @@ void TI2_Init(void)
   setReg16(TPM1MOD, 0x00U);            /* Clear modulo register: e.g. set free-running mode */ 
   /* TPM1C0SC: CH0F=0,CH0IE=1,MS0B=0,MS0A=1,ELS0B=0,ELS0A=0,??=0,??=0 */
   setReg8(TPM1C0SC, 0x50U);            /* Set output compare mode and enable compare interrupt */ 
-  TI2_SetCV(0xE9U);                    /* Initialize appropriate value to the compare/modulo/reload register */
+  TI2_SetCV(0xE400U);                  /* Initialize appropriate value to the compare/modulo/reload register */
   /* TPM1CNTH: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0 */
   setReg8(TPM1CNTH, 0x00U);            /* Reset HW Counter */ 
-  /* TPM1SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=0,PS1=1,PS0=1 */
-  setReg8(TPM1SC, 0x0BU);              /* Set prescaler */ 
+  /* TPM1SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=0,PS0=1 */
+  setReg8(TPM1SC, 0x0DU);              /* Set prescaler */ 
 }
 
 

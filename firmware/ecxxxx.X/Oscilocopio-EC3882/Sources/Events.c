@@ -55,8 +55,7 @@ extern unsigned int  time;
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
- p=p*(-1);
- h=1;
+ p=1;
 }
 
 /*
@@ -169,6 +168,7 @@ void AD1_OnEnd(void)
 void TI2_OnInterrupt(void)
 {
   /* Write your code here ... */
+	 h=1;
 
 }
 
