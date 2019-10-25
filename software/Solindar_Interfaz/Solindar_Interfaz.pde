@@ -14,7 +14,7 @@ String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
 
 
-int muestras = 2;//para guardar muestreo
+int muestras = 10;//para guardar muestreo
 
 int posicion;
 int[] sonar = new int [muestras];
@@ -117,7 +117,7 @@ boolean boton (int xizq, int yizq, int ancho, int alto) { //Funcion que determin
 void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el flag f4 este activo
     
     if (f4){ 
-     println("Filtro : ACTIVO " + k);
+     //println("Filtro : ACTIVO " + k);
      if(f1){
       if(k<muestras){
         tempgraf += dsonar[k];  
@@ -144,7 +144,7 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
      }
     }
     else {
-      println("Filtro : NO ACTIVO");
+      //println("Filtro : NO ACTIVO");
       if(f1){
         dfsonar = dsonar[0];
       }
@@ -268,8 +268,8 @@ void arreglar(){  // desenmascarar la trama
     //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
     int temp1 = U1V[i] & 126;
     posicion = temp1 >> 1;
-    //print("Posicion ");
-    //println(posicion);
+    print("Posicion ");
+    println(posicion);
     iAngle = map(posicion, 0, 63, 0, 220);
     int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
     int temp3 = temp2 << 9;    
