@@ -168,7 +168,7 @@ void AD1_OnEnd(void)
 void TI2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	 h=1;
+//	 h=1;
 
 }
 

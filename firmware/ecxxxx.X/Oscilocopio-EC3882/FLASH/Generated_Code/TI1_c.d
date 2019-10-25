@@ -1,5 +1,4 @@
 
-
 Generated_Code/TI1_c.obj: \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/Oscilocopio-EC3882/Project_Headers/../Generated_Code/TI1.c \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/Oscilocopio-EC3882/Sources/Events.h \

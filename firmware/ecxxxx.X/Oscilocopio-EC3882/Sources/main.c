@@ -141,7 +141,7 @@ void main(void)
    for(;;) {
    
 	  if(p){ 
-		   if(h)
+		   if(h>9)
 		   {
 		   h=0;
 		   if(posicion>=63)
@@ -177,6 +177,8 @@ void main(void)
 	   t2=time/58;
 	   mask1(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
+   	   h++;
+	  
 	  }
 	  
 
