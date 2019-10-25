@@ -18,7 +18,7 @@ int iDistance;
 int index1=0;
 int index2=0;
 PFont orcFont;
-float tempsonar=0;
+float tempgraf=0;
 int k=0;
 
 //variables del puerto
@@ -56,10 +56,14 @@ int[] H2V = new int[muestras];
 float[] y = new float[muestras];
 int time=1;
 
+float dfgraf = 0;
+float[] dgraf = new float[muestras];
 float dfsonar = 0; //variable para la distancia del sonar
 float[] dsonar = new float[muestras];
 float dflidar = 0;
 float[] dlidar = new float[muestras];
+float dffus = 0;
+float[] dfus = new float[muestras];
 
 int principal=0; //variable de conteo
 
@@ -74,23 +78,6 @@ void setup() {
  size (930, 700); // ***CHANGE THIS TO YOUR SCREEN RESOLUTION***
  smooth();
  puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
-  
-  //c = new GUIController (this);
-  
-  //sn = new IFButton ("Sonar", 310, 580, 60, 17);
-  //ld = new IFButton ("Lidar", 390, 580, 60, 17);
-  //fs = new IFButton ("Fusión", 470, 580, 60, 17);
-  //fl = new IFButton ("Filtro", 550, 580, 60, 17);
-
-  //sn.addActionListener(this);
-  //ld.addActionListener(this);
-  //fs.addActionListener(this);
-  //fl.addActionListener(this);
-
-  //c.add (sn);
-  //c.add (ld);
-  //c.add (fs);
-  //c.add (fl);
   
   puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
@@ -116,17 +103,28 @@ void draw() {
 
   fill(98,245,31); // green color
   // calls the functions for drawing the radar
-  filtrar();
+  
   //print("Sonar ");
   //println(dfsonar);
-  print("Lidar ");
-  println(dflidar);
+  //print("Lidar ");
+  //println(dflidar);
   drawRadar();
   drawLine();
-  drawObject();
   drawText();
-  //translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  //line(0,0,10,10);
+  
+  if(f1){
+    filtrar(dfsonar, dsonar);
+    drawSonar();
+  }
+  else if(f2){
+    filtrar(dflidar, dlidar);
+    drawLidar();
+  }
+  
+  
+  //drawObject();
+  
+
   
 }
 
@@ -149,32 +147,57 @@ boolean boton (int xizq, int yizq, int ancho, int alto) { //Funcion que determin
   }
 }
 
-void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el flag f3 este activo
-    if (!f3){ 
-      println("Filtro : ACTIVO " + k);
+void filtrar(float dfgraf, float[] dgraf){ // esta funcion se debe llamar siempre y solo filtrara cuando el flag f4 este activo
+    
+    if (f4){ 
+      //println("Filtro : ACTIVO " + k);
       if(k<muestras){
-      tempsonar += dlidar[k];
+      tempgraf += dgraf[k];
       k++;
 
     }else{
-      dflidar = tempsonar / muestras;
+      dfgraf = tempgraf / muestras;
       k=0;
-      tempsonar=0;
+      tempgraf=0;
       }
     }
     else {
-      println("Filtro : NO ACTIVO");
-      dflidar = dlidar[0];
+      //println("Filtro : NO ACTIVO");
+      dfgraf = dgraf[0];
     }
   }
   
 
   void mousePressed (){// Este evento se dispara si se presiona el mouse
-  if (boton(550, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+  if (boton(310, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+    if (!f1){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
+      f1 = true;                  
+    }else {
+      f1 = false;                
+    }  
+  }
+  
+  if (boton(390, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+    if (!f2){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
+      f2 = true;                  
+    }else {
+      f2 = false;                
+    }  
+  }
+  
+  if (boton(470, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
     if (!f3){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
       f3 = true;                  
     }else {
       f3 = false;                
+    }  
+  }
+  
+  if (boton(550, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+    if (!f4){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
+      f4 = true;                  
+    }else {
+      f4 = false;                
     }  
   }
 }
@@ -185,8 +208,6 @@ void serialEvent (Serial puerto) {
   inBuffer = puerto.readChar();
   
   if(i<muestras){
-    
-    
     
   if(p==0 && ((inBuffer & 128) == 0)){
     U1V[i] = inBuffer;
@@ -334,8 +355,8 @@ void arreglar(){  // desenmascarar la trama
    
     dsonar[i] = 0.568*sonar[i]-1.69; //CURVA SONAR 2
     
-//    print("Sonar ");
-//    println(dsonar[i]);
+    //print("Sonar ");
+    //println(dsonar[i]);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
@@ -386,8 +407,11 @@ void drawRadar() {
   popMatrix();
   stroke(10);
   
-  botnuevo(550, 580, 60, 25, "Filtro"); //AQUI VA EL NUEVO BOTON, EL DE FILTRO
   
+  botnuevo(310, 580, 60, 25, "Sonar");
+  botnuevo(390, 580, 60, 25, "Lidar");
+  botnuevo(470, 580, 60, 25, "Fusión");
+  botnuevo(550, 580, 60, 25, "Filtro"); //AQUI VA EL NUEVO BOTON, EL DE FILTRO
   
 }
 
@@ -402,20 +426,54 @@ void drawLine() {
  
 }
 
-void drawObject() {
+//void drawObject() {
+//  pushMatrix();
+//  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+//  strokeWeight(6);
+//  stroke(255,10,10); // red color
+//  pixsDistance = map(dflidar, 0, 70, 0, width/2);
+  
+//  //print("pixsDistance = ");
+//  //println(pixsDistance);
+//  // limiting the range to 40 cms
+//  //print("Sonar ");
+//  //println(dfsonar);
+  
+//  if(dflidar<80){
+//  // draws the object according to the angle and the distance
+//    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+//}
+//  popMatrix();
+//}
+
+void drawLidar(){
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
   pixsDistance = map(dflidar, 0, 70, 0, width/2);
-  
-  //print("pixsDistance = ");
-  //println(pixsDistance);
-  // limiting the range to 40 cms
+
   //print("Sonar ");
   //println(dfsonar);
   
   if(dflidar<80){
+  // draws the object according to the angle and the distance
+    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+}
+  popMatrix();
+}
+
+void drawSonar(){
+  pushMatrix();
+  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+  strokeWeight(6);
+  stroke(255,10,10); // red color
+  pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+  
+  print("Sonar ");
+  println(dfsonar);
+  
+  if(dfsonar<80){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
 }
