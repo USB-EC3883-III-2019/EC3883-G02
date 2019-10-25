@@ -6,7 +6,7 @@
 **     Component   : TimerInt
 **     Version     : Component 02.161, Driver 01.23, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-22, 18:46, # CodeGen: 90
+**     Date/Time   : 2019-10-25, 16:45, # CodeGen: 94
 **     Abstract    :
 **         This component "TimerInt" implements a periodic interrupt.
 **         When the component and its events are enabled, the "OnInterrupt"
@@ -20,14 +20,14 @@
 **         Counter shared              : Yes
 **
 **         High speed mode
-**             Prescaler               : divide-by-32
-**             Clock                   : 233472 Hz
+**             Prescaler               : divide-by-64
+**             Clock                   : 116736 Hz
 **           Initial period/frequency
-**             Xtal ticks              : 8192
-**             microseconds            : 250000
-**             milliseconds            : 250
-**             seconds (real)          : 0.25
-**             Hz                      : 4
+**             Xtal ticks              : 16384
+**             microseconds            : 500000
+**             milliseconds            : 500
+**             seconds (real)          : 0.5
+**             Hz                      : 2
 **
 **         Runtime setting             : none
 **
@@ -148,8 +148,8 @@ void TI2_Init(void)
   TI2_SetCV(0xE400U);                  /* Initialize appropriate value to the compare/modulo/reload register */
   /* TPM1CNTH: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0 */
   setReg8(TPM1CNTH, 0x00U);            /* Reset HW Counter */ 
-  /* TPM1SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=0,PS0=1 */
-  setReg8(TPM1SC, 0x0DU);              /* Set prescaler */ 
+  /* TPM1SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=1,PS0=0 */
+  setReg8(TPM1SC, 0x0EU);              /* Set prescaler */ 
 }
 
 
