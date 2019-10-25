@@ -845,12 +845,7 @@ asm(BGND);
           <A_D_channel__pin_ v="PTA1_KBI1P1_TPM2CH0_ADP1_ACMP1MINUS" />
         </group>
       </list>
-      <A_D_resolution sel_value="12 bits">
-        
-Autoselect
-
-        <EmptySection_DummyValue />
-      </A_D_resolution>
+      <A_D_resolution v="12 bits" />
       <Conversion_time v="3.078528 &amp;#181;s" />
       <Low_power_mode v="Disabled" />
       <Sample_time v="short" />
@@ -1019,7 +1014,7 @@ Autoselect
         <Interrupt v="Vrtc" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="500 ms" />
+      <Interrupt_period v="1000 ms" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1174,7 +1169,7 @@ push-pull
         <Interrupt v="Vtpm1ch0" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="250 &amp;#181;s" />
+      <Interrupt_period v="100 ms" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1313,8 +1308,8 @@ autoselected pull
       <Output_pin v="PTA7_TPM2CH2_ADP9" />
       <Counter v="TPM2" />
       <boolgroup name="Interrupt service/event" v="Disabled" />
-      <Period v="4500 &amp;#181;s" />
-      <Starting_pulse_width v="10 &amp;#181;s" />
+      <Period v="30000 &amp;#181;s" />
+      <Starting_pulse_width v="29950 &amp;#181;s" />
       <Aligned v="Edge" />
       <Initial_polarity v="low" />
       <Same_period_in_modes v="no" />
@@ -1366,14 +1361,13 @@ autoselected pull
 
         <EmptySection_DummyValue />
       </Pull_resistor>
-      <Edge sel_value="rising edge">
-        
-rising or falling edge
-
-        <EmptySection_DummyValue />
-      </Edge>
-      <boolgroup name="Interrupt service/event" v="Disabled" />
-      <Maximum_time_of_event v="8.771929 ms" />
+      <Edge v="both edges" />
+      <boolgroup name="Interrupt service/event" v="Enabled">
+        <Capture_interrupt v="Vtpm1ch1" />
+        <Capture_priority v="medium priority" />
+        <boolgroup name="Overflow support" v="Disabled" />
+      </boolgroup>
+      <Maximum_time_of_event v="50 ms" />
       <group name="Initialization">
         <Enabled_in_init__code v="yes" />
         <Events_enabled_in_init_ v="yes" />
@@ -1392,13 +1386,16 @@ rising or falling edge
       <Reset v="generate code" />
       <GetCaptureValue v="generate code" />
       <GetStatus v="don&amp;apos;t generate code" />
-      <GetPinValue v="don&amp;apos;t generate code" />
+      <GetPinValue v="generate code" />
     </Methods>
     <Events>
       <Event_module_name v="Events" />
       <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
       <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="OnCapture" v="don&amp;apos;t generate code" />
+      <event name="OnCapture" v="generate code">
+        <Event_procedure_name v="Cap1_OnCapture" />
+        <Priority v="same as interrupt" />
+      </event>
       <event name="OnOverflow" v="don&amp;apos;t generate code" />
     </Events>
   </Bean>

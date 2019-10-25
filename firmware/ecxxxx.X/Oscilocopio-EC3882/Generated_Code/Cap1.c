@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-23, 08:48, # CodeGen: 93
+**     Date/Time   : 2019-10-25, 16:45, # CodeGen: 94
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -21,15 +21,16 @@
 **             Counter shared          : Yes
 **
 **         High speed mode
-**             Prescaler               : divide-by-32
+**             Prescaler               : divide-by-64
 **           Maximal time for capture register
-**             Xtal ticks              : 9198
-**             microseconds            : 280702
-**             milliseconds            : 281
-**             seconds (real)          : 0.280701754386
-**             Hz                      : 4
+**             Xtal ticks              : 18396
+**             microseconds            : 561404
+**             milliseconds            : 561
+**             seconds                 : 1
+**             seconds (real)          : 0.561403508772
+**             Hz                      : 2
 **           One tick of timer is
-**             microseconds            : 4.283169
+**             microseconds            : 8.566338
 **
 **         Initialization:
 **              Timer                  : Enabled
@@ -144,7 +145,7 @@ byte Cap1_Reset(word *Value)
 **     Description :
 **         This method gets the last value captured by enabled timer.
 **         Note: one tick of timer is
-**               4.283169 us in high speed mode
+**               8.566338 us in high speed mode
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **       * Value           - A pointer to the content of the

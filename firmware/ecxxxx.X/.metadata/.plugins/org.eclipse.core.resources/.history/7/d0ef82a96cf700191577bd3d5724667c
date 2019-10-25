@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <GenerationInfo_G_C>
   <Options>
     <ProjectName>Oscilocopio-EC3882</ProjectName>
@@ -91,7 +92,7 @@
     </GenFiles>
     <SignalListFile>Documentation\Oscilocopio-EC3882_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>100</ProjectModificationStamp>
+    <ProjectModificationStamp>126</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -601,8 +602,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1330940747</HeaderAge>
-    <CodeAge>1330940747</CodeAge>
+    <HeaderAge>1331119564</HeaderAge>
+    <CodeAge>1331119564</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>
@@ -637,36 +638,36 @@
       <MethodPos0>Enable</MethodPos0>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>109</LineBeg>
-      <LineEnd>109</LineEnd>
+      <LineBeg>110</LineBeg>
+      <LineEnd>110</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos1>Interrupt</MethodPos1>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>110</LineBeg>
-      <LineEnd>123</LineEnd>
+      <LineBeg>111</LineBeg>
+      <LineEnd>124</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos2>Init</MethodPos2>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>124</LineBeg>
-      <LineEnd>136</LineEnd>
+      <LineBeg>125</LineBeg>
+      <LineEnd>137</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos3>Init</MethodPos3>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>112</LineBeg>
-      <LineEnd>132</LineEnd>
+      <LineBeg>113</LineBeg>
+      <LineEnd>133</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos4>Interrupt</MethodPos4>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>133</LineBeg>
-      <LineEnd>153</LineEnd>
+      <LineBeg>134</LineBeg>
+      <LineEnd>154</LineEnd>
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
   </ComponentID_10>
@@ -852,8 +853,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1330918138</HeaderAge>
-    <CodeAge>1330918138</CodeAge>
+    <HeaderAge>1331267004</HeaderAge>
+    <CodeAge>1331267005</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>
@@ -1184,8 +1185,8 @@
     <GenComponentVersion>02.240</GenComponentVersion>
     <GenDriverVersion>01.28</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1330920445</HeaderAge>
-    <CodeAge>1330920445</CodeAge>
+    <HeaderAge>1330999766</HeaderAge>
+    <CodeAge>1330999766</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>15</GenNumMethods>
     <Enable>true</Enable>
@@ -1309,8 +1310,8 @@
     <GenComponentVersion>02.223</GenComponentVersion>
     <GenDriverVersion>01.30</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1330918138</HeaderAge>
-    <CodeAge>1330918138</CodeAge>
+    <HeaderAge>1331267005</HeaderAge>
+    <CodeAge>1331267004</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>8</GenNumMethods>
     <Enable>false</Enable>
@@ -1342,71 +1343,71 @@
       <MethodPos0>Reset</MethodPos0>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>142</LineBeg>
-      <LineEnd>158</LineEnd>
+      <LineBeg>143</LineBeg>
+      <LineEnd>159</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos1>GetCaptureValue</MethodPos1>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>159</LineBeg>
-      <LineEnd>183</LineEnd>
+      <LineBeg>160</LineBeg>
+      <LineEnd>184</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos2>GetPinValue</MethodPos2>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>184</LineBeg>
-      <LineEnd>199</LineEnd>
+      <LineBeg>185</LineBeg>
+      <LineEnd>200</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos3>Init</MethodPos3>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>200</LineBeg>
-      <LineEnd>212</LineEnd>
+      <LineBeg>201</LineBeg>
+      <LineEnd>213</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos4>Interrupt</MethodPos4>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>213</LineBeg>
-      <LineEnd>226</LineEnd>
+      <LineBeg>214</LineBeg>
+      <LineEnd>227</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos5>Reset</MethodPos5>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>120</LineBeg>
-      <LineEnd>139</LineEnd>
+      <LineBeg>121</LineBeg>
+      <LineEnd>140</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos6>GetCaptureValue</MethodPos6>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>140</LineBeg>
-      <LineEnd>163</LineEnd>
+      <LineBeg>141</LineBeg>
+      <LineEnd>164</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos7>GetPinValue</MethodPos7>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>164</LineBeg>
-      <LineEnd>183</LineEnd>
+      <LineBeg>165</LineBeg>
+      <LineEnd>184</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos8>Init</MethodPos8>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>184</LineBeg>
-      <LineEnd>203</LineEnd>
+      <LineBeg>185</LineBeg>
+      <LineEnd>204</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos9>Interrupt</MethodPos9>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>204</LineBeg>
-      <LineEnd>225</LineEnd>
+      <LineBeg>205</LineBeg>
+      <LineEnd>226</LineEnd>
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
   </ComponentID_55>
@@ -1609,3 +1610,4 @@
     <SrcFile195>Drivers\Common\UsedExtPin.inc=1116866294</SrcFile195>
   </UsedSrcFiles>
 </GenerationInfo_G_C>
+

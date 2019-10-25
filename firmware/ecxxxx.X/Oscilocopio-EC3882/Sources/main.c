@@ -96,50 +96,30 @@ void mask1(char maskblock[4],unsigned int sonar2,char lidar[],char posicion) // 
 		 * Se enviara una trama teniendo en cuenta la cabezera de la trama 
 		 * los la trama de prueba sera 00000001 10000011 10000111 10001111
 		 */
+		
 		unsigned int ptr2;
 		char temp2[2];
 			
 		posicion=posicion & 0b00111111;
-
 		temp2[0]=sonar2;
-
 		temp2[1]=(temp2[1]>>5) | (temp2[0]<< 3);
 		temp2[0]=(temp2[0] & 0b01111111) >> 5;
-/*		
-	   AS1_SendBlock(temp2,2,&ptr2); // Devolvemos el valor de maskblock (la trama)
-		
-		temp2[0]=0b00000011;
-		temp2[1]=0b11100111;
-		// sonar = 999
-		
-		lidar[0]=0b00001010;
-		lidar[1]=0b11001100;
-		// lidar = 2764
-*/	
 		maskblock[0]= (posicion<<1) ;//& 0b01111110; 		// posicion garantizando la cabecera 00	
 		maskblock[0]= maskblock[0] | ((temp2[0] & 0b00000011) >> 1);
 		maskblock[1]= (temp2[0] & 0b00000001) << 6;					// desplaza el bit hasta la posicion en la que inicia
 		maskblock[1]= maskblock[1] | (temp2[1] >> 2);	// 
 		maskblock[1]= maskblock[1] | 0b10000000;		
-		maskblock[2]= (temp2[1] & 0b00000011) << 5 ;
-
-		
+		maskblock[2]= (temp2[1] & 0b00000011) << 5 ;		
 		lidar[0]	= lidar[0] & 0b00001111;
 		maskblock[2]= maskblock[2] | (lidar[0]<< 1);
-	
 		maskblock[2]= maskblock[2] | (lidar[1] >> 7);
-	
 		maskblock[2]= maskblock[2] | 0b10000000;
-	
 		maskblock[3]= lidar[1] & 0b01111111;
-		
 		maskblock[3]= maskblock[3] | 0b10000000;
-
 }		
 		
 void mover(char posicion)
 {		
-//	char secuencia[8]={0b00110101,0b00110001,0b00111001,0b00111000,0b00111010,0b00110010,0b00110110,0b00110100};
 	char secuencia[8]={0b00110100,0b00110110,0b00110010,0b00111010,0b00111000,0b00111001,0b00110001,0b00110101};
 	Byte1_PutVal(secuencia[posicion]);
 }
@@ -190,8 +170,10 @@ void main(void)
 		  
 	   Bit4_NegVal();  // PTD4 PIN 30, utilizado pra grafica una onda cuadrada de 1kHz que representa la frecuencia de muestreo
 	   p=0; // Cada vez que se activa la interrupción el valor de p cambia a 1, esta parte es para devolverlo a 0
+	   
 	   AD1_MeasureChan(TRUE,1); // Lee el lidar conectado al canal 1
 	   AD1_GetChanValue(1, &lidar); // se asigna el valor leido a la variable lidar
+	   
 	   t2=time/58;
 	   mask1(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
