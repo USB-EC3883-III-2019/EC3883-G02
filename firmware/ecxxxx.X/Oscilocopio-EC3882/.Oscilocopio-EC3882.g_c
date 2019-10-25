@@ -91,7 +91,7 @@
     </GenFiles>
     <SignalListFile>Documentation\Oscilocopio-EC3882_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>123</ProjectModificationStamp>
+    <ProjectModificationStamp>125</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -601,8 +601,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1331074513</HeaderAge>
-    <CodeAge>1331074513</CodeAge>
+    <HeaderAge>1331119564</HeaderAge>
+    <CodeAge>1331119564</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>
@@ -637,36 +637,36 @@
       <MethodPos0>Enable</MethodPos0>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>109</LineBeg>
-      <LineEnd>109</LineEnd>
+      <LineBeg>110</LineBeg>
+      <LineEnd>110</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos1>Interrupt</MethodPos1>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>110</LineBeg>
-      <LineEnd>123</LineEnd>
+      <LineBeg>111</LineBeg>
+      <LineEnd>124</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos2>Init</MethodPos2>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>124</LineBeg>
-      <LineEnd>136</LineEnd>
+      <LineBeg>125</LineBeg>
+      <LineEnd>137</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos3>Init</MethodPos3>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>112</LineBeg>
-      <LineEnd>132</LineEnd>
+      <LineBeg>113</LineBeg>
+      <LineEnd>133</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos4>Interrupt</MethodPos4>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>133</LineBeg>
-      <LineEnd>153</LineEnd>
+      <LineBeg>134</LineBeg>
+      <LineEnd>154</LineEnd>
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
   </ComponentID_10>
@@ -852,8 +852,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1331074513</HeaderAge>
-    <CodeAge>1331074513</CodeAge>
+    <HeaderAge>1331119627</HeaderAge>
+    <CodeAge>1331119627</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>
@@ -1309,8 +1309,8 @@
     <GenComponentVersion>02.223</GenComponentVersion>
     <GenDriverVersion>01.30</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1331074513</HeaderAge>
-    <CodeAge>1331074513</CodeAge>
+    <HeaderAge>1331119627</HeaderAge>
+    <CodeAge>1331119627</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>8</GenNumMethods>
     <Enable>false</Enable>
