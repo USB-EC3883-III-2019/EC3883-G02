@@ -1,51 +1,30 @@
 import processing.serial.*; // imports library for serial communication
-//import java.awt.event.KeyEvent; // imports library for reading the data from the serial port
-//import java.io.IOException;
-//import interfascia.*;
 
-//GUIController c;
-//IFButton sn, ld, fs, fl, refresh;
-//IFLabel l;
 
-// defubes variables
-String angle="";
-String distance="";
-String data="";
 String noObject;
 float pixsDistance;
 float iAngle = 1;
-int iDistance;
-int index1=0;
-int index2=0;
 PFont orcFont;
-float tempsonar=0;
+float tempgraf=0;
+float tempgraf2=0;
 int k=0;
 
 //variables del puerto
 Serial puerto;
-String portName = Serial.list()[0];  //para determinar en que puerto estamos
+//descomentar
+//String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
-//float i=0; // solo una variable para ir imprimiendo y saber por que numero de lecutra va
-//int iAngle2 = 0; //valor pasado
 
 
-int muestras = 2;//para guardar muestreo
+int muestras = 10;//para guardar muestreo
 
 int posicion;
-//int sonar;
 int[] sonar = new int [muestras];
-//int lidar;
 int[] lidar = new int [muestras];
-int motor = 1;
 int p = 0; //<>//
 boolean f1, f2, f3, f4, ACTIVO;
 int i = 0;
 
-
-int[] cha1V = new int[muestras]; //vectores para los canales
-int[] cha2V = new int[muestras];
-int[] chd1V = new int[muestras];
-int[] chd2V = new int[muestras];
 
 int[] U1V = new int[muestras];
 int[] U2V = new int[muestras];
@@ -60,6 +39,10 @@ float dfsonar = 0; //variable para la distancia del sonar
 float[] dsonar = new float[muestras];
 float dflidar = 0;
 float[] dlidar = new float[muestras];
+float dffus = 0;
+float[] dfus = new float[muestras];
+float maxsonar, minsonar;
+float maxlidar, minlidar;
 
 int principal=0; //variable de conteo
 
@@ -73,26 +56,10 @@ void setup() {
 
  size (930, 700); // ***CHANGE THIS TO YOUR SCREEN RESOLUTION***
  smooth();
- puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
+ //descomentar
+ //puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
   
-  //c = new GUIController (this);
-  
-  //sn = new IFButton ("Sonar", 310, 580, 60, 17);
-  //ld = new IFButton ("Lidar", 390, 580, 60, 17);
-  //fs = new IFButton ("Fusión", 470, 580, 60, 17);
-  //fl = new IFButton ("Filtro", 550, 580, 60, 17);
-
-  //sn.addActionListener(this);
-  //ld.addActionListener(this);
-  //fs.addActionListener(this);
-  //fl.addActionListener(this);
-
-  //c.add (sn);
-  //c.add (ld);
-  //c.add (fs);
-  //c.add (fl);
-  
-  puerto.buffer(1);  
+  //puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
   {
       U1V[pk]=0;
@@ -108,7 +75,7 @@ void draw() {
 
   fill(98,245,31);
   // simulating motion blur and slow fade of the moving line
-  //noStroke();
+  noStroke();
   //fill(20,50);
   fill(20,15);
   
@@ -116,17 +83,32 @@ void draw() {
 
   fill(98,245,31); // green color
   // calls the functions for drawing the radar
-  filtrar();
-  //print("Sonar ");
-  //println(dfsonar);
-  print("Lidar ");
-  println(dflidar);
+  
   drawRadar();
   drawLine();
-  drawObject();
   drawText();
-  //translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  //line(0,0,10,10);
+  
+  if(f1){
+    textSize(15);
+    fill(98,245,60);
+    text("ON",327,625);
+    filtrar();
+    drawSonar();
+  }
+  else if(f2){
+    textSize(15);
+    fill(98,245,60);
+    text("ON",407,625);
+    filtrar();
+    drawLidar();
+  }
+  else if(f3){
+    textSize(15);
+    fill(98,245,60);
+    text("ON",487,625);
+    filtrar();
+    drawFusion();
+  }
   
 }
 
@@ -149,184 +131,188 @@ boolean boton (int xizq, int yizq, int ancho, int alto) { //Funcion que determin
   }
 }
 
-void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el flag f3 este activo
-    if (!f3){ 
-      println("Filtro : ACTIVO " + k);
+void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el flag f4 este activo
+    
+    if (f4){ 
+     textSize(15);
+     fill(98,245,60);
+     text("ON",567,625);
+     //println("Filtro : ACTIVO " + k);
+     if(f1){
       if(k<muestras){
-      tempsonar += dlidar[k];
-      k++;
-
-    }else{
-      dflidar = tempsonar / muestras;
-      k=0;
-      tempsonar=0;
+        tempgraf += dsonar[k];  
+        k++;
       }
+      else{
+        dfsonar = tempgraf / muestras;
+        //println(dfsonar);        
+        k=0;
+        tempgraf=0;
+      }
+     }
+     else if(f2){
+       if(k<muestras){
+        tempgraf += dlidar[k];  
+        k++;
+      }
+      else{
+        dflidar = tempgraf / muestras;
+        //println(dfgraf);        
+        k=0;
+        tempgraf=0;
+      }
+     }
+     else if(f3){ //cuando la fusion esta activa, se sacan ambos promedios
+      if(k<muestras){
+        tempgraf += dsonar[k];  
+        tempgraf2 += dlidar[k]; 
+        k++;
+      }
+      else{
+        dfsonar = tempgraf / muestras;
+        dflidar = tempgraf2 / muestras;      
+        k=0;
+        tempgraf=0;
+        tempgraf2=0;
+      }
+     }
     }
     else {
-      println("Filtro : NO ACTIVO");
-      dflidar = dlidar[0];
+      //println("Filtro : NO ACTIVO");
+      if(f1){
+        dfsonar = dsonar[0];
+      }
+      else if(f2){
+        dflidar = dlidar[0];
+      }
+      
     }
   }
   
 
   void mousePressed (){// Este evento se dispara si se presiona el mouse
-  if (boton(550, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+  
+  if (boton(310, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+    if (!f1){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
+      f1 = true; 
+    }else {
+      f1 = false;    
+    }  
+  }
+  
+  if (boton(390, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+    if (!f2){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
+      f2 = true;                  
+    }else {
+      f2 = false;                
+    }  
+  }
+  
+  if (boton(470, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
     if (!f3){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
       f3 = true;                  
     }else {
       f3 = false;                
     }  
   }
+  
+  if (boton(550, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
+    if (!f4){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
+      f4 = true;                  
+    }else {
+      f4 = false;                
+    }  
+  }
 }
 
-void serialEvent (Serial puerto) {
+//descomentar
+//void serialEvent (Serial puerto) {
 
-  char inBuffer;
-  inBuffer = puerto.readChar();
+//  char inBuffer;
+//  inBuffer = puerto.readChar();
   
-  if(i<muestras){
+//  if(i<muestras){
     
-    
-    
-  if(p==0 && ((inBuffer & 128) == 0)){
-    U1V[i] = inBuffer;
-    p++;
-    //print("U1 = ");
-    //println(binary(U1V[i]));
-  }
-  
-  else if(p==1){
-    U2V[i] = inBuffer;
-    p++;
-    //print("U2 = ");
-    //println(binary(U2V[i]));
-  }
-  
-  else if(p==2){
-    H1V[i] = inBuffer;
-    p++;
-    //print("H1 = ");
-    //println(binary(H1V[i]));
-  }
-  
-  else if(p==3){
-    H2V[i] = inBuffer;
-    p=0;
-    //print("H2 = ");
-    //println(binary(H2V[i]));
-    i++;
-  }
-  
-  }
-  else{
-    i=0;
-    if(p==0 && ((inBuffer & 128) == 0)){
-    U1V[i] = inBuffer;
-    p++;
-    //print("U1 = ");
-    //println(binary(U1V[i]));
-  }
-  
-  else if(p==1){
-    U2V[i] = inBuffer;
-    p++;
-    //print("U2 = ");
-    //println(binary(U2V[i]));
-  }
-  
-  else if(p==2){
-    H1V[i] = inBuffer;
-    p++;
-    //print("H1 = ");
-    //println(binary(H1V[i]));
-  }
-  
-  else if(p==3){
-    H2V[i] = inBuffer;
-    p=0;
-    //print("H2 = ");
-    //println(binary(H2V[i]));
-    i++;
-  }
-  
-  }
-  
-  arreglar();
-}
-
-//esta parte es para asigar que hara cada boton
-//void actionPerformed (GUIEvent e){
-//  if (e.getSource() == sn){
-//    if(f1 == 0){
-//      background(50, 155, 50);
-//      f1 = 1;
-//    }
-//    else if(f1 == 1){
-//      background(100, 155, 100);
-//      f1 = 0;
-//    }
-//  } 
-  
-//  else if (e.getSource() == ld){
-//    if(f2 == 0){
-//      background(100, 100, 130);
-//      f2 = 1;
-//    }
-//    else if(f2 == 1){
-//      background(100, 155, 100);
-//      f2 = 0;
-//    }
-    
+//  if(p==0 && ((inBuffer & 128) == 0)){
+//    U1V[i] = inBuffer;
+//    p++;
+//    //print("U1 = ");
+//    //println(binary(U1V[i]));
 //  }
   
-//  else if (e.getSource() == fs){
-//    if(f3 == 0){
-//      background(100, 200, 130);
-//      f3 = 1;
-//      for (i=0;i<muestras; i++){
-//      dfsonar = dfsonar + dsonar[i];
-//      }
-//      dfsonar = dfsonar / muestras;
-//    }
-//    else if(f3 == 1){
-//      background(255, 255, 255);
-//      f3 = 0;
-//      dfsonar = dsonar[0];
-//    }
-    
-//  } 
-  
-//  else if (e.getSource() == fl){
-//    if(f4 == 0){
-//      background(100, 250, 100);
-//      f4 = 1;
-//    }
-//    else if(f4 == 1){
-//      background(100, 155, 100);
-//      f4 = 0;
-//    }
-    
+//  else if(p==1){
+//    U2V[i] = inBuffer;
+//    p++;
+//    //print("U2 = ");
+//    //println(binary(U2V[i]));
 //  }
+  
+//  else if(p==2){
+//    H1V[i] = inBuffer;
+//    p++;
+//    //print("H1 = ");
+//    //println(binary(H1V[i]));
+//  }
+  
+//  else if(p==3){
+//    H2V[i] = inBuffer;
+//    p=0;
+//    //print("H2 = ");
+//    //println(binary(H2V[i]));
+//    i++;
+//  }
+  
+//  }
+//  else{
+//    i=0;
+//    if(p==0 && ((inBuffer & 128) == 0)){
+//    U1V[i] = inBuffer;
+//    p++;
+//    //print("U1 = ");
+//    //println(binary(U1V[i]));
+//  }
+  
+//  else if(p==1){
+//    U2V[i] = inBuffer;
+//    p++;
+//    //print("U2 = ");
+//    //println(binary(U2V[i]));
+//  }
+  
+//  else if(p==2){
+//    H1V[i] = inBuffer;
+//    p++;
+//    //print("H1 = ");
+//    //println(binary(H1V[i]));
+//  }
+  
+//  else if(p==3){
+//    H2V[i] = inBuffer;
+//    p=0;
+//    //print("H2 = ");
+//    //println(binary(H2V[i]));
+//    i++;
+//  }
+  
+//  }
+  
+//  arreglar();
 //}
-
 
 void arreglar(){  // desenmascarar la trama
   for(int i=0;i<muestras;i++){ 
     //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
     int temp1 = U1V[i] & 126;
     posicion = temp1 >> 1;
-    //print("Posicion ");
-    //println(posicion);
+    print("Posicion ");
+    println(posicion);
     iAngle = map(posicion, 0, 63, 0, 220);
-    //int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
-    int temp2 = U1V[i] & 1;
+    int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
     int temp3 = temp2 << 9;    
     //temp3 es el primer bit del sonar
-    //int temp4 = U2V[i] & 127; // quitamos el primer bit del byte 2, y son los siguientes 7 bits del sonar
-    int temp4 = U2V[i] & 127;
+    int temp4 = U2V[i] & 127; // quitamos el primer bit del byte 2, y son los siguientes 7 bits del sonar
     int temp5 = temp4 << 2;    
-    //int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
-    int temp6 = H1V[i] & 96;
+    int temp6 = H1V[i] & 96; // 96 es 01100000, es para quedarnos con los 2 ultimos bits que quedan del sonar
     int temp7 = temp6 >> 5;    
     sonar[i] = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
     
@@ -334,23 +320,19 @@ void arreglar(){  // desenmascarar la trama
    
     dsonar[i] = 0.568*sonar[i]-1.69; //CURVA SONAR 2
     
-//    print("Sonar ");
-//    println(dsonar[i]);
+    //print("Sonar ");
+    //println(dsonar[i]);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
-    //int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
-    int temp10 = H2V[i] & 127;
+    int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
     lidar[i] = temp9 | temp10;
     
     dlidar[i] = 158*exp(-0.00201*lidar[i]); //DATOS SHARP
-    //dlidar[i] = 161*exp(-0.00206*lidar[i]);    
-    
-    
+    //dlidar[i] = 161*exp(-0.00206*lidar[i]);        
     
     //print("Lidar ");
     //println(dlidar[i]);
-
     
   }
 }
@@ -386,8 +368,11 @@ void drawRadar() {
   popMatrix();
   stroke(10);
   
-  botnuevo(550, 580, 60, 25, "Filtro"); //AQUI VA EL NUEVO BOTON, EL DE FILTRO
   
+  botnuevo(310, 580, 60, 25, "Sonar");
+  botnuevo(390, 580, 60, 25, "Lidar");
+  botnuevo(470, 580, 60, 25, "Fusión");
+  botnuevo(550, 580, 60, 25, "Filtro"); //AQUI VA EL NUEVO BOTON, EL DE FILTRO
   
 }
 
@@ -402,19 +387,12 @@ void drawLine() {
  
 }
 
-void drawObject() {
+void drawLidar(){
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
   pixsDistance = map(dflidar, 0, 70, 0, width/2);
-  
-  //print("pixsDistance = ");
-  //println(pixsDistance);
-  // limiting the range to 40 cms
-  //print("Sonar ");
-  //println(dfsonar);
-  
   if(dflidar<80){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
@@ -422,17 +400,70 @@ void drawObject() {
   popMatrix();
 }
 
+void drawSonar(){
+  pushMatrix();
+  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+  strokeWeight(6);
+  stroke(255,10,10); // red color
+  pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+  
+  //print("Sonar ");
+  //println(dfsonar);
+  
+  if(dfsonar<80){
+  // draws the object according to the angle and the distance
+    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+}
+  popMatrix();
+}
+
+void drawFusion(){
+  maxsonar = max(dsonar);
+  minsonar = min(dsonar);
+  maxlidar = max(dlidar);
+  minlidar = min(dlidar);
+  if((maxlidar-minlidar) >= (maxsonar-minsonar)){
+    pushMatrix();
+    translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+    strokeWeight(6);
+    stroke(255,10,10); // red color
+    pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+    
+    if(dfsonar<80){
+    // draws the object according to the angle and the distance
+      line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    }
+    popMatrix();
+  }
+  
+  else{
+    pushMatrix();
+    translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+    strokeWeight(6);
+    stroke(255,10,10); // red color
+    pixsDistance = map(dflidar, 0, 90, 0, width/2);
+    
+    if(dflidar<80){
+    // draws the object according to the angle and the distance
+      line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    }
+    popMatrix();  
+  }
+  
+}
+
+
 void drawText() { // draws the texts on the screen
 
   pushMatrix();
-  if(dfsonar>80) {
+  if(dfsonar>85) {
   noObject = "Out of Range";
   }
   else {
   noObject = "In Range";
   }
   
-  textSize(18);
+  textSize(15);
   fill(98,245,60);
   translate((width-width*0.07),(height-height*0.08));
   rotate(radians(118));
@@ -469,5 +500,36 @@ void drawText() { // draws the texts on the screen
   translate((width-width*0.93),(height-height*0.06));
   rotate(radians(-118));
   text("240°",0,0);
+  resetMatrix();
+  translate((width-width*0.152),(height-height*0.02));
+  text("90cm",0,0);
+  resetMatrix();
+  translate((width-width*0.2),(height-height*0.05));
+  text("80cm",0,0);
+  resetMatrix();
+  translate((width-width*0.24),(height-height*0.08));
+  text("70cm",0,0);
+  resetMatrix();
+  translate((width-width*0.28),(height-height*0.115));
+  text("60cm",0,0);
+  resetMatrix();
+  translate((width-width*0.32),(height-height*0.15));
+  text("50cm",0,0);
+  resetMatrix();
+  translate((width-width*0.37),(height-height*0.183));
+  text("40cm",0,0);
+  resetMatrix();
+  translate((width-width*0.42),(height-height*0.22));
+  text("30cm",0,0);
+  resetMatrix();
+  translate((width-width*0.47),(height-height*0.26));
+  text("20cm",0,0);
+  resetMatrix();
+  translate((width-width*0.52),(height-height*0.3));
+  text("10cm",0,0);
+  //resetMatrix();
+  //translate((width-width*0.5),(height-height*0.305));
+  //text("0",0,0);
+  resetMatrix();
   popMatrix();
 }
