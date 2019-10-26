@@ -6,6 +6,7 @@ float pixsDistance;
 float iAngle = 1;
 PFont orcFont;
 float tempgraf=0;
+float tempgraf2=0;
 int k=0;
 
 //variables del puerto
@@ -39,6 +40,8 @@ float dflidar = 0;
 float[] dlidar = new float[muestras];
 float dffus = 0;
 float[] dfus = new float[muestras];
+float maxsonar, minsonar;
+float maxlidar, minlidar;
 
 int principal=0; //variable de conteo
 
@@ -91,7 +94,10 @@ void draw() {
     filtrar();
     drawLidar();
   }
-  
+  else if(f3){
+    filtrar();
+    drawFusion();
+  }
   
 }
 
@@ -140,6 +146,20 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
         //println(dfgraf);        
         k=0;
         tempgraf=0;
+      }
+     }
+     else if(f3){ //cuando la fusion esta activa, se sacan ambos promedios
+      if(k<muestras){
+        tempgraf += dsonar[k];  
+        tempgraf2 += dlidar[k]; 
+        k++;
+      }
+      else{
+        dfsonar = tempgraf / muestras;
+        dflidar = tempgraf2 / muestras;      
+        k=0;
+        tempgraf=0;
+        tempgraf2=0;
       }
      }
     }
@@ -357,10 +377,6 @@ void drawLidar(){
   strokeWeight(6);
   stroke(255,10,10); // red color
   pixsDistance = map(dflidar, 0, 70, 0, width/2);
-
-  //print("Sonar ");
-  //println(dfsonar);
-  
   if(dflidar<80){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
@@ -384,6 +400,42 @@ void drawSonar(){
 }
   popMatrix();
 }
+
+void drawFusion(){
+  maxsonar = max(dsonar);
+  minsonar = min(dsonar);
+  maxlidar = max(dlidar);
+  minlidar = min(dlidar);
+  if((maxlidar-minlidar) >= (maxsonar-minsonar)){
+    pushMatrix();
+    translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+    strokeWeight(6);
+    stroke(255,10,10); // red color
+    pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+    
+    if(dfsonar<80){
+    // draws the object according to the angle and the distance
+      line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    }
+    popMatrix();
+  }
+  
+  else{
+    pushMatrix();
+    translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+    strokeWeight(6);
+    stroke(255,10,10); // red color
+    pixsDistance = map(dflidar, 0, 70, 0, width/2);
+    
+    if(dflidar<80){
+    // draws the object according to the angle and the distance
+      line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    }
+    popMatrix();  
+  }
+  
+}
+
 
 void drawText() { // draws the texts on the screen
 
