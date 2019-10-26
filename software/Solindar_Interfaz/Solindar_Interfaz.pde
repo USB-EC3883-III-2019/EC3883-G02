@@ -11,7 +11,8 @@ int k=0;
 
 //variables del puerto
 Serial puerto;
-String portName = Serial.list()[0];  //para determinar en que puerto estamos
+//descomentar
+//String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
 
 
@@ -55,9 +56,10 @@ void setup() {
 
  size (930, 700); // ***CHANGE THIS TO YOUR SCREEN RESOLUTION***
  smooth();
- puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
+ //descomentar
+ //puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
   
-  puerto.buffer(1);  
+  //puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
   {
       U1V[pk]=0;
@@ -87,14 +89,23 @@ void draw() {
   drawText();
   
   if(f1){
+    textSize(15);
+    fill(98,245,60);
+    text("ON",327,625);
     filtrar();
     drawSonar();
   }
   else if(f2){
+    textSize(15);
+    fill(98,245,60);
+    text("ON",407,625);
     filtrar();
     drawLidar();
   }
   else if(f3){
+    textSize(15);
+    fill(98,245,60);
+    text("ON",487,625);
     filtrar();
     drawFusion();
   }
@@ -123,6 +134,9 @@ boolean boton (int xizq, int yizq, int ancho, int alto) { //Funcion que determin
 void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el flag f4 este activo
     
     if (f4){ 
+     textSize(15);
+     fill(98,245,60);
+     text("ON",567,625);
      //println("Filtro : ACTIVO " + k);
      if(f1){
       if(k<muestras){
@@ -177,11 +191,12 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
   
 
   void mousePressed (){// Este evento se dispara si se presiona el mouse
+  
   if (boton(310, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
     if (!f1){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
-      f1 = true;                  
+      f1 = true; 
     }else {
-      f1 = false;                
+      f1 = false;    
     }  
   }
   
@@ -210,78 +225,79 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
   }
 }
 
-void serialEvent (Serial puerto) {
+//descomentar
+//void serialEvent (Serial puerto) {
 
-  char inBuffer;
-  inBuffer = puerto.readChar();
+//  char inBuffer;
+//  inBuffer = puerto.readChar();
   
-  if(i<muestras){
+//  if(i<muestras){
     
-  if(p==0 && ((inBuffer & 128) == 0)){
-    U1V[i] = inBuffer;
-    p++;
-    //print("U1 = ");
-    //println(binary(U1V[i]));
-  }
+//  if(p==0 && ((inBuffer & 128) == 0)){
+//    U1V[i] = inBuffer;
+//    p++;
+//    //print("U1 = ");
+//    //println(binary(U1V[i]));
+//  }
   
-  else if(p==1){
-    U2V[i] = inBuffer;
-    p++;
-    //print("U2 = ");
-    //println(binary(U2V[i]));
-  }
+//  else if(p==1){
+//    U2V[i] = inBuffer;
+//    p++;
+//    //print("U2 = ");
+//    //println(binary(U2V[i]));
+//  }
   
-  else if(p==2){
-    H1V[i] = inBuffer;
-    p++;
-    //print("H1 = ");
-    //println(binary(H1V[i]));
-  }
+//  else if(p==2){
+//    H1V[i] = inBuffer;
+//    p++;
+//    //print("H1 = ");
+//    //println(binary(H1V[i]));
+//  }
   
-  else if(p==3){
-    H2V[i] = inBuffer;
-    p=0;
-    //print("H2 = ");
-    //println(binary(H2V[i]));
-    i++;
-  }
+//  else if(p==3){
+//    H2V[i] = inBuffer;
+//    p=0;
+//    //print("H2 = ");
+//    //println(binary(H2V[i]));
+//    i++;
+//  }
   
-  }
-  else{
-    i=0;
-    if(p==0 && ((inBuffer & 128) == 0)){
-    U1V[i] = inBuffer;
-    p++;
-    //print("U1 = ");
-    //println(binary(U1V[i]));
-  }
+//  }
+//  else{
+//    i=0;
+//    if(p==0 && ((inBuffer & 128) == 0)){
+//    U1V[i] = inBuffer;
+//    p++;
+//    //print("U1 = ");
+//    //println(binary(U1V[i]));
+//  }
   
-  else if(p==1){
-    U2V[i] = inBuffer;
-    p++;
-    //print("U2 = ");
-    //println(binary(U2V[i]));
-  }
+//  else if(p==1){
+//    U2V[i] = inBuffer;
+//    p++;
+//    //print("U2 = ");
+//    //println(binary(U2V[i]));
+//  }
   
-  else if(p==2){
-    H1V[i] = inBuffer;
-    p++;
-    //print("H1 = ");
-    //println(binary(H1V[i]));
-  }
+//  else if(p==2){
+//    H1V[i] = inBuffer;
+//    p++;
+//    //print("H1 = ");
+//    //println(binary(H1V[i]));
+//  }
   
-  else if(p==3){
-    H2V[i] = inBuffer;
-    p=0;
-    //print("H2 = ");
-    //println(binary(H2V[i]));
-    i++;
-  }
+//  else if(p==3){
+//    H2V[i] = inBuffer;
+//    p=0;
+//    //print("H2 = ");
+//    //println(binary(H2V[i]));
+//    i++;
+//  }
   
-  }
+//  }
   
-  arreglar();
-}
+//  arreglar();
+//}
 
 void arreglar(){  // desenmascarar la trama
   for(int i=0;i<muestras;i++){ 
@@ -425,7 +441,7 @@ void drawFusion(){
     translate(width/2,height-height*0.35); // moves the starting coordinats to new location
     strokeWeight(6);
     stroke(255,10,10); // red color
-    pixsDistance = map(dflidar, 0, 70, 0, width/2);
+    pixsDistance = map(dflidar, 0, 90, 0, width/2);
     
     if(dflidar<80){
     // draws the object according to the angle and the distance
@@ -440,14 +456,14 @@ void drawFusion(){
 void drawText() { // draws the texts on the screen
 
   pushMatrix();
-  if(dfsonar>80) {
+  if(dfsonar>85) {
   noObject = "Out of Range";
   }
   else {
   noObject = "In Range";
   }
   
-  textSize(18);
+  textSize(15);
   fill(98,245,60);
   translate((width-width*0.07),(height-height*0.08));
   rotate(radians(118));
@@ -484,5 +500,36 @@ void drawText() { // draws the texts on the screen
   translate((width-width*0.93),(height-height*0.06));
   rotate(radians(-118));
   text("240°",0,0);
+  resetMatrix();
+  translate((width-width*0.152),(height-height*0.02));
+  text("90cm",0,0);
+  resetMatrix();
+  translate((width-width*0.2),(height-height*0.05));
+  text("80cm",0,0);
+  resetMatrix();
+  translate((width-width*0.24),(height-height*0.08));
+  text("70cm",0,0);
+  resetMatrix();
+  translate((width-width*0.28),(height-height*0.115));
+  text("60cm",0,0);
+  resetMatrix();
+  translate((width-width*0.32),(height-height*0.15));
+  text("50cm",0,0);
+  resetMatrix();
+  translate((width-width*0.37),(height-height*0.183));
+  text("40cm",0,0);
+  resetMatrix();
+  translate((width-width*0.42),(height-height*0.22));
+  text("30cm",0,0);
+  resetMatrix();
+  translate((width-width*0.47),(height-height*0.26));
+  text("20cm",0,0);
+  resetMatrix();
+  translate((width-width*0.52),(height-height*0.3));
+  text("10cm",0,0);
+  //resetMatrix();
+  //translate((width-width*0.5),(height-height*0.305));
+  //text("0",0,0);
+  resetMatrix();
   popMatrix();
 }
