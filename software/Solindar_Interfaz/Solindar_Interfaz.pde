@@ -12,7 +12,7 @@ int k=0;
 //variables del puerto
 Serial puerto;
 //descomentar
-//String portName = Serial.list()[0];  //para determinar en que puerto estamos
+String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
 
 
@@ -57,9 +57,9 @@ void setup() {
  size (930, 700); // ***CHANGE THIS TO YOUR SCREEN RESOLUTION***
  smooth();
  //descomentar
- //puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
-  
-  //puerto.buffer(1);  
+ puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
+  printArray(Serial.list());
+  puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
   {
       U1V[pk]=0;
@@ -226,78 +226,79 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
 }
 
 //descomentar
-//void serialEvent (Serial puerto) {
+void serialEvent (Serial puerto) {
 
-//  char inBuffer;
-//  inBuffer = puerto.readChar();
+  char inBuffer;
+  inBuffer = puerto.readChar();
   
-//  if(i<muestras){
+  if(i<muestras){
     
-//  if(p==0 && ((inBuffer & 128) == 0)){
-//    U1V[i] = inBuffer;
-//    p++;
-//    //print("U1 = ");
-//    //println(binary(U1V[i]));
-//  }
+  if(p==0 && ((inBuffer & 128) == 0)){
+    U1V[i] = inBuffer;
+    p++;
+    //print("U1 = ");
+    //println(binary(U1V[i]));
+  }
   
-//  else if(p==1){
-//    U2V[i] = inBuffer;
-//    p++;
-//    //print("U2 = ");
-//    //println(binary(U2V[i]));
-//  }
+  else if(p==1){
+    U2V[i] = inBuffer;
+    p++;
+    //print("U2 = ");
+    //println(binary(U2V[i]));
+  }
   
-//  else if(p==2){
-//    H1V[i] = inBuffer;
-//    p++;
-//    //print("H1 = ");
-//    //println(binary(H1V[i]));
-//  }
+  else if(p==2){
+    H1V[i] = inBuffer;
+    p++;
+    //print("H1 = ");
+    //println(binary(H1V[i]));
+  }
   
-//  else if(p==3){
-//    H2V[i] = inBuffer;
-//    p=0;
-//    //print("H2 = ");
-//    //println(binary(H2V[i]));
-//    i++;
-//  }
+  else if(p==3){
+    H2V[i] = inBuffer;
+    p=0;
+    //print("H2 = ");
+    //println(binary(H2V[i]));
+    i++;
+  }
   
-//  }
-//  else{
-//    i=0;
-//    if(p==0 && ((inBuffer & 128) == 0)){
-//    U1V[i] = inBuffer;
-//    p++;
-//    //print("U1 = ");
-//    //println(binary(U1V[i]));
-//  }
+  }
+  else{
+    i=0;
+    if(p==0 && ((inBuffer & 128) == 0)){
+    U1V[i] = inBuffer;
+    p++;
+    //print("U1 = ");
+    //println(binary(U1V[i]));
+  }
   
-//  else if(p==1){
-//    U2V[i] = inBuffer;
-//    p++;
-//    //print("U2 = ");
-//    //println(binary(U2V[i]));
-//  }
+  else if(p==1){
+    U2V[i] = inBuffer;
+    p++;
+    //print("U2 = ");
+    //println(binary(U2V[i]));
+  }
   
-//  else if(p==2){
-//    H1V[i] = inBuffer;
-//    p++;
-//    //print("H1 = ");
-//    //println(binary(H1V[i]));
-//  }
+  else if(p==2){
+    H1V[i] = inBuffer;
+    p++;
+    //print("H1 = ");
+    //println(binary(H1V[i]));
+  }
   
-//  else if(p==3){
-//    H2V[i] = inBuffer;
-//    p=0;
-//    //print("H2 = ");
-//    //println(binary(H2V[i]));
-//    i++;
-//  }
+  else if(p==3){
+    H2V[i] = inBuffer;
+    p=0;
+    //print("H2 = ");
+    //println(binary(H2V[i]));
+    i++;
+  }
   
-//  }
+  }
   
-//  arreglar();
-//}
+  arreglar();
+}
+
 
 void arreglar(){  // desenmascarar la trama
   for(int i=0;i<muestras;i++){ 
