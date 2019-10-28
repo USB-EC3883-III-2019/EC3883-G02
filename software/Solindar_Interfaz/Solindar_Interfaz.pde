@@ -74,11 +74,11 @@ void setup() {
 void draw() {
   
 
-  fill(98,245,31);
+  //fill(98,245,31);
   // simulating motion blur and slow fade of the moving line
   noStroke();
   //fill(20,50);
-  fill(20,10);
+  fill(20,5);
   
   rect(0, 0, width, height);
 
@@ -96,14 +96,14 @@ void draw() {
     filtrar();
     drawSonar();
   }
-  else if(f2){
+  if(f2){
     textSize(15);
     fill(98,245,60);
     text("ON",407,625);
     filtrar();
     drawLidar();
   }
-  else if(f3){
+  if(f3){
     textSize(15);
     fill(98,245,60);
     text("ON",487,625);
@@ -306,8 +306,8 @@ void arreglar(){  // desenmascarar la trama
     //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
     int temp1 = U1V[i] & 126;
     posicion = temp1 >> 1;
-    print("Posicion ");
-    println(posicion);
+    //print("Posicion ");
+    //println(posicion);
     iAngle = map(posicion, 0, 63, 0, 220);
     int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
     int temp3 = temp2 << 9;    
@@ -319,22 +319,24 @@ void arreglar(){  // desenmascarar la trama
     sonar[i] = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
     
    // dsonar[i] = 0.136*sonar[i]+0.632; //CURVA SONAR
-   
-    dsonar[i] = 0.625*sonar[i]-1.63; //CURVA SONAR 2
-    
     //print("Sonar ");
-    //println(dsonar[i]);
+    //println(sonar[i]);
+   
+    dsonar[i] = 0.517*sonar[i]+2.34; //CURVA SONAR 2
+    
+    print("Sonar ");
+    println(dsonar[i]);
     //int temp8 = H1V[i] & 31; // 31 es 00011111, es para quedaros con los ultimos 5 bits para el lidar
     int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
     int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
     lidar[i] = temp9 | temp10;
     
-    dlidar[i] = 64.8*exp(-0.00106*lidar[i]); //DATOS SHARP
+    dlidar[i] = 73.5*exp(-0.0011*lidar[i]); //DATOS SHARP
     //dlidar[i] = 161*exp(-0.00206*lidar[i]);        
     
-    //print("Lidar ");
-    //println(dlidar[i]);
+    print("Lidar ");
+    println(dlidar[i]);
     
   }
 }
@@ -393,7 +395,8 @@ void drawLidar(){
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
-  stroke(255,10,10); // red color
+  //stroke(255,10,10); // red color
+  stroke(34,204,211); // blue color
   pixsDistance = map(dflidar, 0, 90, 0, width/2);
   output.print("Distancia Lidar = ");
   output.println(dflidar);
@@ -409,7 +412,8 @@ void drawSonar(){
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
-  stroke(255,10,10); // red color
+  //stroke(255,10,10); // red color
+  stroke(255,255,255);
   pixsDistance = map(dfsonar, 0, 90, 0, width/2);
   output.print("Distancia Sonar = ");
   output.println(dfsonar);
@@ -424,7 +428,24 @@ void drawSonar(){
 }
 
 void drawFusion(){
-  maxsonar = max(dsonar);
+  dffus = 6690.57603 * ((0.000074403264 * dfsonar)+(0.000075060697*dflidar));  
+  
+  pushMatrix();
+  translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+  strokeWeight(6);
+  //stroke(255,10,10); // red color
+  stroke(181,5,252);
+  pixsDistance = map(dffus, 0, 90, 0, width/2);
+  output.print("Distancia Fusion = ");
+  output.println(dffus);
+   
+  if(dffus<80){
+  // draws the object according to the angle and the distance
+    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+  }
+  popMatrix();
+  
+  /*maxsonar = max(dsonar);
   minsonar = min(dsonar);
   maxlidar = max(dlidar);
   minlidar = min(dlidar);
@@ -479,7 +500,7 @@ void drawFusion(){
       }
       popMatrix();  
     }
-  }
+  }*/
   
 }
 
