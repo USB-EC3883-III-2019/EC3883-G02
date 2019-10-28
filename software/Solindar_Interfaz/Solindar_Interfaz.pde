@@ -50,14 +50,14 @@ float aux=0; //variable auxiliar
 
 String valores;
 boolean comprobacion=false;
-
+PrintWriter output;
 
 void setup() {
 
  size (930, 700); // ***CHANGE THIS TO YOUR SCREEN RESOLUTION***
  smooth();
  //descomentar
- puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
+  puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
   printArray(Serial.list());
   puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
@@ -67,7 +67,8 @@ void setup() {
       H1V[pk]=0;
       H2V[pk]=0; 
   } 
- 
+
+   output = createWriter("medidas.txt");
  }
  
 void draw() {
@@ -319,7 +320,7 @@ void arreglar(){  // desenmascarar la trama
     
    // dsonar[i] = 0.136*sonar[i]+0.632; //CURVA SONAR
    
-    dsonar[i] = 0.568*sonar[i]-1.69; //CURVA SONAR 2
+    dsonar[i] = 0.625*sonar[i]-1.63; //CURVA SONAR 2
     
     //print("Sonar ");
     //println(dsonar[i]);
@@ -329,7 +330,7 @@ void arreglar(){  // desenmascarar la trama
     int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
     lidar[i] = temp9 | temp10;
     
-    dlidar[i] = 158*exp(-0.00201*lidar[i]); //DATOS SHARP
+    dlidar[i] = 64.8*exp(-0.00106*lidar[i]); //DATOS SHARP
     //dlidar[i] = 161*exp(-0.00206*lidar[i]);        
     
     //print("Lidar ");
@@ -394,6 +395,9 @@ void drawLidar(){
   strokeWeight(6);
   stroke(255,10,10); // red color
   pixsDistance = map(dflidar, 0, 90, 0, width/2);
+  output.print("Distancia Lidar = ");
+  output.println(dflidar);
+  
   if(dflidar<80){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
@@ -407,7 +411,8 @@ void drawSonar(){
   strokeWeight(6);
   stroke(255,10,10); // red color
   pixsDistance = map(dfsonar, 0, 90, 0, width/2);
-  
+  output.print("Distancia Sonar = ");
+  output.println(dfsonar);
   //print("Sonar ");
   //println(dfsonar);
   
@@ -423,14 +428,18 @@ void drawFusion(){
   minsonar = min(dsonar);
   maxlidar = max(dlidar);
   minlidar = min(dlidar);
-  if((maxlidar-minlidar) >= (maxsonar-minsonar)){
+  
+  if(f4){
+    dffus = (dfsonar + dflidar)/2;
     pushMatrix();
     translate(width/2,height-height*0.35); // moves the starting coordinats to new location
     strokeWeight(6);
     stroke(255,10,10); // red color
-    pixsDistance = map(dfsonar, 0, 90, 0, width/2);
+    pixsDistance = map(dffus, 0, 90, 0, width/2);
+    output.print("Distancia Fusion = ");
+    output.println(dffus);
     
-    if(dfsonar<80){
+    if(dffus<80){
     // draws the object according to the angle and the distance
       line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
     }
@@ -438,17 +447,38 @@ void drawFusion(){
   }
   
   else{
-    pushMatrix();
-    translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-    strokeWeight(6);
-    stroke(255,10,10); // red color
-    pixsDistance = map(dflidar, 0, 90, 0, width/2);
     
-    if(dflidar<80){
-    // draws the object according to the angle and the distance
-      line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    if((maxlidar-minlidar) >= (maxsonar-minsonar)){
+      pushMatrix();
+      translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+      strokeWeight(6);
+      stroke(255,10,10); // red color
+      pixsDistance = map(dfsonar, 0, 90, 0, width/2);
+      output.print("Distancia Fusion = ");
+      output.println(dfsonar);
+      
+      if(dfsonar<80){
+      // draws the object according to the angle and the distance
+        line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+      }
+      popMatrix();
     }
-    popMatrix();  
+    
+    else{
+      pushMatrix();
+      translate(width/2,height-height*0.35); // moves the starting coordinats to new location
+      strokeWeight(6);
+      stroke(255,10,10); // red color
+      pixsDistance = map(dflidar, 0, 90, 0, width/2);
+      output.print("Distancia Fusion = ");
+      output.println(dflidar);
+      
+      if(dflidar<80){
+      // draws the object according to the angle and the distance
+        line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+      }
+      popMatrix();  
+    }
   }
   
 }
