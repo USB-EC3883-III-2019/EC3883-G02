@@ -6,7 +6,7 @@
 **     Component   : TimerInt
 **     Version     : Component 02.161, Driver 01.23, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-10-25, 18:24, # CodeGen: 101
+**     Date/Time   : 2019-10-28, 12:19, # CodeGen: 104
 **     Abstract    :
 **         This component "TimerInt" implements a periodic interrupt.
 **         When the component and its events are enabled, the "OnInterrupt"
@@ -23,11 +23,11 @@
 **             Prescaler               : divide-by-32
 **             Clock                   : 233472 Hz
 **           Initial period/frequency
-**             Xtal ticks              : 3277
-**             microseconds            : 99999
-**             milliseconds            : 100
-**             seconds (real)          : 0.099999143366
-**             Hz                      : 10
+**             Xtal ticks              : 1638
+**             microseconds            : 50002
+**             milliseconds            : 50
+**             seconds (real)          : 0.050001713268
+**             Hz                      : 20
 **
 **         Runtime setting             : none
 **
@@ -145,7 +145,7 @@ void TI1_Init(void)
   setReg16(TPM1MOD, 0x00U);            /* Clear modulo register: e.g. set free-running mode */ 
   /* TPM1C2SC: CH2F=0,CH2IE=1,MS2B=0,MS2A=1,ELS2B=0,ELS2A=0,??=0,??=0 */
   setReg8(TPM1C2SC, 0x50U);            /* Set output compare mode and enable compare interrupt */ 
-  TI1_SetCV(0x5B33U);                  /* Initialize appropriate value to the compare/modulo/reload register */
+  TI1_SetCV(0x2D9AU);                  /* Initialize appropriate value to the compare/modulo/reload register */
   /* TPM1CNTH: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0 */
   setReg8(TPM1CNTH, 0x00U);            /* Reset HW Counter */ 
   /* TPM1SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=0,PS0=1 */

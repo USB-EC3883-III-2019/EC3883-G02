@@ -77,7 +77,7 @@ void draw() {
   // simulating motion blur and slow fade of the moving line
   noStroke();
   //fill(20,50);
-  fill(20,15);
+  fill(20,10);
   
   rect(0, 0, width, height);
 
@@ -393,7 +393,7 @@ void drawLidar(){
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
-  pixsDistance = map(dflidar, 0, 70, 0, width/2);
+  pixsDistance = map(dflidar, 0, 90, 0, width/2);
   if(dflidar<80){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
@@ -406,7 +406,7 @@ void drawSonar(){
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
   strokeWeight(6);
   stroke(255,10,10); // red color
-  pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+  pixsDistance = map(dfsonar, 0, 90, 0, width/2);
   
   //print("Sonar ");
   //println(dfsonar);
@@ -428,7 +428,7 @@ void drawFusion(){
     translate(width/2,height-height*0.35); // moves the starting coordinats to new location
     strokeWeight(6);
     stroke(255,10,10); // red color
-    pixsDistance = map(dfsonar, 0, 70, 0, width/2);
+    pixsDistance = map(dfsonar, 0, 90, 0, width/2);
     
     if(dfsonar<80){
     // draws the object according to the angle and the distance

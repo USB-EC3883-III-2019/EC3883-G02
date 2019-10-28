@@ -91,7 +91,7 @@
     </GenFiles>
     <SignalListFile>Documentation\Oscilocopio-EC3882_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>133</ProjectModificationStamp>
+    <ProjectModificationStamp>136</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -601,8 +601,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1331270410</HeaderAge>
-    <CodeAge>1331270410</CodeAge>
+    <HeaderAge>1331454576</HeaderAge>
+    <CodeAge>1331454576</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>
