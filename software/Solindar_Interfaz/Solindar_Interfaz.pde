@@ -55,6 +55,7 @@ PrintWriter output;
 void setup() {
 
  size (930, 700); // ***CHANGE THIS TO YOUR SCREEN RESOLUTION***
+ background(0,0,0);
  smooth();
  //descomentar
   puerto = new Serial(this, portName, 115200); //establecemos que la información en nuestro puerto se guardara en la variable puerto, y cuales serian los baudios
@@ -69,16 +70,10 @@ void setup() {
   } 
 
    output = createWriter("medidas.txt");
- }
- 
-void draw() {
-  
 
-  //fill(98,245,31);
-  // simulating motion blur and slow fade of the moving line
-  noStroke();
+   noStroke();
   //fill(20,50);
-  fill(20,5);
+    fill(20,5);
   
   rect(0, 0, width, height);
 
@@ -86,8 +81,15 @@ void draw() {
   // calls the functions for drawing the radar
   
   drawRadar();
-  drawLine();
   drawText();
+ }
+ 
+void draw() {
+  
+
+  //fill(98,245,31);
+  // simulating motion blur and slow fade of the moving line
+//  drawLine();
   
   if(f1){
     textSize(15);
@@ -306,8 +308,25 @@ void arreglar(){  // desenmascarar la trama
     //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
     int temp1 = U1V[i] & 126;
     posicion = temp1 >> 1;
-    //print("Posicion ");
-    //println(posicion);
+    if(posicion==1 || posicion== 63)
+    {
+    background(0,0,0);
+    smooth();
+    noStroke();
+    fill(20,5);
+    rect(0, 0, width, height);
+    fill(98,245,31); // green color
+    background(0,0,0);
+    drawRadar();
+    drawText();
+    }  
+    
+    if(posicion==1)
+    {posicion=2;}
+    
+    if(posicion==63)
+    {posicion=62;}
+    
     iAngle = map(posicion, 0, 63, 0, 220);
     int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
     int temp3 = temp2 << 9;    
