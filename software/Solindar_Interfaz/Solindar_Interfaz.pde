@@ -228,6 +228,7 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
   if (boton(310, 580, 60, 25)) { //Define las condiciones para la cual se activa cierto boton, estas son las coordenadas del boton filtrar
     if (!f1){                     // de aqui en adelante si el filtro estaba activo se desactiva y viceversa
       f1 = true; 
+      
     }else {
       f1 = false;    
     }  
