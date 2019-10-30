@@ -186,7 +186,7 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
         tempgraf=0;
       }
      }
-     else if(f2){
+     if(f2){
        if(k<muestras){
         tempgraf += dlidar[k];  
         k++;
@@ -198,7 +198,7 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
         tempgraf=0;
       }
      }
-     else if(f3){ //cuando la fusion esta activa, se sacan ambos promedios
+     if(f3){ //cuando la fusion esta activa, se sacan ambos promedios
       if(k<muestras){
         tempgraf += dsonar[k];  
         tempgraf2 += dlidar[k]; 
@@ -218,7 +218,7 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
       if(f1){
         dfsonar = dsonar[0];
       }
-      else if(f2){
+      if(f2){
         dflidar = dlidar[0];
       }
       
