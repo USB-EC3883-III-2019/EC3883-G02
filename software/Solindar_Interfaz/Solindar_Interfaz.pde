@@ -192,8 +192,7 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
         k++;
       }
       else{
-        dflidar = tempgraf / muestras;
-        //println(dfgraf);        
+        dflidar = tempgraf / muestras;   
         k=0;
         tempgraf=0;
       }
@@ -216,10 +215,10 @@ void filtrar(){ // esta funcion se debe llamar siempre y solo filtrara cuando el
     else {
       //println("Filtro : NO ACTIVO");
       if(f1){
-        dfsonar = dsonar[0];
+        dfsonar = dsonar[5];
       }
       if(f2){
-        dflidar = dlidar[0];
+        dflidar = dlidar[5];
       }
       
     }
@@ -455,7 +454,7 @@ void drawLine() {
 void drawLidar(){
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  strokeWeight(6);
+  strokeWeight(4);
   //stroke(255,10,10); // red color
   stroke(34,204,211); // blue color
   pixsDistance = map(dflidar, 0, 90, 0, width/2);
@@ -464,7 +463,7 @@ void drawLidar(){
   
   if(dflidar<80){
   // draws the object according to the angle and the distance
-    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+5)*cos(radians(iAngle) - radians(30)),-(pixsDistance+5)*sin(radians(iAngle) - radians(30))); 
 }
 
   popMatrix();
@@ -473,7 +472,7 @@ void drawLidar(){
 void drawSonar(){
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  strokeWeight(6);
+  strokeWeight(4);
   //stroke(255,10,10); // red color
   stroke(255,255,255);
   pixsDistance = map(dfsonar, 0, 90, 0, width/2);
@@ -484,7 +483,7 @@ void drawSonar(){
   
   if(dfsonar<80){
   // draws the object according to the angle and the distance
-    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+5)*cos(radians(iAngle) - radians(30)),-(pixsDistance+5)*sin(radians(iAngle) - radians(30))); 
 }
 
   popMatrix();
@@ -495,7 +494,7 @@ void drawFusion(){
   
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  strokeWeight(6);
+  strokeWeight(4);
   //stroke(255,10,10); // red color
   stroke(181,5,252);
   pixsDistance = map(dffus, 0, 90, 0, width/2);
@@ -504,7 +503,7 @@ void drawFusion(){
    
   if(dffus<80){
   // draws the object according to the angle and the distance
-    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
+    line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+5)*cos(radians(iAngle) - radians(30)),-(pixsDistance+5)*sin(radians(iAngle) - radians(30))); 
   }
   popMatrix();
   
