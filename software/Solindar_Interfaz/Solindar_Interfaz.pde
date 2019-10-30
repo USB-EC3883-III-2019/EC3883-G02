@@ -9,16 +9,21 @@ float tempgraf=0;
 float tempgraf2=0;
 int k=0;
 
+//COMENTAR
+//int motor = 1;
+
+
 //variables del puerto
-Serial puerto;
 //descomentar
+
+Serial puerto;
 String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
 
 
 int muestras = 10;//para guardar muestreo
 
-int posicion;
+int posicion = 1;
 int[] sonar = new int [muestras];
 int[] lidar = new int [muestras];
 int p = 0; //<>//
@@ -89,7 +94,8 @@ void draw() {
 
   //fill(98,245,31);
   // simulating motion blur and slow fade of the moving line
-//  drawLine();
+  //  drawLine();
+
   
   if(f1){
     textSize(15);
@@ -113,6 +119,33 @@ void draw() {
     drawFusion();
   }
   
+  if(posicion==0 || posicion== 63)
+    {
+      clear();
+      background(0,0,0);
+      smooth();
+      noStroke();
+      fill(20,5);
+      rect(0, 0, width, height);
+      fill(98,245,31); // green color
+      background(0,0,0);
+      drawRadar();
+      drawText();
+    }
+  
+  if(posicion==1 || posicion == 62)
+    {
+      clear();
+      background(0,0,0);
+      smooth();
+      noStroke();
+      fill(20,5);
+      rect(0, 0, width, height);
+      fill(98,245,31); // green color
+      background(0,0,0);
+      drawRadar();
+      drawText();
+    }
 }
 
 
@@ -308,24 +341,32 @@ void arreglar(){  // desenmascarar la trama
     //int temp1 = U1V[i] & 126;   // en esta linea se quita el primer y el ultimo bit del byte 1, ya que 126 es 01111110
     int temp1 = U1V[i] & 126;
     posicion = temp1 >> 1;
-    if(posicion==1 || posicion== 63)
-    {
-    background(0,0,0);
-    smooth();
-    noStroke();
-    fill(20,5);
-    rect(0, 0, width, height);
-    fill(98,245,31); // green color
-    background(0,0,0);
-    drawRadar();
-    drawText();
-    }  
+    //if(posicion==1 || posicion== 63)
+    //{
+    //background(0,0,0);
+    //smooth();
+    //noStroke();
+    //fill(20,5);
+    //rect(0, 0, width, height);
+    //fill(98,245,31); // green color
+    //background(0,0,0);
+    //drawRadar();
+    //drawText();
+    //}  
     
-    if(posicion==1)
-    {posicion=2;}
+    //descomentar
     
-    if(posicion==63)
-    {posicion=62;}
+    if(posicion==0){
+      posicion=1;
+      //drawRadar();
+      //drawText();
+    }
+    
+    if(posicion==63){
+      posicion=62;
+      //drawRadar();
+      //drawText();
+    }
     
     iAngle = map(posicion, 0, 63, 0, 220);
     int temp2 = U1V[i] & 1; // nos quedamos con el ultimo byte, porque es parte del sonar
@@ -365,7 +406,9 @@ void arreglar(){  // desenmascarar la trama
 void drawRadar() {
   pushMatrix();
   translate(width/2,height-height*0.35); // moves the starting coordinats to new location
-  noFill();
+  if(0 < posicion && posicion < 63){
+    noFill();
+  }
   strokeWeight(1);
   stroke(98,245,31);
   // draws the arc lines
@@ -400,7 +443,6 @@ void drawRadar() {
 }
 
 void drawLine() {
-  
   pushMatrix();
   strokeWeight(6);
   stroke(30,250,60);
@@ -424,6 +466,7 @@ void drawLidar(){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
 }
+
   popMatrix();
 }
 
@@ -443,6 +486,7 @@ void drawSonar(){
   // draws the object according to the angle and the distance
     line(pixsDistance*cos(radians(iAngle) - radians(30)),-pixsDistance*sin(radians(iAngle) - radians(30)),(pixsDistance+10)*cos(radians(iAngle) - radians(30)),-(pixsDistance+10)*sin(radians(iAngle) - radians(30))); 
 }
+
   popMatrix();
 }
 
