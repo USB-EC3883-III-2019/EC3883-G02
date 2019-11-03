@@ -44,13 +44,14 @@
       <GenEventModules lines_count="1">
         <Line>Events</Line>
       </GenEventModules>
-      <GenMethodsInEvents lines_count="8">
+      <GenMethodsInEvents lines_count="9">
         <Line>Cap1_OnCapture</Line>
         <Line>TI2_OnInterrupt</Line>
         <Line>TI1_OnInterrupt</Line>
         <Line>AS1_OnError</Line>
         <Line>AS1_OnRxChar</Line>
         <Line>AS1_OnTxChar</Line>
+        <Line>AS1_OnFullRxBuf</Line>
         <Line>AS1_OnFreeTxBuf</Line>
         <Line>AD1_OnEnd</Line>
       </GenMethodsInEvents>
@@ -91,7 +92,7 @@
     </GenFiles>
     <SignalListFile>Documentation\Oscilocopio-EC3882_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>136</ProjectModificationStamp>
+    <ProjectModificationStamp>138</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -371,8 +372,8 @@
     <GenComponentVersion>02.611</GenComponentVersion>
     <GenDriverVersion>01.33</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1330078633</HeaderAge>
-    <CodeAge>1330078633</CodeAge>
+    <HeaderAge>1331841365</HeaderAge>
+    <CodeAge>1331841365</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>30</GenNumMethods>
     <Enable>false</Enable>
@@ -381,9 +382,9 @@
     <DisableEvent>false</DisableEvent>
     <RecvChar>true</RecvChar>
     <SendChar>true</SendChar>
-    <RecvBlock>false</RecvBlock>
+    <RecvBlock>true</RecvBlock>
     <SendBlock>true</SendBlock>
-    <ClearRxBuf>false</ClearRxBuf>
+    <ClearRxBuf>true</ClearRxBuf>
     <ClearTxBuf>true</ClearTxBuf>
     <CharsInRxBuf>false</CharsInRxBuf>
     <GetCharsInRxBuf>true</GetCharsInRxBuf>
@@ -424,7 +425,7 @@
     <OnTxChar_Selected>3</OnTxChar_Selected>
     <OnTxChar_Name>AS1_OnTxChar</OnTxChar_Name>
     <OnTxChar_Priority>same as interrupt</OnTxChar_Priority>
-    <OnFullRxBuf_Selected>0</OnFullRxBuf_Selected>
+    <OnFullRxBuf_Selected>3</OnFullRxBuf_Selected>
     <OnFullRxBuf_Name>AS1_OnFullRxBuf</OnFullRxBuf_Name>
     <OnFullRxBuf_Priority>same as interrupt</OnFullRxBuf_Priority>
     <OnFreeTxBuf_Selected>3</OnFreeTxBuf_Selected>
@@ -445,153 +446,181 @@
     <GenSmartUserChangesDetected_Header>false</GenSmartUserChangesDetected_Header>
     <GenSmartUserChangesDetected_Code>false</GenSmartUserChangesDetected_Code>
     <GenSmartUserChangesDetected_Asembl>false</GenSmartUserChangesDetected_Asembl>
-    <GenMethodPos>21</GenMethodPos>
+    <GenMethodPos>25</GenMethodPos>
     <MethodPos>
       <MethodPos0>RecvChar</MethodPos0>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>150</LineBeg>
-      <LineEnd>183</LineEnd>
+      <LineBeg>154</LineBeg>
+      <LineEnd>187</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos1>SendChar</MethodPos1>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>184</LineBeg>
-      <LineEnd>207</LineEnd>
+      <LineBeg>188</LineBeg>
+      <LineEnd>211</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos2>SendBlock</MethodPos2>
+      <MethodPos2>RecvBlock</MethodPos2>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>208</LineBeg>
+      <LineBeg>212</LineBeg>
+      <LineEnd>245</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos3>SendBlock</MethodPos3>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>246</LineBeg>
+      <LineEnd>270</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos4>ClearRxBuf</MethodPos4>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>271</LineBeg>
+      <LineEnd>287</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos5>ClearTxBuf</MethodPos5>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>288</LineBeg>
+      <LineEnd>305</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos6>GetCharsInRxBuf</MethodPos6>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>306</LineBeg>
+      <LineEnd>320</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos7>GetCharsInTxBuf</MethodPos7>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>321</LineBeg>
+      <LineEnd>336</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos8>InterruptRx</MethodPos8>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>337</LineBeg>
+      <LineEnd>350</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos9>InterruptTx</MethodPos9>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>351</LineBeg>
+      <LineEnd>364</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos10>InterruptError</MethodPos10>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>365</LineBeg>
+      <LineEnd>378</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos11>InterruptCs</MethodPos11>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>379</LineBeg>
+      <LineEnd>379</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos12>Init</MethodPos12>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>380</LineBeg>
+      <LineEnd>392</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos13>RecvChar</MethodPos13>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>145</LineBeg>
+      <LineEnd>194</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos14>SendChar</MethodPos14>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>195</LineBeg>
       <LineEnd>232</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos3>ClearTxBuf</MethodPos3>
+      <MethodPos15>RecvBlock</MethodPos15>
       <MethodType>method</MethodType>
-      <ModuleType>Header</ModuleType>
+      <ModuleType>Code</ModuleType>
       <LineBeg>233</LineBeg>
-      <LineEnd>250</LineEnd>
+      <LineEnd>288</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos4>GetCharsInRxBuf</MethodPos4>
-      <MethodType>method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>251</LineBeg>
-      <LineEnd>264</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos5>GetCharsInTxBuf</MethodPos5>
-      <MethodType>method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>265</LineBeg>
-      <LineEnd>280</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos6>InterruptRx</MethodPos6>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>281</LineBeg>
-      <LineEnd>294</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos7>InterruptTx</MethodPos7>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>295</LineBeg>
-      <LineEnd>308</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos8>InterruptError</MethodPos8>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>309</LineBeg>
-      <LineEnd>322</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos9>InterruptCs</MethodPos9>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>323</LineBeg>
-      <LineEnd>323</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos10>Init</MethodPos10>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>324</LineBeg>
-      <LineEnd>336</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos11>RecvChar</MethodPos11>
+      <MethodPos16>SendBlock</MethodPos16>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>138</LineBeg>
-      <LineEnd>184</LineEnd>
+      <LineBeg>289</LineBeg>
+      <LineEnd>340</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos12>SendChar</MethodPos12>
+      <MethodPos17>ClearRxBuf</MethodPos17>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>185</LineBeg>
-      <LineEnd>222</LineEnd>
+      <LineBeg>341</LineBeg>
+      <LineEnd>366</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos13>SendBlock</MethodPos13>
+      <MethodPos18>ClearTxBuf</MethodPos18>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>223</LineBeg>
-      <LineEnd>274</LineEnd>
+      <LineBeg>367</LineBeg>
+      <LineEnd>392</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos14>ClearTxBuf</MethodPos14>
+      <MethodPos19>GetCharsInRxBuf</MethodPos19>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>275</LineBeg>
-      <LineEnd>300</LineEnd>
+      <LineBeg>393</LineBeg>
+      <LineEnd>410</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos15>GetCharsInRxBuf</MethodPos15>
+      <MethodPos20>GetCharsInTxBuf</MethodPos20>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>301</LineBeg>
-      <LineEnd>317</LineEnd>
+      <LineBeg>411</LineBeg>
+      <LineEnd>429</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos16>GetCharsInTxBuf</MethodPos16>
-      <MethodType>method</MethodType>
-      <ModuleType>Code</ModuleType>
-      <LineBeg>318</LineBeg>
-      <LineEnd>336</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos17>InterruptRx</MethodPos17>
+      <MethodPos21>InterruptRx</MethodPos21>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>337</LineBeg>
-      <LineEnd>377</LineEnd>
+      <LineBeg>430</LineBeg>
+      <LineEnd>477</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos18>InterruptTx</MethodPos18>
+      <MethodPos22>InterruptTx</MethodPos22>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>378</LineBeg>
-      <LineEnd>419</LineEnd>
+      <LineBeg>478</LineBeg>
+      <LineEnd>519</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos19>InterruptError</MethodPos19>
+      <MethodPos23>InterruptError</MethodPos23>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>420</LineBeg>
-      <LineEnd>440</LineEnd>
+      <LineBeg>520</LineBeg>
+      <LineEnd>540</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos20>Init</MethodPos20>
+      <MethodPos24>Init</MethodPos24>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>441</LineBeg>
-      <LineEnd>473</LineEnd>
+      <LineBeg>541</LineBeg>
+      <LineEnd>576</LineEnd>
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
   </ComponentID_9>
@@ -1420,192 +1449,195 @@
     <SrcFile6>Drivers\Common\TimerIntSettings.inc=1116866294</SrcFile6>
     <SrcFile7>Drivers\HCS08\TimerSubroutines_EnDisEvent.prg=1116866294</SrcFile7>
     <SrcFile8>Drivers\ByteIO.src=1122284138</SrcFile8>
-    <SrcFile9>Drivers\Common\GeneralPutBit.inc=1116866294</SrcFile9>
-    <SrcFile10>Drivers\Common\PE_TimerAbstract.inc=1116866294</SrcFile10>
-    <SrcFile11>Drivers\Common\GenWatchDogResetCode.prg=1121555243</SrcFile11>
-    <SrcFile12>Drivers\Common\GeneralSetDir.inc=1116866294</SrcFile12>
-    <SrcFile13>Drivers\HCS08\IO_Map.drv=1116866294</SrcFile13>
-    <SrcFile14>Drivers\Common\GeneralClrBit.inc=1116866294</SrcFile14>
-    <SrcFile15>Drivers\HCS08\PE_Error.drv=1146382935</SrcFile15>
-    <SrcFile16>Drivers\Common\AsynchroSerialOnFreeTxBuf.inc=1116866294</SrcFile16>
-    <SrcFile17>Drivers\HCS08\ByteIO.drv=1123253332</SrcFile17>
-    <SrcFile18>Drivers\Common\CommonRegInitialization_Flash.prg=1116866294</SrcFile18>
-    <SrcFile19>Drivers\Common\CommonInitializationSequenceNames.inc=1116866294</SrcFile19>
-    <SrcFile20>Drivers\HCS08\Init_PORT_HCS08.prg=1127381294</SrcFile20>
-    <SrcFile21>Drivers\Common\CommonRegInit_WriteOnce.prg=1116866294</SrcFile21>
-    <SrcFile22>Drivers\Common\PWMSetRatio16.inc=1116866294</SrcFile22>
-    <SrcFile23>Drivers\HCS08\TimerSubroutines_All.prg=1116866294</SrcFile23>
-    <SrcFile24>Drivers\Common\GeneralGetVal.inc=1116866294</SrcFile24>
-    <SrcFile25>Drivers\Common\GenReg8BitsInitInfo.prg=1116866294</SrcFile25>
-    <SrcFile26>Drivers\Common\ADCMeasureChan.inc=1146382935</SrcFile26>
-    <SrcFile27>Drivers\Common\SetReg8_Rst.prg=1116866294</SrcFile27>
-    <SrcFile28>Drivers\HC08\Common_HCx08\MC9x08_LinkerPRM.prg=1122284138</SrcFile28>
-    <SrcFile29>Drivers\Common\PE_TimerLngHi3.inc=1116866294</SrcFile29>
-    <SrcFile30>Drivers\HCS08\ADC.drv=1116866294</SrcFile30>
-    <SrcFile31>Drivers\HCS08\MC9S08_LowLevelInit.prg=1116866294</SrcFile31>
-    <SrcFile32>Drivers\Common\ADCGetValue16.inc=1146382935</SrcFile32>
-    <SrcFile33>Drivers\Common\ByteIOSettings.inc=1116866294</SrcFile33>
-    <SrcFile34>Drivers\Common\GeneralGetDir.inc=1116866294</SrcFile34>
-    <SrcFile35>Drivers\Common\OneBitIOClrVal.inc=1116866294</SrcFile35>
-    <SrcFile36>Drivers\Common\CommonInitialization_WriteOnce.prg=1116866294</SrcFile36>
-    <SrcFile37>Drivers\Common\CaptureAbstract.inc=1116866294</SrcFile37>
-    <SrcFile38>Drivers\HCS08\MC9S08.drv=1146382935</SrcFile38>
-    <SrcFile39>Drivers\Common\PWMSetDutyMS.inc=1116866294</SrcFile39>
-    <SrcFile40>Drivers\AsynchroSerial.src=1122284138</SrcFile40>
-    <SrcFile41>Drivers\HCS08\TimerSubroutines_Output.prg=1116866294</SrcFile41>
-    <SrcFile42>Drivers\Common\SetRegBits8_Rst.prg=1116866294</SrcFile42>
-    <SrcFile43>Drivers\Common\DefineISR.prg=1120303303</SrcFile43>
-    <SrcFile44>Drivers\Common\GenReg16BitsInitInfo.prg=1116866294</SrcFile44>
-    <SrcFile45>Drivers\Common\ByteIOPutVal.inc=1116866294</SrcFile45>
-    <SrcFile46>Drivers\Common\PE_ConstSettings.inc=1116866294</SrcFile46>
-    <SrcFile47>Drivers\HCS08\PE_Const.drv=1116866294</SrcFile47>
-    <SrcFile48>Drivers\Common\PWMAbstract.inc=1116866294</SrcFile48>
-    <SrcFile49>Drivers\Common\InitReg8.prg=1116866294</SrcFile49>
-    <SrcFile50>Drivers\Common\CommonInitialization.prg=1116866294</SrcFile50>
-    <SrcFile51>Drivers\Common\ByteIOSetBit.inc=1116866294</SrcFile51>
-    <SrcFile52>Drivers\HCS08\CreateDataSection.prg=1116866294</SrcFile52>
-    <SrcFile53>Drivers\Capture.src=1127381294</SrcFile53>
-    <SrcFile54>Drivers\Common\CaptureOnCapture.inc=1116866294</SrcFile54>
-    <SrcFile55>Drivers\Common\CaptureReset.inc=1116866294</SrcFile55>
-    <SrcFile56>Drivers\sw\CpuDelay100US.prg=1116866294</SrcFile56>
-    <SrcFile57>Drivers\Common\OneBitIOPutVal.inc=1116866294</SrcFile57>
-    <SrcFile58>Drivers\Common\Header.end=1116866294</SrcFile58>
-    <SrcFile59>Drivers\Common\AsynchroSerialGetCharsInRxBuf.inc=1116866294</SrcFile59>
-    <SrcFile60>Drivers\Common\PE_TimerSettings.inc=1116866294</SrcFile60>
-    <SrcFile61>Drivers\HCS08\PE_Timer.drv=1116866294</SrcFile61>
-    <SrcFile62>Drivers\Common\UsedPins.inc=1116866294</SrcFile62>
-    <SrcFile63>Drivers\Common\CommonRegInit.prg=1116866294</SrcFile63>
-    <SrcFile64>Drivers\Common\AsynchroSerialClearTxBuf.inc=1116866294</SrcFile64>
-    <SrcFile65>Drivers\Common\UsedOutPin.inc=1116866294</SrcFile65>
-    <SrcFile66>Drivers\Common\AsynchroSerialOnError.inc=1116866294</SrcFile66>
-    <SrcFile67>Drivers\Common\IO_MapAbstract.inc=1116866294</SrcFile67>
-    <SrcFile68>Drivers\HC08\Common_HCx08\MC9x08_WhileSet.prg=1116866294</SrcFile68>
-    <SrcFile69>Drivers\Common\MC9S08Abstract.inc=1116866294</SrcFile69>
-    <SrcFile70>Drivers\Common\DataHeader.inc=1116866294</SrcFile70>
-    <SrcFile71>Drivers\Common\MC9S08DisableInt.inc=1116866294</SrcFile71>
-    <SrcFile72>Drivers\Common\AsynchroSerialSendBlock.inc=1116866294</SrcFile72>
-    <SrcFile73>Drivers\Common\ByteIONegBit.inc=1116866294</SrcFile73>
-    <SrcFile74>Drivers\Common\BufIndxInc.prg=1116866294</SrcFile74>
-    <SrcFile75>Drivers\Common\GeneralInternal.inc=1116866294</SrcFile75>
-    <SrcFile76>Drivers\HCS08\InternalPeripherals_IO.prg=1116866294</SrcFile76>
-    <SrcFile77>Drivers\Common\MC9S08EnableInt.inc=1116866294</SrcFile77>
-    <SrcFile78>Drivers\Common\Header.c=1116866294</SrcFile78>
-    <SrcFile79>Drivers\Common\Header.h=1116866294</SrcFile79>
-    <SrcFile80>Drivers\Common\OneBitIOSettings.inc=1116866294</SrcFile80>
-    <SrcFile81>Drivers\HC08\Common_HCx08\MC9x08_InitTrimCode.prg=1116866294</SrcFile81>
-    <SrcFile82>Drivers\HCS08\AsynchroSerial.drv=1127381294</SrcFile82>
-    <SrcFile83>Drivers\HCS08\Capture.drv=1116866294</SrcFile83>
-    <SrcFile84>Drivers\Common\InitReg8Block.prg=1116866294</SrcFile84>
-    <SrcFile85>Drivers\Common\ErrorDefinitions.inc=1116866294</SrcFile85>
-    <SrcFile86>Drivers\Common\PWMEnable.inc=1116866294</SrcFile86>
-    <SrcFile87>Drivers\Common\PE_ConstAbstract.inc=1116866294</SrcFile87>
-    <SrcFile88>Drivers\HC08\Common_HCx08\MC9x08_WhileNotValue.prg=1116866294</SrcFile88>
-    <SrcFile89>Drivers\Common\Header.C=1116866294</SrcFile89>
-    <SrcFile90>Drivers\Common\Header.H=1116866294</SrcFile90>
-    <SrcFile91>Drivers\Common\GeneralPutVal.inc=1116866294</SrcFile91>
-    <SrcFile92>Drivers\Common\GeneralMethod.inc=1116866294</SrcFile92>
-    <SrcFile93>Drivers\Common\PE_MisraRuleToErrorCode.prg=1127381294</SrcFile93>
-    <SrcFile94>Drivers\Common\PE_TimerLngHi2.inc=1116866294</SrcFile94>
-    <SrcFile95>Drivers\Common\HeaderCopyright.inc=1146382935</SrcFile95>
-    <SrcFile96>Drivers\HCS08\CreateIntSection.prg=1116866294</SrcFile96>
-    <SrcFile97>Drivers\Common\OneBitIOSetDir.inc=1116866294</SrcFile97>
-    <SrcFile98>Drivers\Common\PE_MisraRuleToDocumentation.prg=1116866294</SrcFile98>
-    <SrcFile99>Drivers\HCS08\MC9S08_MemProtect.prg=1116866294</SrcFile99>
-    <SrcFile100>Drivers\Common\SetReg16_Rst.prg=1116866294</SrcFile100>
-    <SrcFile101>Drivers\HCS08\InitPin.prg=1116866294</SrcFile101>
-    <SrcFile102>Drivers\HCS08\MC9S08_DefineRegsAndBitsAccess.prg=1116866294</SrcFile102>
-    <SrcFile103>Drivers\Common\MC9S08Settings.inc=1116866294</SrcFile103>
-    <SrcFile104>Drivers\Common\AsynchroSerialSendChar.inc=1116866294</SrcFile104>
-    <SrcFile105>Drivers\HCS08\TimerSubroutines_TmrAsSharedPresc.prg=1116866294</SrcFile105>
-    <SrcFile106>Drivers\Common\GeneralParametersNone.inc=1116866294</SrcFile106>
-    <SrcFile107>Drivers\Common\GeneralGetBit.inc=1116866294</SrcFile107>
-    <SrcFile108>Drivers\Common\ADCMeasure.inc=1146382935</SrcFile108>
-    <SrcFile109>Drivers\HCS08\MC9S08_Constants.prg=1116866294</SrcFile109>
-    <SrcFile110>Drivers\Common\GeneralInternalGlobal.inc=1116866294</SrcFile110>
-    <SrcFile111>Drivers\Common\PE_MisraEnableRules.prg=1116866294</SrcFile111>
-    <SrcFile112>Drivers\Common\ByteIOGetBit.inc=1116866294</SrcFile112>
-    <SrcFile113>Drivers\Common\GeneralInternalDescription.prg=1116866294</SrcFile113>
-    <SrcFile114>Drivers\Common\InitReg8Enable.prg=1116866294</SrcFile114>
-    <SrcFile115>Drivers\Common\GeneralNegBit.inc=1116866294</SrcFile115>
-    <SrcFile116>Drivers\Common\PWMSettings.inc=1127381294</SrcFile116>
-    <SrcFile117>Drivers\Common\GeneralParameters.inc=1116866294</SrcFile117>
-    <SrcFile118>Drivers\Common\AsynchroSerialOnRxChar.inc=1116866294</SrcFile118>
-    <SrcFile119>Drivers\TimerInt.src=1122284138</SrcFile119>
-    <SrcFile120>Drivers\Common\PE_TimerConstants.inc=1116866294</SrcFile120>
-    <SrcFile121>Drivers\HCS08\MC9S08QE128_80c.prg=1116866294</SrcFile121>
-    <SrcFile122>Drivers\Common\ADCGetChanValue.inc=1146382935</SrcFile122>
-    <SrcFile123>Drivers\HCS08\BitIO.drv=1123253332</SrcFile123>
-    <SrcFile124>Drivers\Common\DataHeader.End=1116866294</SrcFile124>
-    <SrcFile125>Drivers\BitIO.src=1122284138</SrcFile125>
-    <SrcFile126>Drivers\Common\UsedAsynchroPins.inc=1116866294</SrcFile126>
-    <SrcFile127>Drivers\HCS08.src=1116866294</SrcFile127>
-    <SrcFile128>Drivers\HC08\Common_HCx08\MC9x08_COPreset.prg=1116866294</SrcFile128>
-    <SrcFile129>Drivers\Common\AsynchroSerialSettings.inc=1116866294</SrcFile129>
-    <SrcFile130>Drivers\Common\OneBitIOAbstract.inc=1116866294</SrcFile130>
-    <SrcFile131>Drivers\ADC.src=1122284138</SrcFile131>
-    <SrcFile132>Drivers\Common\ByteIOPutBit.inc=1116866294</SrcFile132>
-    <SrcFile133>Drivers\Common\EBGNSupport\StringLib.prg=1146382935</SrcFile133>
-    <SrcFile134>Drivers\Common\GeneralDamage.inc=1116866294</SrcFile134>
-    <SrcFile135>Drivers\HCS08\MC9S08_DefineCommonSymbols.prg=1116866294</SrcFile135>
-    <SrcFile136>Drivers\Common\GeneralSetBit.inc=1116866294</SrcFile136>
-    <SrcFile137>Drivers\HCS08\PE_Types.drv=1121555243</SrcFile137>
-    <SrcFile138>Drivers\Common\PWMSetDutyUS.inc=1116866294</SrcFile138>
-    <SrcFile139>Drivers\Common\ADCGetValue.inc=1146382935</SrcFile139>
-    <SrcFile140>Drivers\sw\CpuDelay.prg=1146382935</SrcFile140>
-    <SrcFile141>Drivers\Common\PE_MisraDisableRules.prg=1116866294</SrcFile141>
-    <SrcFile142>Drivers\HCS08\PWM.drv=1127381294</SrcFile142>
-    <SrcFile143>Drivers\Common\HeaderGeneral.c=1116866294</SrcFile143>
-    <SrcFile144>Drivers\Common\UsedPin.inc=1116866294</SrcFile144>
-    <SrcFile145>Drivers\HCS08\MC9S08_EntryPointCode.prg=1116866294</SrcFile145>
-    <SrcFile146>Drivers\HCS08\MC9S08_InterruptVectorTableROM.prg=1116866294</SrcFile146>
-    <SrcFile147>Drivers\Common\AsynchroSerialRecvChar.inc=1116866294</SrcFile147>
-    <SrcFile148>Drivers\Common\MC9S08Delay100US.inc=1116866294</SrcFile148>
-    <SrcFile149>Drivers\Common\OneBitIOSetVal.inc=1116866294</SrcFile149>
-    <SrcFile150>Drivers\HCS08\MC9S08QE128_80h.prg=1116866294</SrcFile150>
-    <SrcFile151>Drivers\Common\AsynchroSerialAbstract.inc=1116866294</SrcFile151>
-    <SrcFile152>Drivers\Common\PE_ErrorAbstract.inc=1116866294</SrcFile152>
-    <SrcFile153>Drivers\Common\GeneralEvent.inc=1116866294</SrcFile153>
-    <SrcFile154>Drivers\HCS08\MC9S08_ICS_V3.prg=1116866294</SrcFile154>
-    <SrcFile155>Drivers\Common\ByteIOClrBit.inc=1116866294</SrcFile155>
-    <SrcFile156>Drivers\Common\CommonRegInitialization.prg=1116866294</SrcFile156>
-    <SrcFile157>Drivers\Common\SetReg8.prg=1127381294</SrcFile157>
-    <SrcFile158>Drivers\HCS08\TimerSubroutines.prg=1116866294</SrcFile158>
-    <SrcFile159>Drivers\Common\OneBitIOGetVal.inc=1116866294</SrcFile159>
-    <SrcFile160>Drivers\Common\PE_TimerMethods.inc=1116866294</SrcFile160>
-    <SrcFile161>Drivers\Common\AsynchroSerialGetCharsInTxBuf.inc=1116866294</SrcFile161>
-    <SrcFile162>Drivers\HC08\Common_HCx08\CommonSubroutines.prg=1116866294</SrcFile162>
-    <SrcFile163>Drivers\HCS08\TimerInt.drv=1128496915</SrcFile163>
-    <SrcFile164>Drivers\Common\ADCSettings.inc=1116881615</SrcFile164>
-    <SrcFile165>Drivers\HCS08\MC9S08_SharedInterruptVectors.prg=1116866294</SrcFile165>
-    <SrcFile166>Drivers\Common\SetReg16.prg=1127381294</SrcFile166>
-    <SrcFile167>Drivers\HCS08\TimerSubroutines_PeriodicInt.prg=1116866294</SrcFile167>
-    <SrcFile168>Drivers\Common\Header.doxy=1119169723</SrcFile168>
-    <SrcFile169>Drivers\Common\PE_TypesAbstract.inc=1116866294</SrcFile169>
-    <SrcFile170>Drivers\Common\ToolChain_Settings.prg=1146382935</SrcFile170>
-    <SrcFile171>Drivers\Common\ByteIOGetDir.inc=1116866294</SrcFile171>
-    <SrcFile172>Drivers\Common\CaptureGetPinValue.inc=1116866294</SrcFile172>
-    <SrcFile173>Drivers\HC08\Common_HCx08\MC9x08_LinkerPRM_subroutines.prg=1116866294</SrcFile173>
-    <SrcFile174>Drivers\HC08\Common_HCx08\MC9x08_WhileNotSet.prg=1116866294</SrcFile174>
-    <SrcFile175>Drivers\Common\TimerIntOnInterrupt.inc=1116866294</SrcFile175>
-    <SrcFile176>Drivers\Common\ADCAbstract.inc=1116866294</SrcFile176>
-    <SrcFile177>Drivers\HCS08\ADC_shared.drv=1116866294</SrcFile177>
-    <SrcFile178>Drivers\Common\InitReg8Speed.prg=1116866294</SrcFile178>
-    <SrcFile179>Drivers\Common\AsynchroSerialOnTxChar.inc=1116866294</SrcFile179>
-    <SrcFile180>Drivers\Common\CommonEnabling.prg=1116866294</SrcFile180>
-    <SrcFile181>Drivers\Common\SetRegBits8.prg=1127381294</SrcFile181>
-    <SrcFile182>Drivers\Common\Doxy_CollectRegInitInfo.prg=1116866294</SrcFile182>
-    <SrcFile183>Drivers\Common\OneBitIONegVal.inc=1116866294</SrcFile183>
-    <SrcFile184>Drivers\Common\DeclareISR.prg=1146382935</SrcFile184>
-    <SrcFile185>Drivers\Common\PE_TimerLngMul.inc=1116866294</SrcFile185>
-    <SrcFile186>Drivers\Common\ADCOnEnd.inc=1116866294</SrcFile186>
-    <SrcFile187>Drivers\HCS08\CreateCodeSection.prg=1116866294</SrcFile187>
-    <SrcFile188>Drivers\Common\IO_MapSettings.inc=1116866294</SrcFile188>
-    <SrcFile189>Drivers\Common\TimerIntAbstract.inc=1116866294</SrcFile189>
-    <SrcFile190>Drivers\Common\GeneralReturnNothing.inc=1116866294</SrcFile190>
-    <SrcFile191>Drivers\Common\UsedBaudModes.inc=1116866294</SrcFile191>
-    <SrcFile192>Drivers\PWM.src=1122284138</SrcFile192>
-    <SrcFile193>Drivers\Common\ByteIOAbstract.inc=1116866294</SrcFile193>
-    <SrcFile194>Drivers\Common\CommonInitialization_FLASH.prg=1116866294</SrcFile194>
-    <SrcFile195>Drivers\Common\UsedExtPin.inc=1116866294</SrcFile195>
+    <SrcFile9>Drivers\Common\AsynchroSerialClearRxBuf.inc=1116866294</SrcFile9>
+    <SrcFile10>Drivers\Common\GeneralPutBit.inc=1116866294</SrcFile10>
+    <SrcFile11>Drivers\Common\PE_TimerAbstract.inc=1116866294</SrcFile11>
+    <SrcFile12>Drivers\Common\GenWatchDogResetCode.prg=1121555243</SrcFile12>
+    <SrcFile13>Drivers\Common\AsynchroSerialRecvBlock.inc=1116866294</SrcFile13>
+    <SrcFile14>Drivers\Common\GeneralSetDir.inc=1116866294</SrcFile14>
+    <SrcFile15>Drivers\HCS08\IO_Map.drv=1116866294</SrcFile15>
+    <SrcFile16>Drivers\Common\GeneralClrBit.inc=1116866294</SrcFile16>
+    <SrcFile17>Drivers\HCS08\PE_Error.drv=1146382935</SrcFile17>
+    <SrcFile18>Drivers\Common\AsynchroSerialOnFreeTxBuf.inc=1116866294</SrcFile18>
+    <SrcFile19>Drivers\HCS08\ByteIO.drv=1123253332</SrcFile19>
+    <SrcFile20>Drivers\Common\CommonRegInitialization_Flash.prg=1116866294</SrcFile20>
+    <SrcFile21>Drivers\Common\CommonInitializationSequenceNames.inc=1116866294</SrcFile21>
+    <SrcFile22>Drivers\HCS08\Init_PORT_HCS08.prg=1127381294</SrcFile22>
+    <SrcFile23>Drivers\Common\CommonRegInit_WriteOnce.prg=1116866294</SrcFile23>
+    <SrcFile24>Drivers\Common\PWMSetRatio16.inc=1116866294</SrcFile24>
+    <SrcFile25>Drivers\HCS08\TimerSubroutines_All.prg=1116866294</SrcFile25>
+    <SrcFile26>Drivers\Common\GeneralGetVal.inc=1116866294</SrcFile26>
+    <SrcFile27>Drivers\Common\GenReg8BitsInitInfo.prg=1116866294</SrcFile27>
+    <SrcFile28>Drivers\Common\ADCMeasureChan.inc=1146382935</SrcFile28>
+    <SrcFile29>Drivers\HC08\Common_HCx08\MC9x08_LinkerPRM.prg=1122284138</SrcFile29>
+    <SrcFile30>Drivers\Common\SetReg8_Rst.prg=1116866294</SrcFile30>
+    <SrcFile31>Drivers\Common\PE_TimerLngHi3.inc=1116866294</SrcFile31>
+    <SrcFile32>Drivers\HCS08\ADC.drv=1116866294</SrcFile32>
+    <SrcFile33>Drivers\HCS08\MC9S08_LowLevelInit.prg=1116866294</SrcFile33>
+    <SrcFile34>Drivers\Common\ADCGetValue16.inc=1146382935</SrcFile34>
+    <SrcFile35>Drivers\Common\ByteIOSettings.inc=1116866294</SrcFile35>
+    <SrcFile36>Drivers\Common\GeneralGetDir.inc=1116866294</SrcFile36>
+    <SrcFile37>Drivers\Common\OneBitIOClrVal.inc=1116866294</SrcFile37>
+    <SrcFile38>Drivers\Common\CommonInitialization_WriteOnce.prg=1116866294</SrcFile38>
+    <SrcFile39>Drivers\Common\CaptureAbstract.inc=1116866294</SrcFile39>
+    <SrcFile40>Drivers\HCS08\MC9S08.drv=1146382935</SrcFile40>
+    <SrcFile41>Drivers\Common\PWMSetDutyMS.inc=1116866294</SrcFile41>
+    <SrcFile42>Drivers\AsynchroSerial.src=1122284138</SrcFile42>
+    <SrcFile43>Drivers\HCS08\TimerSubroutines_Output.prg=1116866294</SrcFile43>
+    <SrcFile44>Drivers\Common\SetRegBits8_Rst.prg=1116866294</SrcFile44>
+    <SrcFile45>Drivers\Common\DefineISR.prg=1120303303</SrcFile45>
+    <SrcFile46>Drivers\Common\GenReg16BitsInitInfo.prg=1116866294</SrcFile46>
+    <SrcFile47>Drivers\Common\ByteIOPutVal.inc=1116866294</SrcFile47>
+    <SrcFile48>Drivers\Common\PE_ConstSettings.inc=1116866294</SrcFile48>
+    <SrcFile49>Drivers\HCS08\PE_Const.drv=1116866294</SrcFile49>
+    <SrcFile50>Drivers\Common\PWMAbstract.inc=1116866294</SrcFile50>
+    <SrcFile51>Drivers\Common\InitReg8.prg=1116866294</SrcFile51>
+    <SrcFile52>Drivers\Common\CommonInitialization.prg=1116866294</SrcFile52>
+    <SrcFile53>Drivers\Common\ByteIOSetBit.inc=1116866294</SrcFile53>
+    <SrcFile54>Drivers\HCS08\CreateDataSection.prg=1116866294</SrcFile54>
+    <SrcFile55>Drivers\Capture.src=1127381294</SrcFile55>
+    <SrcFile56>Drivers\Common\CaptureOnCapture.inc=1116866294</SrcFile56>
+    <SrcFile57>Drivers\Common\CaptureReset.inc=1116866294</SrcFile57>
+    <SrcFile58>Drivers\sw\CpuDelay100US.prg=1116866294</SrcFile58>
+    <SrcFile59>Drivers\Common\OneBitIOPutVal.inc=1116866294</SrcFile59>
+    <SrcFile60>Drivers\Common\Header.end=1116866294</SrcFile60>
+    <SrcFile61>Drivers\Common\AsynchroSerialGetCharsInRxBuf.inc=1116866294</SrcFile61>
+    <SrcFile62>Drivers\Common\PE_TimerSettings.inc=1116866294</SrcFile62>
+    <SrcFile63>Drivers\HCS08\PE_Timer.drv=1116866294</SrcFile63>
+    <SrcFile64>Drivers\Common\UsedPins.inc=1116866294</SrcFile64>
+    <SrcFile65>Drivers\Common\CommonRegInit.prg=1116866294</SrcFile65>
+    <SrcFile66>Drivers\Common\AsynchroSerialClearTxBuf.inc=1116866294</SrcFile66>
+    <SrcFile67>Drivers\Common\UsedOutPin.inc=1116866294</SrcFile67>
+    <SrcFile68>Drivers\Common\AsynchroSerialOnError.inc=1116866294</SrcFile68>
+    <SrcFile69>Drivers\Common\IO_MapAbstract.inc=1116866294</SrcFile69>
+    <SrcFile70>Drivers\HC08\Common_HCx08\MC9x08_WhileSet.prg=1116866294</SrcFile70>
+    <SrcFile71>Drivers\Common\MC9S08Abstract.inc=1116866294</SrcFile71>
+    <SrcFile72>Drivers\Common\DataHeader.inc=1116866294</SrcFile72>
+    <SrcFile73>Drivers\Common\MC9S08DisableInt.inc=1116866294</SrcFile73>
+    <SrcFile74>Drivers\Common\AsynchroSerialSendBlock.inc=1116866294</SrcFile74>
+    <SrcFile75>Drivers\Common\ByteIONegBit.inc=1116866294</SrcFile75>
+    <SrcFile76>Drivers\Common\BufIndxInc.prg=1116866294</SrcFile76>
+    <SrcFile77>Drivers\Common\GeneralInternal.inc=1116866294</SrcFile77>
+    <SrcFile78>Drivers\HCS08\InternalPeripherals_IO.prg=1116866294</SrcFile78>
+    <SrcFile79>Drivers\Common\MC9S08EnableInt.inc=1116866294</SrcFile79>
+    <SrcFile80>Drivers\Common\Header.c=1116866294</SrcFile80>
+    <SrcFile81>Drivers\Common\Header.h=1116866294</SrcFile81>
+    <SrcFile82>Drivers\Common\OneBitIOSettings.inc=1116866294</SrcFile82>
+    <SrcFile83>Drivers\HC08\Common_HCx08\MC9x08_InitTrimCode.prg=1116866294</SrcFile83>
+    <SrcFile84>Drivers\HCS08\AsynchroSerial.drv=1127381294</SrcFile84>
+    <SrcFile85>Drivers\HCS08\Capture.drv=1116866294</SrcFile85>
+    <SrcFile86>Drivers\Common\InitReg8Block.prg=1116866294</SrcFile86>
+    <SrcFile87>Drivers\Common\ErrorDefinitions.inc=1116866294</SrcFile87>
+    <SrcFile88>Drivers\Common\PWMEnable.inc=1116866294</SrcFile88>
+    <SrcFile89>Drivers\Common\PE_ConstAbstract.inc=1116866294</SrcFile89>
+    <SrcFile90>Drivers\HC08\Common_HCx08\MC9x08_WhileNotValue.prg=1116866294</SrcFile90>
+    <SrcFile91>Drivers\Common\Header.C=1116866294</SrcFile91>
+    <SrcFile92>Drivers\Common\Header.H=1116866294</SrcFile92>
+    <SrcFile93>Drivers\Common\GeneralPutVal.inc=1116866294</SrcFile93>
+    <SrcFile94>Drivers\Common\GeneralMethod.inc=1116866294</SrcFile94>
+    <SrcFile95>Drivers\Common\PE_MisraRuleToErrorCode.prg=1127381294</SrcFile95>
+    <SrcFile96>Drivers\Common\PE_TimerLngHi2.inc=1116866294</SrcFile96>
+    <SrcFile97>Drivers\Common\HeaderCopyright.inc=1146382935</SrcFile97>
+    <SrcFile98>Drivers\HCS08\CreateIntSection.prg=1116866294</SrcFile98>
+    <SrcFile99>Drivers\Common\OneBitIOSetDir.inc=1116866294</SrcFile99>
+    <SrcFile100>Drivers\Common\PE_MisraRuleToDocumentation.prg=1116866294</SrcFile100>
+    <SrcFile101>Drivers\HCS08\MC9S08_MemProtect.prg=1116866294</SrcFile101>
+    <SrcFile102>Drivers\Common\SetReg16_Rst.prg=1116866294</SrcFile102>
+    <SrcFile103>Drivers\HCS08\InitPin.prg=1116866294</SrcFile103>
+    <SrcFile104>Drivers\HCS08\MC9S08_DefineRegsAndBitsAccess.prg=1116866294</SrcFile104>
+    <SrcFile105>Drivers\Common\MC9S08Settings.inc=1116866294</SrcFile105>
+    <SrcFile106>Drivers\Common\AsynchroSerialSendChar.inc=1116866294</SrcFile106>
+    <SrcFile107>Drivers\HCS08\TimerSubroutines_TmrAsSharedPresc.prg=1116866294</SrcFile107>
+    <SrcFile108>Drivers\Common\GeneralParametersNone.inc=1116866294</SrcFile108>
+    <SrcFile109>Drivers\Common\GeneralGetBit.inc=1116866294</SrcFile109>
+    <SrcFile110>Drivers\Common\ADCMeasure.inc=1146382935</SrcFile110>
+    <SrcFile111>Drivers\HCS08\MC9S08_Constants.prg=1116866294</SrcFile111>
+    <SrcFile112>Drivers\Common\GeneralInternalGlobal.inc=1116866294</SrcFile112>
+    <SrcFile113>Drivers\Common\PE_MisraEnableRules.prg=1116866294</SrcFile113>
+    <SrcFile114>Drivers\Common\ByteIOGetBit.inc=1116866294</SrcFile114>
+    <SrcFile115>Drivers\Common\GeneralInternalDescription.prg=1116866294</SrcFile115>
+    <SrcFile116>Drivers\Common\InitReg8Enable.prg=1116866294</SrcFile116>
+    <SrcFile117>Drivers\Common\GeneralNegBit.inc=1116866294</SrcFile117>
+    <SrcFile118>Drivers\Common\PWMSettings.inc=1127381294</SrcFile118>
+    <SrcFile119>Drivers\Common\GeneralParameters.inc=1116866294</SrcFile119>
+    <SrcFile120>Drivers\Common\AsynchroSerialOnRxChar.inc=1116866294</SrcFile120>
+    <SrcFile121>Drivers\TimerInt.src=1122284138</SrcFile121>
+    <SrcFile122>Drivers\Common\PE_TimerConstants.inc=1116866294</SrcFile122>
+    <SrcFile123>Drivers\Common\AsynchroSerialOnFullRxBuf.inc=1116866294</SrcFile123>
+    <SrcFile124>Drivers\HCS08\MC9S08QE128_80c.prg=1116866294</SrcFile124>
+    <SrcFile125>Drivers\Common\ADCGetChanValue.inc=1146382935</SrcFile125>
+    <SrcFile126>Drivers\HCS08\BitIO.drv=1123253332</SrcFile126>
+    <SrcFile127>Drivers\Common\DataHeader.End=1116866294</SrcFile127>
+    <SrcFile128>Drivers\BitIO.src=1122284138</SrcFile128>
+    <SrcFile129>Drivers\Common\UsedAsynchroPins.inc=1116866294</SrcFile129>
+    <SrcFile130>Drivers\HCS08.src=1116866294</SrcFile130>
+    <SrcFile131>Drivers\HC08\Common_HCx08\MC9x08_COPreset.prg=1116866294</SrcFile131>
+    <SrcFile132>Drivers\Common\AsynchroSerialSettings.inc=1116866294</SrcFile132>
+    <SrcFile133>Drivers\Common\OneBitIOAbstract.inc=1116866294</SrcFile133>
+    <SrcFile134>Drivers\ADC.src=1122284138</SrcFile134>
+    <SrcFile135>Drivers\Common\ByteIOPutBit.inc=1116866294</SrcFile135>
+    <SrcFile136>Drivers\Common\EBGNSupport\StringLib.prg=1146382935</SrcFile136>
+    <SrcFile137>Drivers\Common\GeneralDamage.inc=1116866294</SrcFile137>
+    <SrcFile138>Drivers\HCS08\MC9S08_DefineCommonSymbols.prg=1116866294</SrcFile138>
+    <SrcFile139>Drivers\Common\GeneralSetBit.inc=1116866294</SrcFile139>
+    <SrcFile140>Drivers\HCS08\PE_Types.drv=1121555243</SrcFile140>
+    <SrcFile141>Drivers\Common\PWMSetDutyUS.inc=1116866294</SrcFile141>
+    <SrcFile142>Drivers\Common\ADCGetValue.inc=1146382935</SrcFile142>
+    <SrcFile143>Drivers\sw\CpuDelay.prg=1146382935</SrcFile143>
+    <SrcFile144>Drivers\Common\PE_MisraDisableRules.prg=1116866294</SrcFile144>
+    <SrcFile145>Drivers\HCS08\PWM.drv=1127381294</SrcFile145>
+    <SrcFile146>Drivers\Common\HeaderGeneral.c=1116866294</SrcFile146>
+    <SrcFile147>Drivers\Common\UsedPin.inc=1116866294</SrcFile147>
+    <SrcFile148>Drivers\HCS08\MC9S08_EntryPointCode.prg=1116866294</SrcFile148>
+    <SrcFile149>Drivers\HCS08\MC9S08_InterruptVectorTableROM.prg=1116866294</SrcFile149>
+    <SrcFile150>Drivers\Common\AsynchroSerialRecvChar.inc=1116866294</SrcFile150>
+    <SrcFile151>Drivers\Common\MC9S08Delay100US.inc=1116866294</SrcFile151>
+    <SrcFile152>Drivers\Common\OneBitIOSetVal.inc=1116866294</SrcFile152>
+    <SrcFile153>Drivers\HCS08\MC9S08QE128_80h.prg=1116866294</SrcFile153>
+    <SrcFile154>Drivers\Common\AsynchroSerialAbstract.inc=1116866294</SrcFile154>
+    <SrcFile155>Drivers\Common\PE_ErrorAbstract.inc=1116866294</SrcFile155>
+    <SrcFile156>Drivers\Common\GeneralEvent.inc=1116866294</SrcFile156>
+    <SrcFile157>Drivers\HCS08\MC9S08_ICS_V3.prg=1116866294</SrcFile157>
+    <SrcFile158>Drivers\Common\ByteIOClrBit.inc=1116866294</SrcFile158>
+    <SrcFile159>Drivers\Common\CommonRegInitialization.prg=1116866294</SrcFile159>
+    <SrcFile160>Drivers\Common\SetReg8.prg=1127381294</SrcFile160>
+    <SrcFile161>Drivers\HCS08\TimerSubroutines.prg=1116866294</SrcFile161>
+    <SrcFile162>Drivers\Common\OneBitIOGetVal.inc=1116866294</SrcFile162>
+    <SrcFile163>Drivers\Common\PE_TimerMethods.inc=1116866294</SrcFile163>
+    <SrcFile164>Drivers\Common\AsynchroSerialGetCharsInTxBuf.inc=1116866294</SrcFile164>
+    <SrcFile165>Drivers\HC08\Common_HCx08\CommonSubroutines.prg=1116866294</SrcFile165>
+    <SrcFile166>Drivers\HCS08\TimerInt.drv=1128496915</SrcFile166>
+    <SrcFile167>Drivers\Common\ADCSettings.inc=1116881615</SrcFile167>
+    <SrcFile168>Drivers\HCS08\MC9S08_SharedInterruptVectors.prg=1116866294</SrcFile168>
+    <SrcFile169>Drivers\Common\SetReg16.prg=1127381294</SrcFile169>
+    <SrcFile170>Drivers\HCS08\TimerSubroutines_PeriodicInt.prg=1116866294</SrcFile170>
+    <SrcFile171>Drivers\Common\Header.doxy=1119169723</SrcFile171>
+    <SrcFile172>Drivers\Common\PE_TypesAbstract.inc=1116866294</SrcFile172>
+    <SrcFile173>Drivers\Common\ToolChain_Settings.prg=1146382935</SrcFile173>
+    <SrcFile174>Drivers\Common\ByteIOGetDir.inc=1116866294</SrcFile174>
+    <SrcFile175>Drivers\Common\CaptureGetPinValue.inc=1116866294</SrcFile175>
+    <SrcFile176>Drivers\HC08\Common_HCx08\MC9x08_LinkerPRM_subroutines.prg=1116866294</SrcFile176>
+    <SrcFile177>Drivers\HC08\Common_HCx08\MC9x08_WhileNotSet.prg=1116866294</SrcFile177>
+    <SrcFile178>Drivers\Common\TimerIntOnInterrupt.inc=1116866294</SrcFile178>
+    <SrcFile179>Drivers\Common\ADCAbstract.inc=1116866294</SrcFile179>
+    <SrcFile180>Drivers\HCS08\ADC_shared.drv=1116866294</SrcFile180>
+    <SrcFile181>Drivers\Common\InitReg8Speed.prg=1116866294</SrcFile181>
+    <SrcFile182>Drivers\Common\AsynchroSerialOnTxChar.inc=1116866294</SrcFile182>
+    <SrcFile183>Drivers\Common\CommonEnabling.prg=1116866294</SrcFile183>
+    <SrcFile184>Drivers\Common\SetRegBits8.prg=1127381294</SrcFile184>
+    <SrcFile185>Drivers\Common\Doxy_CollectRegInitInfo.prg=1116866294</SrcFile185>
+    <SrcFile186>Drivers\Common\OneBitIONegVal.inc=1116866294</SrcFile186>
+    <SrcFile187>Drivers\Common\DeclareISR.prg=1146382935</SrcFile187>
+    <SrcFile188>Drivers\Common\PE_TimerLngMul.inc=1116866294</SrcFile188>
+    <SrcFile189>Drivers\Common\ADCOnEnd.inc=1116866294</SrcFile189>
+    <SrcFile190>Drivers\HCS08\CreateCodeSection.prg=1116866294</SrcFile190>
+    <SrcFile191>Drivers\Common\IO_MapSettings.inc=1116866294</SrcFile191>
+    <SrcFile192>Drivers\Common\TimerIntAbstract.inc=1116866294</SrcFile192>
+    <SrcFile193>Drivers\Common\GeneralReturnNothing.inc=1116866294</SrcFile193>
+    <SrcFile194>Drivers\Common\UsedBaudModes.inc=1116866294</SrcFile194>
+    <SrcFile195>Drivers\PWM.src=1122284138</SrcFile195>
+    <SrcFile196>Drivers\Common\ByteIOAbstract.inc=1116866294</SrcFile196>
+    <SrcFile197>Drivers\Common\CommonInitialization_FLASH.prg=1116866294</SrcFile197>
+    <SrcFile198>Drivers\Common\UsedExtPin.inc=1116866294</SrcFile198>
   </UsedSrcFiles>
 </GenerationInfo_G_C>
