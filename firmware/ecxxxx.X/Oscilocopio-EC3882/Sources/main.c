@@ -127,11 +127,12 @@ void mover(char posicion)
 void main(void)
 {
   /* Write your local variable definition here */
- char lidar[2],maskblock[4],sonar[2],posicion=31,control=0; // Variables descritas anteriormente
+ char lidar[2],maskblock[4],sonar[2],posicion=31,control=0,inblock[4]; // Variables descritas anteriormente
  unsigned int ptr; // Apuntador que se requiere para la función de enviar los bloques
  unsigned int t2;
  char i=0;
-  /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
+ unsigned char a;
+ /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
   /*** End of Processor Expert internal initialization.                    ***/
 
@@ -177,12 +178,11 @@ void main(void)
 	   t2=time/58;
 	   mask1(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1	      // para una prueba estamos metiendo el tiempo en posicion
 	   AS1_SendBlock(maskblock,4,&ptr); // Devolvemos el valor de maskblock (la trama)
+   	   //AS1_RecvBlock(inblock,4,&ptr);		// recibe dato por serial
+	   //AS1_RecvChar(*a);
    	   h++;
-	  
 	  }
-	  
-
-  }	   
+}	   
 
    /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/

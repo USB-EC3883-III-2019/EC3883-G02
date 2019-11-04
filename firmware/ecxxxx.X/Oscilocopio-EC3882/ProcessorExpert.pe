@@ -3,8 +3,8 @@
   <Header>
     <Name>Oscilocopio-EC3882</Name>
     <SavedBy>ALE</SavedBy>
-    <ModificationStamp>136</ModificationStamp>
-    <Date>2019-10-28</Date>
+    <ModificationStamp>137</ModificationStamp>
+    <Date>2019-11-03</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.9.0.RT6_b1411-0406</PEversion>
   </Header>
@@ -10495,7 +10495,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>0</Value>
+        <Value>4</Value>
         <Base>DEC</Base>
       </ItemState>
       <ItemState>
@@ -11282,13 +11282,13 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>RecvBlock</ItemSymbol>
-        <ReadOnly>true</ReadOnly>
+        <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>1</Index>
-        <Value>false</Value>
+        <Index>0</Index>
+        <Value>true</Value>
         <LastSelection>true</LastSelection>
-        <LastUserSel>never</LastUserSel>
+        <LastUserSel>yes</LastUserSel>
         <UsrMethodName>RecvBlock</UsrMethodName>
       </ItemState>
       <ItemState>
@@ -11304,13 +11304,13 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>ClearRxBuf</ItemSymbol>
-        <ReadOnly>true</ReadOnly>
+        <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>1</Index>
-        <Value>false</Value>
+        <Index>0</Index>
+        <Value>true</Value>
         <LastSelection>true</LastSelection>
-        <LastUserSel>never</LastUserSel>
+        <LastUserSel>yes</LastUserSel>
         <UsrMethodName>ClearRxBuf</UsrMethodName>
       </ItemState>
       <ItemState>
@@ -11890,13 +11890,13 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>OnFullRxBuf</ItemSymbol>
-        <ReadOnly>true</ReadOnly>
+        <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>false</Value>
-        <Expanded>false</Expanded>
+        <Value>true</Value>
+        <Expanded>true</Expanded>
         <LastSelection>true</LastSelection>
-        <LastUserSel>never</LastUserSel>
+        <LastUserSel>yes</LastUserSel>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnFullRxBufName</ItemSymbol>
