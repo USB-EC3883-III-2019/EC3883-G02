@@ -4812,3 +4812,8 @@ java.net.UnknownHostException: freescale.com
 	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientFileSystemBrowser.runRequest(HttpClientFileSystemBrowser.java:232)
 	at org.eclipse.ecf.provider.filetransfer.browse.AbstractFileSystemBrowser$DirectoryJob.run(AbstractFileSystemBrowser.java:69)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.resources 2 2 2019-11-06 11:47:17.014
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2019-11-06 11:47:17.014
+!MESSAGE The project description file (.project) for 'Oscilocopio-EC3882' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
