@@ -31,32 +31,9 @@
 #include "Cpu.h"
 #include "Events.h"
 
-extern char p;
-extern char h;
-extern unsigned int  time;
-
-
+extern unsigned int a;
+extern unsigned int p;
 /* User includes (#include below this line is not maintained by Processor Expert) */
-
-/*
-** ===================================================================
-**     Event       :  TI1_OnInterrupt (module Events)
-**
-**     Component   :  TI1 [TimerInt]
-**     Description :
-**         When a timer interrupt occurs this event is called (only
-**         when the component is enabled - <Enable> and the events are
-**         enabled - <EnableEvent>). This event is enabled only if a
-**         <interrupt service/event> is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void TI1_OnInterrupt(void)
-{
-  /* Write your code here ... */
- p=1;
-}
 
 /*
 ** ===================================================================
@@ -96,6 +73,13 @@ void  AS1_OnError(void)
 void  AS1_OnRxChar(void)
 {
   /* Write your code here ... */
+  AS1_RecvChar(&a);
+  Bit1_NegVal();
+}
+void  AS1_OnFullRxBuf(void)
+{ 
+	AS1_ClearRxBuf();
+  /* Write your code here ... */
 }
 
 /*
@@ -133,29 +117,9 @@ void  AS1_OnFreeTxBuf(void)
 
 /*
 ** ===================================================================
-**     Event       :  AD1_OnEnd (module Events)
+**     Event       :  TI1_OnInterrupt (module Events)
 **
-**     Component   :  AD1 [ADC]
-**     Description :
-**         This event is called after the measurement (which consists
-**         of <1 or more conversions>) is/are finished.
-**         The event is available only when the <Interrupt
-**         service/event> property is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void AD1_OnEnd(void)
-{
-  /* Write your code here ... */
-}
-
-
-/*
-** ===================================================================
-**     Event       :  TI2_OnInterrupt (module Events)
-**
-**     Component   :  TI2 [TimerInt]
+**     Component   :  TI1 [TimerInt]
 **     Description :
 **         When a timer interrupt occurs this event is called (only
 **         when the component is enabled - <Enable> and the events are
@@ -165,52 +129,10 @@ void AD1_OnEnd(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void TI2_OnInterrupt(void)
+void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
-//	 h=1;
-
-}
-
-/*
-** ===================================================================
-**     Event       :  Cap1_OnCapture (module Events)
-**
-**     Component   :  Cap1 [Capture]
-**     Description :
-**         This event is called on capturing of Timer/Counter actual
-**         value (only when the component is enabled - <Enable> and the
-**         events are enabled - <EnableEvent>.This event is available
-**         only if a <interrupt service/event> is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void Cap1_OnCapture(void)
-{
-  /* Write your code here ... */
-	
-	if(Cap1_GetPinValue())
-		  Cap1_Reset();
-	  else Cap1_GetCaptureValue(&time);
-}
-
-/*
-** ===================================================================
-**     Event       :  AS1_OnFullRxBuf (module Events)
-**
-**     Component   :  AS1 [AsynchroSerial]
-**     Description :
-**         This event is called when the input buffer is full;
-**         i.e. after reception of the last character 
-**         that was successfully placed into input buffer.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void  AS1_OnFullRxBuf(void)
-{
-  /* Write your code here ... */
+  p=1;
 }
 
 /* END Events */

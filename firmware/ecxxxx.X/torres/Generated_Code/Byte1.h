@@ -6,7 +6,7 @@
 **     Component   : ByteIO
 **     Version     : Component 02.063, Driver 03.26, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-02, 09:28, # CodeGen: 0
+**     Date/Time   : 2019-11-04, 12:57, # CodeGen: 12
 **     Abstract    :
 **         This component "ByteIO" implements an one-byte input/output.
 **         It uses one 8-bit port.
@@ -17,7 +17,7 @@
 **         Port name                   : PTC
 **
 **         Initial direction           : Output (direction cannot be changed)
-**         Initial output value        : 0 = 000H
+**         Initial output value        : 255 = 0FFH
 **         Initial pull option         : off
 **
 **         8-bit data register         : PTCD      [$0004]
