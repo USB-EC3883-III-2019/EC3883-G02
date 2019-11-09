@@ -29,7 +29,7 @@ Entry point: 0x2084 (_EntryPoint)
 _startupData is allocated at 0x20C9 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0xA0     22
+  _Range   pZeroOut       0xA0     25
   _Copy    *toCopyDownBeg 0x225B
 } _startupData;
 
@@ -37,11 +37,12 @@ extern struct _tagStartup {
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
+.data                              2   R/W       0xA0       0xA1   RAM
 .init                             73     R     0x2080     0x20C8   ROM
 .startData                        18     R     0x20C9     0x20DA   ROM
 NON_BANKED                       384     R     0x20DB     0x225A   ROM
-.copy                              2     R     0x225B     0x225C   ROM
-.text                            188     R     0x8000     0x80BB   PPAGE_0
+.copy                              8     R     0x225B     0x2262   ROM
+.text                            337     R     0x8000     0x8150   PPAGE_0
 .abs_section_ffbd                  1     R     0xFFBD     0xFFBD   .absSeg0
 .abs_section_ffbf                  1     R     0xFFBF     0xFFBF   .absSeg1
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg2
@@ -225,15 +226,15 @@ NON_BANKED                       384     R     0x20DB     0x225A   ROM
 .abs_section_1816                  2   N/I     0x1816     0x1817   .absSeg180
 .abs_section_1870                  2   N/I     0x1870     0x1871   .absSeg181
 .abs_section_ffc0                 64     R     0xFFC0     0xFFFF   .absSeg182
-.bss                              17   R/W       0xA0       0xB0   RAM
-AS1_CODE                         200     R     0x80BC     0x8183   PPAGE_0
-TI1_CODE                          20     R     0x8184     0x8197   PPAGE_0
-.common                            5   R/W       0xB1       0xB5   RAM
-.stack                           512   R/W       0xB6      0x2B5   RAM
+.bss                              18   R/W       0xA2       0xB3   RAM
+AS1_CODE                         200     R     0x8151     0x8218   PPAGE_0
+TI1_CODE                          20     R     0x8219     0x822C   PPAGE_0
+.common                            5   R/W       0xB4       0xB8   RAM
+.stack                           512   R/W       0xB9      0x2B8   RAM
 
 Summary of section sizes per section type:
-READ_ONLY (R):         3B7 (dec:      951)
-READ_WRITE (R/W):      216 (dec:      534)
+READ_ONLY (R):         452 (dec:     1106)
+READ_WRITE (R/W):      219 (dec:      537)
 NO_INIT (N/I):          CF (dec:      207)
 
 *********************************************************************************************
@@ -256,10 +257,14 @@ MODULE:                 -- Events_c.obj --
 - VARIABLES:
 MODULE:                 -- main_c.obj --
 - PROCEDURES:
-     main                                      8023      1B      27       2   .text       
+     mover_cuadrante                           8023      9A     154       2   .text       
+     main                                      80BD      16      22       2   .text       
 - VARIABLES:
-     a                                           A0       1       1       2   .bss        
-     p                                           A1       2       2       2   .bss        
+     posicion                                    A0       1       1       6   .data       
+     cuadrante                                   A1       1       1       4   .data       
+     a                                           A2       1       1       1   .bss        
+     p                                           A3       2       2       3   .bss        
+     control                                     A5       1       1       4   .bss        
 MODULE:                 -- start08_c.obj --
 - PROCEDURES:
      loadByte                                  20DB       E      14       5   NON_BANKED  
@@ -268,37 +273,37 @@ MODULE:                 -- start08_c.obj --
 - VARIABLES:
      _startupData                              20C9       6       6       4   .startData  
 - LABELS:
-     __SEG_END_SSTACK                           2B6       0       0       1               
+     __SEG_END_SSTACK                           2B9       0       0       1               
 MODULE:                 -- AS1_c.obj --
 - PROCEDURES:
      AS1_InterruptRx                           2160      61      97       1   NON_BANKED  
      AS1_InterruptTx                           21C1      5C      92       1   NON_BANKED  
      AS1_InterruptError                        221D      12      18       1   NON_BANKED  
-     AS1_RecvChar                              80BC      63      99       2   AS1_CODE    
-     AS1_ClearRxBuf                            811F      32      50       2   AS1_CODE    
-     AS1_Init                                  8151      33      51       2   AS1_CODE    
+     AS1_RecvChar                              8151      63      99       2   AS1_CODE    
+     AS1_ClearRxBuf                            81B4      32      50       2   AS1_CODE    
+     AS1_Init                                  81E6      33      51       2   AS1_CODE    
 - VARIABLES:
-     SerFlag                                     A3       1       1      12   .bss        
-     InpIndxR                                    A4       1       1       4   .bss        
-     InpIndxW                                    A5       1       1       4   .bss        
-     InpBuffer                                   A6       4       4       2   .bss        
-     OutIndxR                                    AA       1       1       3   .bss        
-     OutIndxW                                    AB       1       1       1   .bss        
-     OutBuffer                                   AC       4       4       1   .bss        
-     OnFreeTxBuf_semaphore                       B0       1       1       2   .bss        
-     AS1_InpLen                                  B1       1       1       7   .common     
-     AS1_OutLen                                  B2       1       1       3   .common     
+     SerFlag                                     A6       1       1      12   .bss        
+     InpIndxR                                    A7       1       1       4   .bss        
+     InpIndxW                                    A8       1       1       4   .bss        
+     InpBuffer                                   A9       4       4       2   .bss        
+     OutIndxR                                    AD       1       1       3   .bss        
+     OutIndxW                                    AE       1       1       1   .bss        
+     OutBuffer                                   AF       4       4       1   .bss        
+     OnFreeTxBuf_semaphore                       B3       1       1       2   .bss        
+     AS1_InpLen                                  B4       1       1       7   .common     
+     AS1_OutLen                                  B5       1       1       3   .common     
 MODULE:                 -- Cpu_c.obj --
 - PROCEDURES:
-     PE_low_level_init                         803E      7E     126       2   .text       
+     PE_low_level_init                         80D3      7E     126       2   .text       
      Cpu_Interrupt                             2080       4       4      27   .init       
      _EntryPoint                               2084      45      69       1   .init       
 - VARIABLES:
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
-     CCR_reg                                     B3       1       1       4   .common     
-     CCR_lock                                    B4       1       1       8   .common     
-     Shadow_PTE                                  B5       1       1       2   .common     
+     CCR_reg                                     B6       1       1       4   .common     
+     CCR_lock                                    B7       1       1       8   .common     
+     Shadow_PTE                                  B8       1       1       3   .common     
 MODULE:                 -- IO_Map_c.obj --
 - PROCEDURES:
 - VARIABLES:
@@ -454,7 +459,7 @@ MODULE:                 -- IO_Map_c.obj --
      _PTCCLR                                   187A       1       1       0   .abs_section_187a
      _PTECLR                                   187B       1       1       0   .abs_section_187b
      _PTCTOG                                   187C       1       1       0   .abs_section_187c
-     _PTETOG                                   187D       1       1       1   .abs_section_187d
+     _PTETOG                                   187D       1       1       2   .abs_section_187d
      _ADCR                                       12       2       2       0   .abs_section_12
      _ADCCV                                      14       2       2       0   .abs_section_14
      _SCI1BD                                     20       2       2       2   .abs_section_20
@@ -485,7 +490,7 @@ MODULE:                 -- IO_Map_c.obj --
 MODULE:                 -- TI1_c.obj --
 - PROCEDURES:
      TI1_Interrupt                             222F       E      14       1   NON_BANKED  
-     TI1_Init                                  8184      14      20       2   TI1_CODE    
+     TI1_Init                                  8219      14      20       2   TI1_CODE    
 - VARIABLES:
 MODULE:                 -- Vectors_c.obj --
 - PROCEDURES:
@@ -502,7 +507,7 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   Events_c.obj                                 0     35      0
-  main_c.obj                                   3     27      0
+  main_c.obj                                   6    176      0
   start08_c.obj                                0    133      0
   AS1_c.obj                                   16    407      0
   Cpu_c.obj                                    3    199      2
@@ -510,16 +515,18 @@ MODULE STATISTIC
   TI1_c.obj                                    0     34      0
   Vectors_c.obj                                0      0     64
   rtshc08.o (ansibim.lib)                      0     30      0
-  other                                      512     18      2
+  other                                      512     18      8
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   AS1_OnError AS1_OnRxChar AS1_OnFullRxBuf AS1_OnTxChar AS1_OnFreeTxBuf 
-  TI1_OnInterrupt main PE_low_level_init 
+  TI1_OnInterrupt mover_cuadrante main PE_low_level_init 
+SECTION: ".data"
+  posicion cuadrante 
 SECTION: ".bss"
-  a p SerFlag InpIndxR InpIndxW InpBuffer OutIndxR OutIndxW OutBuffer 
+  a p control SerFlag InpIndxR InpIndxW InpBuffer OutIndxR OutIndxW OutBuffer 
   OnFreeTxBuf_semaphore 
 SECTION: ".init"
   Cpu_Interrupt _EntryPoint 
@@ -1001,21 +1008,24 @@ OBJECT LIST SORTED BY ADDRESS
      _LBP                                        7D       1       1       0   .abs_section_7d
      _LB                                         7E       1       1       0   .abs_section_7e
      _LAPAB                                      7F       1       1       0   .abs_section_7f
-     a                                           A0       1       1       2   .bss        
-     p                                           A1       2       2       2   .bss        
-     SerFlag                                     A3       1       1      12   .bss        
-     InpIndxR                                    A4       1       1       4   .bss        
-     InpIndxW                                    A5       1       1       4   .bss        
-     InpBuffer                                   A6       4       4       2   .bss        
-     OutIndxR                                    AA       1       1       3   .bss        
-     OutIndxW                                    AB       1       1       1   .bss        
-     OutBuffer                                   AC       4       4       1   .bss        
-     OnFreeTxBuf_semaphore                       B0       1       1       2   .bss        
-     AS1_InpLen                                  B1       1       1       7   .common     
-     AS1_OutLen                                  B2       1       1       3   .common     
-     CCR_reg                                     B3       1       1       4   .common     
-     CCR_lock                                    B4       1       1       8   .common     
-     Shadow_PTE                                  B5       1       1       2   .common     
+     posicion                                    A0       1       1       6   .data       
+     cuadrante                                   A1       1       1       4   .data       
+     a                                           A2       1       1       1   .bss        
+     p                                           A3       2       2       3   .bss        
+     control                                     A5       1       1       4   .bss        
+     SerFlag                                     A6       1       1      12   .bss        
+     InpIndxR                                    A7       1       1       4   .bss        
+     InpIndxW                                    A8       1       1       4   .bss        
+     InpBuffer                                   A9       4       4       2   .bss        
+     OutIndxR                                    AD       1       1       3   .bss        
+     OutIndxW                                    AE       1       1       1   .bss        
+     OutBuffer                                   AF       4       4       1   .bss        
+     OnFreeTxBuf_semaphore                       B3       1       1       2   .bss        
+     AS1_InpLen                                  B4       1       1       7   .common     
+     AS1_OutLen                                  B5       1       1       3   .common     
+     CCR_reg                                     B6       1       1       4   .common     
+     CCR_lock                                    B7       1       1       8   .common     
+     Shadow_PTE                                  B8       1       1       3   .common     
      _SRS                                      1800       1       1       0   .abs_section_1800
      _SBDFR                                    1801       1       1       0   .abs_section_1801
      _SOPT1                                    1802       1       1       1   .abs_section_1802
@@ -1097,7 +1107,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PTCCLR                                   187A       1       1       0   .abs_section_187a
      _PTECLR                                   187B       1       1       0   .abs_section_187b
      _PTCTOG                                   187C       1       1       0   .abs_section_187c
-     _PTETOG                                   187D       1       1       1   .abs_section_187d
+     _PTETOG                                   187D       1       1       2   .abs_section_187d
      Cpu_Interrupt                             2080       4       4      27   .init       
      _EntryPoint                               2084      45      69       1   .init       
      loadByte                                  20DB       E      14       5   NON_BANKED  
@@ -1115,12 +1125,13 @@ OBJECT LIST SORTED BY ADDRESS
      AS1_OnTxChar                              801A       1       1       2   .text       
      AS1_OnFreeTxBuf                           801B       1       1       2   .text       
      TI1_OnInterrupt                           801C       7       7       2   .text       
-     main                                      8023      1B      27       2   .text       
-     PE_low_level_init                         803E      7E     126       2   .text       
-     AS1_RecvChar                              80BC      63      99       2   AS1_CODE    
-     AS1_ClearRxBuf                            811F      32      50       2   AS1_CODE    
-     AS1_Init                                  8151      33      51       2   AS1_CODE    
-     TI1_Init                                  8184      14      20       2   TI1_CODE    
+     mover_cuadrante                           8023      9A     154       2   .text       
+     main                                      80BD      16      22       2   .text       
+     PE_low_level_init                         80D3      7E     126       2   .text       
+     AS1_RecvChar                              8151      63      99       2   AS1_CODE    
+     AS1_ClearRxBuf                            81B4      32      50       2   AS1_CODE    
+     AS1_Init                                  81E6      33      51       2   AS1_CODE    
+     TI1_Init                                  8219      14      20       2   TI1_CODE    
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
      _vect                                     FFC0      40      64       0   .abs_section_ffc0
@@ -1162,7 +1173,16 @@ rtshc08.o (ansibim.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x225B ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x225B ---- SIZE       4 ---
+Filling bytes inserted
+ 000200A0
+------- ROM-ADDRESS: 0x225F ---- RAM-ADDRESS: 0xA0 ---- SIZE       1 ---
+Name of initialized Object : posicion
+ 1E
+------- ROM-ADDRESS: 0x2260 ---- RAM-ADDRESS: 0xA1 ---- SIZE       1 ---
+Name of initialized Object : cuadrante
+ 01
+------- ROM-ADDRESS: 0x2261 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1183,7 +1203,9 @@ TI1_Interrupt             USES _RTCSC TI1_OnInterrupt
 AS1_OnRxChar              USES a AS1_RecvChar _PTETOG Shadow_PTE 
 AS1_OnFullRxBuf           USES AS1_ClearRxBuf 
 TI1_OnInterrupt           USES p 
-main                      USES PE_low_level_init p a _PTCD 
+mover_cuadrante           USES cuadrante posicion control _PTETOG Shadow_PTE 
+                                _PTCD 
+main                      USES PE_low_level_init p mover_cuadrante 
 PE_low_level_init         USES _SCGC1 _SCGC2 _PTBDD _PTBD _PTCD _PTCPE _PTCDD 
                                 _PTED _PTEPE _PTEDD _PTASE _PTBSE _PTCSE _PTDSE 
                                 _PTESE _PTFSE _PTGSE _PTHSE _PTJSE _PTADS _PTBDS 
@@ -1208,11 +1230,13 @@ DEPENDENCY TREE
  +- main                
  |  | 
  |  +- PE_low_level_init   
- |     | 
- |     +- AS1_Init            
- |     |    
- |     +- TI1_Init            
- |          
+ |  |  | 
+ |  |  +- AS1_Init            
+ |  |  |    
+ |  |  +- TI1_Init            
+ |  |       
+ |  +- mover_cuadrante     
+ |       
  +- _EntryPoint         
     | 
     +- _Startup            
@@ -1265,6 +1289,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 951
+Number of blocks to be downloaded: 8
+Total size of all blocks to be downloaded: 1106
 

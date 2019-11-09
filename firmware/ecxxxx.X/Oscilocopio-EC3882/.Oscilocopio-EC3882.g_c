@@ -92,7 +92,7 @@
     </GenFiles>
     <SignalListFile>Documentation\Oscilocopio-EC3882_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>139</ProjectModificationStamp>
+    <ProjectModificationStamp>140</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>

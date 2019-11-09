@@ -5490,3 +5490,431 @@ Binding(CTRL+SHIFT+H,
 
 !ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 06:42:51.408
 !MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 07:06:34.214
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 07:07:52.579
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 07:12:18.844
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 07:20:33.415
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 07:21:53.259
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY com.freescale.core.debugger.cdt 4 0 2019-11-09 07:33:56.889
+!MESSAGE A debug session is already in progress.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 10:32:39.183
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:08:30.228
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:10:33.817
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:10:59.142
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:12:07.710
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:12:35.032
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:12:55.726
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:14:03.911
+!MESSAGE An application file was not specified in the launch configuration.
+!SESSION 2019-11-09 11:14:23.441 -----------------------------------------------
+eclipse.buildId=I20070613-1755
+java.version=1.6.0_15
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:17:00.480
+!MESSAGE NLS missing message: ContentTypes_errorDialogAlreadyExists in: org.eclipse.ui.internal.messages
+
+!ENTRY com.freescale.processorexpert.core 1 0 2019-11-09 11:17:03.867
+!MESSAGE Plugin com.freescale.processorexpert.core.service ProcessorExpertServiceProvider
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:17:21.366
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.0/arm' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:17:21.376
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.0/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:17:21.382
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.0/patches' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:17:22.992
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.1/arm' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:17:22.992
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.1/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:17:23.003
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.1/patches' does not exist
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2019-11-09 11:17:31.242
+!MESSAGE Connection to http://freescale.com/lgfiles/updates/Eclipse/MCU10_6/com.freescale.mcu.updatesite/p2.index failed on freescale.com. Retry attempt 0 started
+!STACK 0
+java.net.UnknownHostException: freescale.com
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.provider.filetransfer.events.socket.SocketEventCreateUtil.createSocket(SocketEventCreateUtil.java:43)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:81)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:73)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:65)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.open(MultiThreadedHttpConnectionManager.java:1361)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1129)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:699)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:879)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:570)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.sendRetrieveRequest(FileReader.java:422)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.readInto(FileReader.java:355)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:101)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:156)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadIndexFile(AbstractRepositoryManager.java:721)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:640)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:150)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:128)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:72)
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:17:31.473
+!MESSAGE NLS unused message: CacheManager_CannotLoadNonUrlLocation in: org.eclipse.equinox.internal.p2.repository.messages
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 4 1006 2019-11-09 11:17:31.483
+!MESSAGE Unknown Host: http://freescale.com/lgfiles/updates/Eclipse/MCU10_6/com.freescale.mcu.updatesite/content.xml
+!STACK 0
+java.net.UnknownHostException: freescale.com
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.provider.filetransfer.events.socket.SocketEventCreateUtil.createSocket(SocketEventCreateUtil.java:43)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:81)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:73)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:65)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.open(MultiThreadedHttpConnectionManager.java:1361)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientFileSystemBrowser.runRequest(HttpClientFileSystemBrowser.java:232)
+	at org.eclipse.ecf.provider.filetransfer.browse.AbstractFileSystemBrowser$DirectoryJob.run(AbstractFileSystemBrowser.java:69)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:17:31.973
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:17:37.660
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:17:57.300
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:18:19.605
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:18:23.851
+!MESSAGE NLS unused message: trace_trigger_dv_error_title in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:18:23.857
+!MESSAGE NLS unused message: trace_trigger_dv_error_message in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:18:33.267
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:19:40.795
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:20:08.198
+!MESSAGE An application file was not specified in the launch configuration.
+!SESSION 2019-11-09 11:21:29.308 -----------------------------------------------
+eclipse.buildId=I20070613-1755
+java.version=1.6.0_15
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:21:37.809
+!MESSAGE NLS missing message: ContentTypes_errorDialogAlreadyExists in: org.eclipse.ui.internal.messages
+
+!ENTRY com.freescale.processorexpert.core 1 0 2019-11-09 11:21:41.938
+!MESSAGE Plugin com.freescale.processorexpert.core.service ProcessorExpertServiceProvider
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:22:05.708
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.0/arm' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:22:05.718
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.0/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:22:05.729
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.0/patches' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:22:07.282
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.1/arm' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:22:07.292
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.1/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-11-09 11:22:07.303
+!MESSAGE External elements location 'C:\Freescale\CW MCU v10.6\eclipse\../MCU/lib/wizard_data/mqx/4.1/patches' does not exist
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2019-11-09 11:22:15.093
+!MESSAGE Connection to http://freescale.com/lgfiles/updates/Eclipse/MCU10_6/com.freescale.mcu.updatesite/p2.index failed on freescale.com. Retry attempt 0 started
+!STACK 0
+java.net.UnknownHostException: freescale.com
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.provider.filetransfer.events.socket.SocketEventCreateUtil.createSocket(SocketEventCreateUtil.java:43)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:81)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:73)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:65)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.open(MultiThreadedHttpConnectionManager.java:1361)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1129)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:699)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:879)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:570)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.sendRetrieveRequest(FileReader.java:422)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.readInto(FileReader.java:355)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:101)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:156)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadIndexFile(AbstractRepositoryManager.java:721)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:640)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:150)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:128)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:72)
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:22:15.324
+!MESSAGE NLS unused message: CacheManager_CannotLoadNonUrlLocation in: org.eclipse.equinox.internal.p2.repository.messages
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 4 1006 2019-11-09 11:22:15.335
+!MESSAGE Unknown Host: http://freescale.com/lgfiles/updates/Eclipse/MCU10_6/com.freescale.mcu.updatesite/content.xml
+!STACK 0
+java.net.UnknownHostException: freescale.com
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.provider.filetransfer.events.socket.SocketEventCreateUtil.createSocket(SocketEventCreateUtil.java:43)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:81)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:73)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:65)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.open(MultiThreadedHttpConnectionManager.java:1361)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientFileSystemBrowser.runRequest(HttpClientFileSystemBrowser.java:232)
+	at org.eclipse.ecf.provider.filetransfer.browse.AbstractFileSystemBrowser$DirectoryJob.run(AbstractFileSystemBrowser.java:69)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:22:19.986
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:22:21.554
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:22:35.975
+!MESSAGE NLS unused message: trace_trigger_dv_error_title in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-11-09 11:22:35.985
+!MESSAGE NLS unused message: trace_trigger_dv_error_message in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:31:58.049
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-09 11:35:34.704
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for ALT+CTRL+I:
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1a806df,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1a806df,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@5b1b52,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@5b1b52,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for F4:
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@15ec479,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@15ec479,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@b50ca4,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@b50ca4,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for F3:
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@510f75,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@510f75,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for CTRL+G:
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1cdce97,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1cdce97,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for CTRL+SHIFT+G:
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@b61c6d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@b61c6d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for ALT+CTRL+H:
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@470e3,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@470e3,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-09 11:36:35.516
+!MESSAGE A conflict occurred for CTRL+SHIFT+H:
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@18f839d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@18f839d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)

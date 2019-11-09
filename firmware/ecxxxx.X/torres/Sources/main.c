@@ -44,11 +44,50 @@
 
 unsigned char a=0,b=0;
 unsigned int p=0;
+char posicion=30;
+char cuadrante=1;  //cuadrante al cual se quiere mover
+char control=0;
+//funcion mueve el motor hasta el inicio (grado menor) del cuadrante enviado
+//retorna 0 si no ha llegado la posicion
+//retorna 1 si llegó a la posicion
+
+void mover_cuadrante()
+{	
+	char pasos=63; 	// pasos totales de barrido de la torre
+	char div=5;		// cantidad de cuadrantes
+	char secuencia[8]={0b00110100,0b00110110,0b00110010,0b00111010,0b00111000,0b00111001,0b00110001,0b00110101};
+	char objetivo=(pasos/div)*(cuadrante-1);
+	
+	   if(posicion>objetivo)
+		   {
+			   posicion--;
+		   }
+		   
+		   if(posicion<objetivo)
+		   {
+			   posicion++;
+		   }
+		   if(posicion==objetivo){
+			   
+			  if(control%10==0){ 
+			  Bit1_NegVal();
+			  }
+			  control++;
+			  if(control>100){
+				  control=0;
+				  cuadrante++;
+			  }
+			  if(cuadrante>6){
+				  cuadrante=1;
+			  }
+		  }
+			Byte1_PutVal(secuencia[posicion%8]);			  
+		   }
+
 
 void main(void)
 {
   /* Write your local variable definition here */
-char mblock[4];
 unsigned int ptr;
 	/*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
@@ -59,9 +98,8 @@ unsigned int ptr;
  
    for(;;) {
 	if(p){
-	a= 0b00001111 & a;
-	a= a | 0b11110000;
-	Byte1_PutVal(a);
+		p=0;
+		mover_cuadrante();  // la variable cuadrante y posicion son globales, bastan con actualizarlas en cualquier instancia del programa par que el motor se desplaze hasta esa posicion
 	}	
 	}	   
 

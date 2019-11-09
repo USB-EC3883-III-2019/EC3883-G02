@@ -70,7 +70,7 @@
     </GenFiles>
     <SignalListFile>Documentation\torres_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>152</ProjectModificationStamp>
+    <ProjectModificationStamp>165</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -694,8 +694,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1331981764</HeaderAge>
-    <CodeAge>1331981764</CodeAge>
+    <HeaderAge>1332305583</HeaderAge>
+    <CodeAge>1332305583</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>

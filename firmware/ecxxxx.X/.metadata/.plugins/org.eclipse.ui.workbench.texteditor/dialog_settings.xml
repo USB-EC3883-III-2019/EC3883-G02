@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Rx" key="selection"/>
+		<item value="objetivo" key="selection"/>
 		<list key="findhistory">
+			<item value="objetivo"/>
+			<item value="posicion"/>
+			<item value="ti1"/>
 			<item value="rx"/>
 			<item value="maskblock"/>
 			<item value="send"/>
 			<item value="ptr"/>
 			<item value="t1"/>
-			<item value="unsig"/>
-			<item value="variables"/>
-			<item value="time"/>
 		</list>
 		<list key="replacehistory">
 			<item value="lidar"/>
