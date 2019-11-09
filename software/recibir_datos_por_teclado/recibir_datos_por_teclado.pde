@@ -88,7 +88,7 @@ void keyPressed() {
 
     case 1:
       input = input + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
-      a[i]=key-48;              // guarda cada letra presionada en una posicion del vector y la convierte a numero
+      a[i]=key-48;              // guarda cada letra presionada en una posicion del vector y la convierte a numero 
       i++;          // incrementa la posicion del vector en la que se guardara el valor de la tecla pulsada
     }
   }
