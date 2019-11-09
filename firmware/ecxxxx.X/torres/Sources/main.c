@@ -34,6 +34,9 @@
 #include "Byte1.h"
 #include "Bit1.h"
 #include "TI1.h"
+#include "PWM1.h"
+#include "Cap1.h"
+#include "AD1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -41,6 +44,24 @@
 #include "IO_Map.h"
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
+/*	INFO GENERAL
+ * 
+ * 	PIN NOMBRE	DESCRIPCION 	VARIABLE	I/O		NOTAS
+ * 	-----------------------------------------------------------------------
+ *  1	VDD	   	+3V							O		SALIDA DE VOLTAGE POSITIVO DEMOQE	
+ *  3	VSS	   	0							O		TIERRA DEL DEMOQE 
+ *  13	PTC0	MOTOR 1 (VERDE)				O		BOBINA MOTOR
+ *  15	PTC1	MOTOR 2	(ROJO)				O		BOBINA MOTOR
+ *  33	PTC2	MOTOR 3	(GRIS1)				O		BOBINA MOTOR
+ *  35	PTC3	MOTOR 4	(GRIS2)				O		BOBINA MOTOR
+ *  27	PTD2	ZERO IZQ					I		SENSOR PARA DETECTAR MAXIMO IZQUIERDA
+ *  			ZERO DER					I		SENSOR PARA DETECTAR MAXIMO DERECHA
+ *  31	PTD3	FILTRO						I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
+ *  23	PTB5	SONAR			Cap1		I		COMPONENTE DE CAPTURA PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
+ *  24	PTA7	TRIGGER			PWM1		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION, SE HACE MEDIANTE UNA ONDA CUADRADA QUE SE GENERA CADA 15ms
+ *  14	PTA0	LIDAR						I		SENSOR SHARP
+ *  16	PTA1	POTENCIOMETRO				I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
+ */
 
 unsigned char a=1,b=0;
 unsigned int p=0;
@@ -107,11 +128,12 @@ char ready=0,init=0;
 		ready=1;
 	}
 
-	   if((p==1)&(ready==1)){
+	   if((p==1)&(ready==1)){ //programa principal
 		p=0;
 		cuadrante=a;
 		mover_cuadrante();  // la variable cuadrante y posicion son globales, bastan con actualizarlas en cualquier instancia del programa par que el motor se desplaze hasta esa posicion
-	}	
+		
+	   }	
 	}	   
 
    /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
