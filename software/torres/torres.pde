@@ -9,7 +9,7 @@ int[] a = new int [10]; // vector informacion a transmitir por las torres
 char modo;
 int linea=200;           // variable para controlar posicion vertical del cursor al imprimir en pantalla
 
-int muestras = 10;//para guardar muestreo
+int muestras = 20;//para guardar muestreo
 
 int posicion = 1;
 int[] sonar = new int [muestras];
@@ -26,7 +26,7 @@ int[] H2V = new int[muestras];
 
 float[] y = new float[muestras];
 int time=1;
-
+float var_sonar=0,var_lidar=0;
 float dfsonar = 0; //variable para la distancia del sonar
 float[] dsonar = new float[muestras];
 float dflidar = 0;  
@@ -65,10 +65,16 @@ void setup() {
 void draw() { 
 
   background(255); 
+  
+  if(estado==2 | estado==3){
   text ("Monitor serial : " + binary(U1V[0],4) + " " + binary(U2V[0],4) + " " + binary(H1V[0],4) + " " +binary(H2V[0],4),150,25);
   text ("Sonar : " + dfsonar,150,50);
   text ("Lidar : " + dflidar,150,75);
   text ("Fusion: " + dffus,150,100);
+  text ("V_sonar: " + var_sonar,150,125);
+  text ("V_lidar: " + var_lidar,150,150);
+  }
+  
   switch (estado) {
   case 0:
     fill(0); 
@@ -226,6 +232,10 @@ void arreglar(){  // desenmascarar la trama
     sonar[i] = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
    
     dsonar[i] = 0.517*sonar[i]+2.34; //CURVA SONAR 2
+    
+    if(dsonar[i]<10){dfsonar=10;}        // restringir a valores entre 10 y 300 cm
+    if(dsonar[i]>400){dfsonar=300;}
+    
     dfsonar+=dsonar[i];
     int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
@@ -233,24 +243,31 @@ void arreglar(){  // desenmascarar la trama
     lidar[i] = temp9 | temp10;
     
     dlidar[i] = 73.5*exp(-0.0011*lidar[i]); //DATOS SHARP
+    
+    if(dlidar[i]<10){dflidar=10;}
+    if(dlidar[i]>400){dflidar=300;}
+    
     dflidar+=dlidar[i];
   }
   dflidar/=muestras;
   dfsonar/=muestras;
   
   for(int i=0;i<muestras;i++){          // en este for se quitan los valores que esten por fuera del error permitido
-    float error=0.25;                   // error en porcentaje permitido dividido entre 100
-    if((dsonar[i]>dfsonar*(1+error))|(dsonar[i]>dfsonar*(1-error))){
+    float error=0.15;                   // error en porcentaje permitido dividido entre 100
+    if((dsonar[i]>dfsonar*(1+error))|(dsonar[i]<dfsonar*(1-error))){
       dsonar[i]=dfsonar;                // ahora el vector dsonar esta filtrado
     }
-    if((dlidar[i]>dflidar*(1+error))|(dlidar[i]>dflidar*(1-error))){
+    if((dlidar[i]>dflidar*(1+error))|(dlidar[i]<dflidar*(1-error))){
       dlidar[i]=dflidar;                // ahora el vector dlidar está filtrado
     }
   }
   
   // Ahora que esta el vector filtrado calculamos la varianza y se debe volver a calcular el promedio
   
-  float var_sonar=0,var_lidar=0,dflidar=0;dfsonar=0; // varianza y promedio de los dos sensores
+  var_sonar=0;
+  var_lidar=0;
+  dflidar=0;
+  dfsonar=0; // varianza y promedio de los dos sensores
   dffus=0;
   
   for(int i=0;i<muestras;i++){ //calculo de promedio
@@ -261,7 +278,7 @@ void arreglar(){  // desenmascarar la trama
   dflidar/=muestras;  //nuevos promedios listos
   dfsonar/=muestras;
   
-  for(int i=0;i<muestras;i++){ //calculo de sumatoria
+  for(int i=0;i<muestras;i++){ //calculo de sumatoria para varianza
     var_sonar+=pow(dsonar[i]-dfsonar,2);
     var_lidar+=pow(dlidar[i]-dflidar,2);
   }
