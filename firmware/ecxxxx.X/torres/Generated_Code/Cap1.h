@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-09, 14:04, # CodeGen: 31
+**     Date/Time   : 2019-11-10, 06:10, # CodeGen: 33
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -60,6 +60,7 @@
 **     Contents    :
 **         Reset           - byte Cap1_Reset(void);
 **         GetCaptureValue - byte Cap1_GetCaptureValue(Cap1_TCapturedValue *Value);
+**         GetPinValue     - bool Cap1_GetPinValue(void);
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -174,6 +175,22 @@
 **                           ERR_OK - OK
 **                           ERR_SPEED - This device does not work in
 **                           the active speed mode
+** ===================================================================
+*/
+
+#define Cap1_GetPinValue() ((PTBD & 0x20U) ? TRUE : FALSE)
+/*
+** ===================================================================
+**     Method      :  Cap1_GetPinValue (component Capture)
+**     Description :
+**         The method reads the Capture pin value. The method is
+**         available only if it is possible to read the pin value
+**         (usually not available for internal signals).
+**     Parameters  : None
+**     Returns     :
+**         ---             - Capture pin value.
+**                           <true> - high level
+**                           <false> - low level.
 ** ===================================================================
 */
 

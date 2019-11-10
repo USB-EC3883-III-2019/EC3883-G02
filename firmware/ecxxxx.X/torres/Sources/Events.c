@@ -33,6 +33,8 @@
 
 extern unsigned int a;
 extern unsigned int p;
+extern unsigned int time;
+
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
 /*
@@ -172,6 +174,9 @@ void AD1_OnEnd(void)
 void Cap1_OnCapture(void)
 {
   /* Write your code here ... */
+	if(Cap1_GetPinValue())
+			  Cap1_Reset();
+		  else Cap1_GetCaptureValue(&time);
 }
 
 /* END Events */

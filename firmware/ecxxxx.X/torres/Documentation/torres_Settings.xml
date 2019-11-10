@@ -1043,7 +1043,7 @@ autoselected pull
         <Interrupt v="Vrtc" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="15 ms" />
+      <Interrupt_period v="20 ms" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1169,7 +1169,7 @@ autoselected pull
       <Reset v="generate code" />
       <GetCaptureValue v="generate code" />
       <GetStatus v="don&amp;apos;t generate code" />
-      <GetPinValue v="don&amp;apos;t generate code" />
+      <GetPinValue v="generate code" />
     </Methods>
     <Events>
       <Event_module_name v="Events" />
@@ -1224,10 +1224,10 @@ autoselected pull
       <Start v="don&amp;apos;t generate code" />
       <Stop v="don&amp;apos;t generate code" />
       <Measure v="generate code" />
-      <MeasureChan v="don&amp;apos;t generate code" />
+      <MeasureChan v="generate code" />
       <EnableIntChanTrigger v="don&amp;apos;t generate code" />
       <GetValue v="don&amp;apos;t generate code" />
-      <GetChanValue v="don&amp;apos;t generate code" />
+      <GetChanValue v="generate code" />
       <GetValue8 v="don&amp;apos;t generate code" />
       <GetChanValue8 v="don&amp;apos;t generate code" />
       <GetValue16 v="generate code" />

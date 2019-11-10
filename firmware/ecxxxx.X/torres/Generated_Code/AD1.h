@@ -6,7 +6,7 @@
 **     Component   : ADC
 **     Version     : Component 01.690, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-09, 14:04, # CodeGen: 31
+**     Date/Time   : 2019-11-10, 06:16, # CodeGen: 34
 **     Abstract    :
 **         This device "ADC" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -42,8 +42,10 @@
 **          Get value directly                             : yes
 **          Wait for result                                : yes
 **     Contents    :
-**         Measure    - byte AD1_Measure(bool WaitForResult);
-**         GetValue16 - byte AD1_GetValue16(word *Values);
+**         Measure      - byte AD1_Measure(bool WaitForResult);
+**         MeasureChan  - byte AD1_MeasureChan(bool WaitForResult, byte Channel);
+**         GetChanValue - byte AD1_GetChanValue(byte Channel, void* Value);
+**         GetValue16   - byte AD1_GetValue16(word *Values);
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -166,6 +168,77 @@ byte AD1_Measure(bool WaitForResult);
 **                           the active speed mode
 **                           ERR_DISABLED - Device is disabled
 **                           ERR_BUSY - A conversion is already running
+*/
+/* ===================================================================*/
+
+byte AD1_MeasureChan(bool WaitForResult,byte Channel);
+/*
+** ===================================================================
+**     Method      :  AD1_MeasureChan (component ADC)
+*/
+/*!
+**     @brief
+**         This method performs measurement on one channel. (Note: If
+**         the [number of conversions] is more than one the conversion
+**         of the A/D channel is performed specified number of times.)
+**     @param
+**         WaitForResult   - Wait for a result of
+**                           conversion. If the [interrupt service] is
+**                           disabled and at the same time a [number of
+**                           conversions] is greater than 1, the
+**                           WaitForResult parameter is ignored and the
+**                           method waits for each result every time.
+**     @param
+**         Channel         - Channel number. If only one
+**                           channel in the component is set this
+**                           parameter is ignored, because the parameter
+**                           is set inside this method.
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+**                           ERR_DISABLED - Device is disabled
+**                           ERR_BUSY - A conversion is already running
+**                           ERR_RANGE - Parameter "Channel" out of range
+*/
+/* ===================================================================*/
+
+byte AD1_GetChanValue(byte Channel,void* Value);
+/*
+** ===================================================================
+**     Method      :  AD1_GetChanValue (component ADC)
+*/
+/*!
+**     @brief
+**         Returns the last measured value of the required channel.
+**         Format and width of the value is a native format of the A/D
+**         converter.
+**     @param
+**         Channel         - Channel number. If only one
+**                           channel in the component is set then this
+**                           parameter is ignored.
+**     @param
+**         Value           - Pointer to the measured value. Data
+**                           type is a byte, a word or an int. It
+**                           depends on the supported modes, resolution,
+**                           etc. of the AD converter. See the Version
+**                           specific information for the current CPU in
+**                           [General Info].
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+**                           ERR_NOTAVAIL - Requested value not
+**                           available
+**                           ERR_RANGE - Parameter "Channel" out of
+**                           range
+**                           ERR_OVERRUN - External trigger overrun flag
+**                           was detected after the last value(s) was
+**                           obtained (for example by GetValue). This
+**                           error may not be supported on some CPUs
+**                           (see generated code).
 */
 /* ===================================================================*/
 
