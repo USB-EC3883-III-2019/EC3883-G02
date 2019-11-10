@@ -29,7 +29,7 @@ int time=1;
 
 float dfsonar = 0; //variable para la distancia del sonar
 float[] dsonar = new float[muestras];
-float dflidar = 0;
+float dflidar = 0;  
 float[] dlidar = new float[muestras];
 float dffus = 0;
 float[] dfus = new float[muestras];
@@ -66,9 +66,9 @@ void draw() {
 
   background(255); 
   text ("Monitor serial : " + binary(U1V[0],4) + " " + binary(U2V[0],4) + " " + binary(H1V[0],4) + " " +binary(H2V[0],4),150,25);
-  text ("Sonar : " + dsonar[0],150,50);
-  text ("Lidar : " + dlidar[0],150,75);
-  text ("Fusion: ",150,100);
+  text ("Sonar : " + dfsonar,150,50);
+  text ("Lidar : " + dflidar,150,75);
+  text ("Fusion: " + dffus,150,100);
   switch (estado) {
   case 0:
     fill(0); 
@@ -202,6 +202,8 @@ void serialEvent (Serial puerto) {
 
 
 void arreglar(){  // desenmascarar la trama
+  dflidar=0;
+  dfsonar=0;
   for(int i=0;i<muestras;i++){ 
     int temp1 = U1V[i] & 126;
     posicion = temp1 >> 1;
@@ -224,12 +226,52 @@ void arreglar(){  // desenmascarar la trama
     sonar[i] = (temp3 | temp5 | temp7); // hacemos un OR entre los tres bytes del sonar
    
     dsonar[i] = 0.517*sonar[i]+2.34; //CURVA SONAR 2
-
+    dfsonar+=dsonar[i];
     int temp8 = H1V[i] & 31;
     int temp9 = (temp8 << 7) & 3968; //3968 es 111110000000, es para quitar posible ruido
     int temp10 = H2V[i] & 127; // quitamos el primer bit del byte 4, y son los ultimos 7 bits del lidar
     lidar[i] = temp9 | temp10;
     
     dlidar[i] = 73.5*exp(-0.0011*lidar[i]); //DATOS SHARP
+    dflidar+=dlidar[i];
   }
+  dflidar/=muestras;
+  dfsonar/=muestras;
+  
+  for(int i=0;i<muestras;i++){          // en este for se quitan los valores que esten por fuera del error permitido
+    float error=0.25;                   // error en porcentaje permitido dividido entre 100
+    if((dsonar[i]>dfsonar*(1+error))|(dsonar[i]>dfsonar*(1-error))){
+      dsonar[i]=dfsonar;                // ahora el vector dsonar esta filtrado
+    }
+    if((dlidar[i]>dflidar*(1+error))|(dlidar[i]>dflidar*(1-error))){
+      dlidar[i]=dflidar;                // ahora el vector dlidar está filtrado
+    }
+  }
+  
+  // Ahora que esta el vector filtrado calculamos la varianza y se debe volver a calcular el promedio
+  
+  float var_sonar=0,var_lidar=0,dflidar=0;dfsonar=0; // varianza y promedio de los dos sensores
+  dffus=0;
+  
+  for(int i=0;i<muestras;i++){ //calculo de promedio
+    dfsonar+=dsonar[i];
+    dflidar+=dlidar[i];
+  }
+  
+  dflidar/=muestras;  //nuevos promedios listos
+  dfsonar/=muestras;
+  
+  for(int i=0;i<muestras;i++){ //calculo de sumatoria
+    var_sonar+=pow(dsonar[i]-dfsonar,2);
+    var_lidar+=pow(dlidar[i]-dflidar,2);
+  }
+  var_sonar/=(muestras-1);    // varianzas calculadas
+  var_lidar/=(muestras-1);
+  
+  // ahora le aplicamos la fusion al vector
+  for(int i=0;i<muestras;i++){
+    dfus[i]=( pow(var_sonar,-2) + pow(var_lidar,-2) ) * ( ( pow(var_sonar,-2) * dsonar[i] ) + ( pow(var_lidar,-2) * dlidar[i] ) );
+    dffus+=dfus[i];
+}
+    dffus/=muestras; // promedio de la fusion
 }
