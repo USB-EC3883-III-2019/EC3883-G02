@@ -83,7 +83,7 @@
     </GenFiles>
     <SignalListFile>Documentation\torres_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>174</ProjectModificationStamp>
+    <ProjectModificationStamp>175</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>

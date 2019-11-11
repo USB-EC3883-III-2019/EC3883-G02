@@ -48,7 +48,7 @@ boolean comprobacion=false;
 void setup() { 
   size(800, 800);
   printArray(Serial.list());
-  puerto = new Serial(this, Serial.list()[2], 115200); // en el servidor el puerto es el COM3 ubicado en el [2]
+  puerto = new Serial(this, Serial.list()[0], 115200); // en el servidor el puerto es el COM3 ubicado en el [2]
   puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
   {
@@ -76,12 +76,12 @@ void draw() {
   }
   
   switch (estado) {
-  case 0:
+  case 0:              // INICIO
     fill(0); 
     text ("Seleccione Modo, [S] Esclavo / [M] Maestro \n"+input, 150, 200); 
     break;
 
-  case 1:     // recibir info a transmitir
+  case 1:             // MAESTRO
     fill(0); 
     text ("MODO MAESTRO \n", 150, 250); 
     fill(255, 2, 2); 
@@ -89,21 +89,65 @@ void draw() {
     fill(0); 
     break;
 
-  case 2:      // transmitir por serial hacia el micro
+  case 2:            // ENVIAR INFO AL MICRO Y CONFIRMAR RECEPCION
     fill(0); 
     text ("TRANSMITIENDO: " + input, 150, 300); 
-    puerto.write(a[0]);
+    puerto.write(a[0]);  // cambiar por trama hacia el micro
     delay(200);
     fill(255, 2, 2); 
-    
+    estado = 3;
     break;
 
-  case 3:      // activar modo esclavo
+  case 3: //esperar que llegue al cuadrante
+    // if (llega al cuadrante) { estadi=40;} // esto se confirma por que el micro esta enviando informacion constante con su posicion
+ 
+  break;
+  
+  case 40:  // CENTRAR
+    
+    // revisar si hay objeto
+    // if(NO se detecta objeto) {incrementar variable posicion}
+    // if(se detecta objeto) { M=0; estado=41 }
+    
+  break;
+  
+  case 41:
+
+    // revisar si hay objeto
+    // if(se detecta objeto) { incrementar variable de posicion, incrementar M}
+    // if(NO se detecta objeto) { estado=42 }
+
+  break;
+
+  case 42:
+
+    // decrementar variable de posicion M/2 veces (con esto se centrara en el objeto
+    // estado = 5
+  
+  break;
+  
+  case 5:  // ACTIVAR COMUNICACION IR
+     
+    // hacer que el byte correspondiente tenga la info correspondiente de encender la transmision IR
+    // if( se recibe info de que se encendio la transmision IR ) { estado = 6 }
+        
+  break;
+    
+  case 6:  // ESPERA EN ESTE ESTADO HASTA RECIBIR EL MENSAJE POR IR
+           //Hacer un barrido de 3 pasos al rededor de la posicion de centrado que se obtubo para que se este enviando por IR en todo ese radio.
+    
+  break;
+  
+  case 7:  // AL RECIBIR MENSAJE LO MUESTRA EN PANTALLA Y ESPERA ENTER PARA REINICIAR EL PROGRAMA DEBE ESTAR MOSTRANDO EL MENSAJE CADA VEZ QUE SE CUMPLA EL LOOP HASTA QUE SE PRESIONE ENTER
+    
+  break;
+
+  case 8:      // 
     fill(0); 
     text ("MODO ESCLAVO \n"+input, 150, 300); 
     fill(255, 2, 2); 
-    text ("PRESIONE CUALQUIER TECLA PARA CONTINUAR \n", 150, 400); 
-    break;
+    text ("PRESIONE CUALQUIER TECLA PARA CONTINUAR \n", 150, 400);
+    break;    
   }
 }
 
@@ -111,19 +155,15 @@ void keyPressed() {
 
   if (key==ENTER||key==RETURN) {
     switch(estado) {
-    case 1:
+    case 1:        // SI ESTOY EN MASTER (1) PASO A (2)
       estado=2;
       break;
 
-    case 2:    
+    case 7:       // SE RECIBIO EL MENSAJE Y SE PUEDE PRESIONAR ENTER PARA REINICIAR EL PROGRAMA  
       estado=0;
       input="";
       break;
       
-    case 3:
-      estado=0;
-      input="";
-      break;
     }
   } else {
 

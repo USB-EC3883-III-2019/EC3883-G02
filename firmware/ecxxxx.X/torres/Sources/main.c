@@ -109,27 +109,27 @@ void mover_cuadrante()
 }
 
 void paso(){ // esta funcion se ampliara mas adelante para que el motor de determinados pasos. Argumentos : [pasos,direccion]
+	if(cuadrante==cuadrante_a){	
 	char secuencia[8]={0b00110100,0b00110110,0b00110010,0b00111010,0b00111000,0b00111001,0b00110001,0b00110101};
-	Byte1_PutVal(secuencia[posicion%8]);			  	
+	Byte1_PutVal(secuencia[posicion%8]);
+	}
 }
 
-void leer_lidar(){
+unsigned int sensores(){
+	if(cuadrante_a==cuadrante){
 		AD1_MeasureChan(TRUE,1); // Lee el lidar conectado al canal 1
 		AD1_GetChanValue(1, &lidar); // se asigna el valor leido a la variable lidar
+		unsigned int t2;
+		t2=time/58;
+		return t2;
 	}
-
-
-unsigned int leer_sonar(){
-	unsigned int t2;
-	t2=time/58;
-	return t2;
 }
 
 void solindar(char fusion[],unsigned int tsonar, char lidar[]){
 	
 }
 
-void enviar(char maskblock[4],unsigned int sonar2,char lidar[],char posicion) // OPERATIVO Y PROBADO
+void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) // OPERATIVO Y PROBADO
 {
 	   /* Las variables son:
 	    * maskblock hace referencia a los 4 bytes completos que envía el demoQE, sería la trama según el protocolo
@@ -161,8 +161,13 @@ void enviar(char maskblock[4],unsigned int sonar2,char lidar[],char posicion) //
 		maskblock[2]= maskblock[2] | 0b10000000;
 		maskblock[3]= lidar[1] & 0b01111111;
 		maskblock[3]= maskblock[3] | 0b10000000;
-		AS1_SendBlock(maskblock,4,&ptr); // enviamos el entramado (hay que adaptarlo al nuevo poryecto)		   	   
-
+		maskblock[4]= (posicion/12)+1;					// envia el cuadrante actual 12 es la cantidad de pasos por cuadrante.
+			
+		
+		
+		maskblock[4]=paso<<1;
+		AS1_SendBlock(maskblock,5,&ptr); // enviamos el entramado (hay que adaptarlo al nuevo poryecto)		   	   
+		
 }		
 
 void main(void)
@@ -170,7 +175,7 @@ void main(void)
   /* Write your local variable definition here */
 char ready=0,init=0; // un retardo antes de iniciar el programa que depende una comparacion con la variable init y el tiempo que se desea
 unsigned int t2;	// variable para tiempo del sonar
-char maskblock[4]; // vector entramado que se enviara al processing
+char maskblock[5]; // vector entramado que se enviara al processing
 
 /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
@@ -188,17 +193,15 @@ char maskblock[4]; // vector entramado que se enviara al processing
 	if(init==10){
 		ready=1;
 	}
-
 	   if((p==1)&(ready==1)){ //programa principal
 		p=0;
 		cuadrante=a;		// aqui se esta asignando el cuadrante objetivo por teclado desde processing se debe cambiar a recibir la trama
-		mover_cuadrante();  // la variable cuadrante y posicion son globales, bastan con actualizarlas en cualquier instancia del programa par que el motor se desplaze hasta esa posicion
-		leer_lidar();		
-		t2=leer_sonar();	// grabar en t2 el valor la interrupcion que causo el ultrasonido
+		mover_cuadrante();  // la variable cuadrante y posicion son globales, bastan con actualizarlas en cualquier instancia del programa par que el motor se desplaze hasta esa posicion		
+		mover_paso();
+		t2=sensores();	// grabar en t2 el valor la interrupcion que causo el ultrasonido
 		enviar(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1 y envia por serial// para una prueba estamos metiendo el tiempo en posicion
-		
 	   }
-	}	   
+   }
 
    /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
