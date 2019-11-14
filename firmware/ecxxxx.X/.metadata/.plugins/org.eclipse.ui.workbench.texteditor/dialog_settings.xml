@@ -3,26 +3,26 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="353" key="DIALOG_WIDTH"/>
 		<item value="190" key="DIALOG_Y_ORIGIN"/>
-		<item value="513" key="DIALOG_HEIGHT"/>
 		<item value="112" key="DIALOG_X_ORIGIN"/>
+		<item value="513" key="DIALOG_HEIGHT"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="cuadrante" key="selection"/>
+		<item value="enviar" key="selection"/>
 		<list key="findhistory">
+			<item value="enviar"/>
 			<item value="cuadrante"/>
+			<item value="mask"/>
+			<item value="maskblock"/>
+			<item value="maskblokc"/>
 			<item value="int time"/>
 			<item value="time"/>
 			<item value="t2"/>
-			<item value="mask1"/>
-			<item value="mask1(maskblock,t2,lidar,posicion);&#x09;// Llamamos al procedimiento mask1&#x09;      // para una prueba estamos metiendo el tiempo en posicion"/>
-			<item value="TIME"/>
-			<item value="CAP"/>
 		</list>
 		<list key="replacehistory">
 			<item value="lidar"/>

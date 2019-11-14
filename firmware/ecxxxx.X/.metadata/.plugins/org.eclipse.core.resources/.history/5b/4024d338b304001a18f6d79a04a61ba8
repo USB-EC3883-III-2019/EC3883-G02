@@ -162,7 +162,10 @@ void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) //
 		maskblock[3]= lidar[1] & 0b01111111;
 		maskblock[3]= maskblock[3] | 0b10000000;
 		maskblock[4]= (posicion/12)+1;					// envia el cuadrante actual 12 es la cantidad de pasos por cuadrante.
+			
 		
+		
+		maskblock[4]=paso<<1;
 		AS1_SendBlock(maskblock,5,&ptr); // enviamos el entramado (hay que adaptarlo al nuevo poryecto)		   	   
 		
 }		
