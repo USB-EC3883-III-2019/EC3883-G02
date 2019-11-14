@@ -5,7 +5,7 @@ int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos
 
 int estado = 0; 
 String input=""; 
-int[] a = new int [10]; // vector informacion a transmitir por las torres
+int[] a = new int [16]; // vector informacion a transmitir por las torres
 char modo;
 int linea=200;           // variable para controlar posicion vertical del cursor al imprimir en pantalla
 
@@ -46,9 +46,9 @@ String valores;
 boolean comprobacion=false;
 
 void setup() { 
-  size(800, 800);
+  size(800, 500);
   printArray(Serial.list());
-  puerto = new Serial(this, Serial.list()[0], 115200); // en el servidor el puerto es el COM3 ubicado en el [2]
+  puerto = new Serial(this, Serial.list()[2], 115200); // en el servidor el puerto es el COM3 ubicado en el [2]
   puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
   {
@@ -92,10 +92,19 @@ void draw() {
   case 2:            // ENVIAR INFO AL MICRO Y CONFIRMAR RECEPCION
     fill(0); 
     text ("TRANSMITIENDO: " + input, 150, 300); 
-    puerto.write(a[0]);  // cambiar por trama hacia el micro
+    //puerto.write(a[0]);  // cambiar por trama hacia el micro 
+    byte[] b = new byte [4]; // vector de prueba para enviar info al micro con trama oficial
+    
+    b[0]=1;
+    b[1]=2;
+    b[2]=3;
+    b[3]=4;
+    
+    puerto.write(b);
+    
     delay(200);
     fill(255, 2, 2); 
-    estado = 3;
+ //   estado = 3;
     break;
 
   case 3: //esperar que llegue al cuadrante
@@ -184,6 +193,7 @@ void keyPressed() {
       input = input + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
       a[p]=key-48;              // guarda cada letra presionada en una posicion del vector y la convierte a numero 
       p++;          // incrementa la posicion del vector en la que se guardara el valor de la tecla pulsada
+
     }
   }
 }
