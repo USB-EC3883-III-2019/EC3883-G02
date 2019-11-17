@@ -42,6 +42,8 @@
 #include "PWM1.h"
 #include "Cap1.h"
 #include "AD1.h"
+#include "Bit2.h"
+#include "Bit3.h"
 
 void TI1_OnInterrupt(void);
 

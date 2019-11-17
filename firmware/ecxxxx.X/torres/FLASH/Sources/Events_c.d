@@ -1,5 +1,4 @@
 
-
 Sources/Events_c.obj: \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers/../Sources/Events.c \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/Cpu.h \
@@ -15,5 +14,7 @@ Sources/Events_c.obj: \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/TI1.h \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/PWM1.h \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/Cap1.h \
-	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/AD1.h 
+	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/AD1.h \
+	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/Bit2.h \
+	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/Bit3.h 
 
