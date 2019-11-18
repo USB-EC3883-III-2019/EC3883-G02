@@ -216,6 +216,35 @@ void IR_OnTxChar(void);
 ** ===================================================================
 */
 
+void IR_OnFullRxBuf(void);
+/*
+** ===================================================================
+**     Event       :  IR_OnFullRxBuf (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void IR_OnFreeTxBuf(void);
+/*
+** ===================================================================
+**     Event       :  IR_OnFreeTxBuf (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called after the last character in output
+**         buffer is transmitted.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
 /* END Events */
 #endif /* __Events_H*/
 

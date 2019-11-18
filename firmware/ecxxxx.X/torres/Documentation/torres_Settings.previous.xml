@@ -1156,10 +1156,10 @@ autoselected pull
       </event>
     </Events>
   </Bean>
-  <Bean name="PWM2" type="PWM">
+  <Bean name="PWM_IR" type="PWM">
     <Enabled v="Y" />
     <Properties>
-      <Component_name v="PWM2" />
+      <Component_name v="PWM_IR" />
       <PWM_or_PPG_device v="TPM12" />
       <Duty_compare v="" />
       <Output_pin v="PTA6_TPM1CH2_ADP8" />
@@ -1256,10 +1256,10 @@ autoselected pull
       <event name="OnOverflow" v="don&amp;apos;t generate code" />
     </Events>
   </Bean>
-  <Bean name="AS2" type="AsynchroSerial">
+  <Bean name="IR" type="AsynchroSerial">
     <Enabled v="Y" />
     <Properties>
-      <Component_name v="AS2" />
+      <Component_name v="IR" />
       <Channel v="SCI2" />
       <boolgroup name="Interrupt service/event" v="Enabled">
         <Interrupt_RxD v="Vsci2rx" />
@@ -1345,16 +1345,16 @@ autoselected pull
       <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
       <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
       <event name="OnError" v="generate code">
-        <Event_procedure_name v="AS2_OnError" />
+        <Event_procedure_name v="IR_OnError" />
         <Priority v="same as interrupt" />
       </event>
       <event name="OnRxChar" v="generate code">
-        <Event_procedure_name v="AS2_OnRxChar" />
+        <Event_procedure_name v="IR_OnRxChar" />
         <Priority v="same as interrupt" />
       </event>
       <event name="OnRxCharExt" v="don&amp;apos;t generate code" />
       <event name="OnTxChar" v="generate code">
-        <Event_procedure_name v="AS2_OnTxChar" />
+        <Event_procedure_name v="IR_OnTxChar" />
         <Priority v="same as interrupt" />
       </event>
       <event name="OnFullRxBuf" v="don&amp;apos;t generate code" />

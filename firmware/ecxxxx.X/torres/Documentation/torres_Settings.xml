@@ -1268,8 +1268,8 @@ autoselected pull
         <Interrupt_TxD_priority v="medium priority" />
         <Interrupt_Error v="Vsci2err" />
         <Interrupt_Error_priority v="medium priority" />
-        <Input_buffer_size v="0" />
-        <Output_buffer_size v="0" />
+        <Input_buffer_size v="4" />
+        <Output_buffer_size v="4" />
         <group name="Handshake">
           <boolgroup name="CTS" v="Disabled" />
           <boolgroup name="RTS" v="Disabled" />
@@ -1315,10 +1315,10 @@ autoselected pull
       <DisableEvent v="don&amp;apos;t generate code" />
       <RecvChar v="generate code" />
       <SendChar v="generate code" />
-      <RecvBlock v="don&amp;apos;t generate code" />
-      <SendBlock v="don&amp;apos;t generate code" />
-      <ClearRxBuf v="don&amp;apos;t generate code" />
-      <ClearTxBuf v="don&amp;apos;t generate code" />
+      <RecvBlock v="generate code" />
+      <SendBlock v="generate code" />
+      <ClearRxBuf v="generate code" />
+      <ClearTxBuf v="generate code" />
       <CharsInRxBuf v="don&amp;apos;t generate code" />
       <GetCharsInRxBuf v="generate code" />
       <CharsInTxBuf v="don&amp;apos;t generate code" />
@@ -1357,8 +1357,14 @@ autoselected pull
         <Event_procedure_name v="IR_OnTxChar" />
         <Priority v="same as interrupt" />
       </event>
-      <event name="OnFullRxBuf" v="don&amp;apos;t generate code" />
-      <event name="OnFreeTxBuf" v="don&amp;apos;t generate code" />
+      <event name="OnFullRxBuf" v="generate code">
+        <Event_procedure_name v="IR_OnFullRxBuf" />
+        <Priority v="same as interrupt" />
+      </event>
+      <event name="OnFreeTxBuf" v="generate code">
+        <Event_procedure_name v="IR_OnFreeTxBuf" />
+        <Priority v="same as interrupt" />
+      </event>
       <event name="OnBreak" v="don&amp;apos;t generate code" />
       <event name="OnIdle" v="don&amp;apos;t generate code" />
       <event name="OnTxComplete" v="don&amp;apos;t generate code" />

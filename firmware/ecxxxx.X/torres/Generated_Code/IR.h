@@ -6,7 +6,7 @@
 **     Component   : AsynchroSerial
 **     Version     : Component 02.611, Driver 01.33, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-18, 17:09, # CodeGen: 43
+**     Date/Time   : 2019-11-18, 17:46, # CodeGen: 44
 **     Abstract    :
 **         This component "AsynchroSerial" implements an asynchronous serial
 **         communication. The component supports different settings of
@@ -23,8 +23,8 @@
 **             Stop bits               : 1
 **             Parity                  : none
 **             Breaks                  : Disabled
-**             Input buffer size       : 0
-**             Output buffer size      : 0
+**             Input buffer size       : 4
+**             Output buffer size      : 4
 **
 **         Registers
 **             Input buffer            : SCI2D     [$1877]
@@ -55,6 +55,10 @@
 **     Contents    :
 **         RecvChar        - byte IR_RecvChar(IR_TComData *Chr);
 **         SendChar        - byte IR_SendChar(IR_TComData Chr);
+**         RecvBlock       - byte IR_RecvBlock(IR_TComData *Ptr, word Size, word *Rcv);
+**         SendBlock       - byte IR_SendBlock(IR_TComData *Ptr, word Size, word *Snd);
+**         ClearRxBuf      - byte IR_ClearRxBuf(void);
+**         ClearTxBuf      - byte IR_ClearTxBuf(void);
 **         GetCharsInRxBuf - word IR_GetCharsInRxBuf(void);
 **         GetCharsInTxBuf - word IR_GetCharsInTxBuf(void);
 **
@@ -142,7 +146,11 @@
   typedef byte IR_TComData ;           /* User type for communication. Size of this type depends on the communication data width. */
 #endif
 
+#define IR_INP_BUF_SIZE  0x04U         /* Input buffer size */
+#define IR_OUT_BUF_SIZE  0x04U         /* Output buffer size */
 
+extern byte IR_OutLen;                 /* Length of the output buffer content */
+extern byte IR_InpLen;                 /* Length of the input buffer content */
 
 byte IR_RecvChar(IR_TComData *Chr);
 /*
@@ -202,7 +210,102 @@ byte IR_SendChar(IR_TComData Chr);
 ** ===================================================================
 */
 
-word IR_GetCharsInRxBuf(void);
+byte IR_RecvBlock(IR_TComData *Ptr,word Size,word *Rcv);
+/*
+** ===================================================================
+**     Method      :  IR_RecvBlock (component AsynchroSerial)
+**     Description :
+**         If any data is received, this method returns the block of
+**         the data and its length (and incidental error), otherwise it
+**         returns an error code (it does not wait for data).
+**         This method is available only if non-zero length of the
+**         input buffer is defined and the receiver property is enabled.
+**         If less than requested number of characters is received only
+**         the available data is copied from the receive buffer to the
+**         user specified destination. The value ERR_EXEMPTY is
+**         returned and the value of variable pointed by the Rcv
+**         parameter is set to the number of received characters.
+**     Parameters  :
+**         NAME            - DESCRIPTION
+**       * Ptr             - Pointer to the block of received data
+**         Size            - Size of the block
+**       * Rcv             - Pointer to real number of the received data
+**     Returns     :
+**         ---             - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+**                           ERR_RXEMPTY - The receive buffer didn't
+**                           contain the requested number of data. Only
+**                           available data has been returned.
+**                           ERR_COMMON - common error occurred (the
+**                           GetError method can be used for error
+**                           specification)
+** ===================================================================
+*/
+
+byte IR_SendBlock(const IR_TComData * Ptr,word Size,word *Snd);
+/*
+** ===================================================================
+**     Method      :  IR_SendBlock (component AsynchroSerial)
+**     Description :
+**         Sends a block of characters to the channel.
+**         This method is available only if non-zero length of the
+**         output buffer is defined and the transmitter property is
+**         enabled.
+**     Parameters  :
+**         NAME            - DESCRIPTION
+**       * Ptr             - Pointer to the block of data to send
+**         Size            - Size of the block
+**       * Snd             - Pointer to number of data that are sent
+**                           (moved to buffer)
+**     Returns     :
+**         ---             - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+**                           ERR_TXFULL - It was not possible to send
+**                           requested number of bytes
+** ===================================================================
+*/
+
+byte IR_ClearRxBuf(void);
+/*
+** ===================================================================
+**     Method      :  IR_ClearRxBuf (component AsynchroSerial)
+**     Description :
+**         Clears the receive buffer.
+**         This method is available only if non-zero length of the
+**         input buffer is defined and the receiver property is enabled.
+**     Parameters  : None
+**     Returns     :
+**         ---             - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+** ===================================================================
+*/
+
+byte IR_ClearTxBuf(void);
+/*
+** ===================================================================
+**     Method      :  IR_ClearTxBuf (component AsynchroSerial)
+**     Description :
+**         Clears the transmit buffer.
+**         This method is available only if non-zero length of the
+**         output buffer is defined and the receiver property is
+**         enabled.
+**     Parameters  : None
+**     Returns     :
+**         ---             - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+** ===================================================================
+*/
+
+#define IR_GetCharsInRxBuf() \
+((word) IR_InpLen)                     /* Return number of chars in receive buffer */
 /*
 ** ===================================================================
 **     Method      :  IR_GetCharsInRxBuf (component AsynchroSerial)
@@ -216,7 +319,8 @@ word IR_GetCharsInRxBuf(void);
 ** ===================================================================
 */
 
-word IR_GetCharsInTxBuf(void);
+#define IR_GetCharsInTxBuf() \
+((word) IR_OutLen)                     /* Return number of chars in the transmitter buffer */
 /*
 ** ===================================================================
 **     Method      :  IR_GetCharsInTxBuf (component AsynchroSerial)

@@ -83,12 +83,13 @@ void  AS1_OnFullRxBuf(void)
 	  unsigned int ptr4;
 	  AS1_RecvBlock(b,4,&ptr4);
 	  if((b[0] & 0b10000000) == 0b10000000){
-	  mensaje= ( b[0]<<4 ) | ( b[1] & 0b00001111 ) ;  // 8 BITS DE MENSAJE
-	  z1= ( b[2] & 0b00111000 ) >> 3;
-	  z2= ( b[2] & 0b00000111);
-	  z3= ( b[3] & 0b00111000) >> 3;
-	  z4= ( b[3] & 0b00000111);
-	  block5[0]=b[0];
+	  master_position=( b[0] & 0b01110000 ) >> 4;		// en el segundo byte está una posicion adicional que hay que enviar	
+	  mensaje= ( b[0]<<4 ) | ( b[1] & 0b00001111 ) ; 	// 8 BITS DE MENSAJE
+	  z1= ( b[2] & 0b00111000 ) >> 3;					// zona 1
+	  z2= ( b[2] & 0b00000111);							// zona 2
+	  z3= ( b[3] & 0b00111000) >> 3;					// zona 3
+	  z4= ( b[3] & 0b00000111);							// zona 4
+	  block5[0]=b[0];									// block5 es un vector que está en el main por si se necesita usar para algo
 	  block5[1]=b[1];
 	  block5[2]=b[2];
 	  block5[3]=b[3];
@@ -245,6 +246,42 @@ void  IR_OnRxChar(void)
 ** ===================================================================
 */
 void  IR_OnTxChar(void)
+{
+  /* Write your code here ... */
+}
+
+/*
+** ===================================================================
+**     Event       :  IR_OnFullRxBuf (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void  IR_OnFullRxBuf(void)
+{
+	
+  /* Write your code here ... */
+}
+
+/*
+** ===================================================================
+**     Event       :  IR_OnFreeTxBuf (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called after the last character in output
+**         buffer is transmitted.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void  IR_OnFreeTxBuf(void)
 {
   /* Write your code here ... */
 }

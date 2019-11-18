@@ -44,10 +44,12 @@
       <GenEventModules lines_count="1">
         <Line>Events</Line>
       </GenEventModules>
-      <GenMethodsInEvents lines_count="10">
+      <GenMethodsInEvents lines_count="12">
         <Line>IR_OnError</Line>
         <Line>IR_OnRxChar</Line>
         <Line>IR_OnTxChar</Line>
+        <Line>IR_OnFullRxBuf</Line>
+        <Line>IR_OnFreeTxBuf</Line>
         <Line>Cap1_OnCapture</Line>
         <Line>AD1_OnEnd</Line>
         <Line>AS1_OnError</Line>
@@ -87,7 +89,7 @@
     </GenFiles>
     <SignalListFile>Documentation\torres_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>178</ProjectModificationStamp>
+    <ProjectModificationStamp>179</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -1197,8 +1199,8 @@
     <GenComponentVersion>02.611</GenComponentVersion>
     <GenDriverVersion>01.33</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1332906283</HeaderAge>
-    <CodeAge>1332906283</CodeAge>
+    <HeaderAge>1332907478</HeaderAge>
+    <CodeAge>1332907478</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>30</GenNumMethods>
     <Enable>false</Enable>
@@ -1207,10 +1209,10 @@
     <DisableEvent>false</DisableEvent>
     <RecvChar>true</RecvChar>
     <SendChar>true</SendChar>
-    <RecvBlock>false</RecvBlock>
-    <SendBlock>false</SendBlock>
-    <ClearRxBuf>false</ClearRxBuf>
-    <ClearTxBuf>false</ClearTxBuf>
+    <RecvBlock>true</RecvBlock>
+    <SendBlock>true</SendBlock>
+    <ClearRxBuf>true</ClearRxBuf>
+    <ClearTxBuf>true</ClearTxBuf>
     <CharsInRxBuf>false</CharsInRxBuf>
     <GetCharsInRxBuf>true</GetCharsInRxBuf>
     <CharsInTxBuf>false</CharsInTxBuf>
@@ -1250,10 +1252,10 @@
     <OnTxChar_Selected>3</OnTxChar_Selected>
     <OnTxChar_Name>IR_OnTxChar</OnTxChar_Name>
     <OnTxChar_Priority>same as interrupt</OnTxChar_Priority>
-    <OnFullRxBuf_Selected>0</OnFullRxBuf_Selected>
+    <OnFullRxBuf_Selected>3</OnFullRxBuf_Selected>
     <OnFullRxBuf_Name>IR_OnFullRxBuf</OnFullRxBuf_Name>
     <OnFullRxBuf_Priority>same as interrupt</OnFullRxBuf_Priority>
-    <OnFreeTxBuf_Selected>0</OnFreeTxBuf_Selected>
+    <OnFreeTxBuf_Selected>3</OnFreeTxBuf_Selected>
     <OnFreeTxBuf_Name>IR_OnFreeTxBuf</OnFreeTxBuf_Name>
     <OnFreeTxBuf_Priority>same as interrupt</OnFreeTxBuf_Priority>
     <OnBreak_Selected>0</OnBreak_Selected>
@@ -1271,125 +1273,181 @@
     <GenSmartUserChangesDetected_Header>false</GenSmartUserChangesDetected_Header>
     <GenSmartUserChangesDetected_Code>false</GenSmartUserChangesDetected_Code>
     <GenSmartUserChangesDetected_Asembl>false</GenSmartUserChangesDetected_Asembl>
-    <GenMethodPos>17</GenMethodPos>
+    <GenMethodPos>25</GenMethodPos>
     <MethodPos>
       <MethodPos0>RecvChar</MethodPos0>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>146</LineBeg>
-      <LineEnd>179</LineEnd>
+      <LineBeg>154</LineBeg>
+      <LineEnd>187</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos1>SendChar</MethodPos1>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>180</LineBeg>
-      <LineEnd>203</LineEnd>
+      <LineBeg>188</LineBeg>
+      <LineEnd>211</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos2>GetCharsInRxBuf</MethodPos2>
+      <MethodPos2>RecvBlock</MethodPos2>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>204</LineBeg>
-      <LineEnd>217</LineEnd>
+      <LineBeg>212</LineBeg>
+      <LineEnd>245</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos3>GetCharsInTxBuf</MethodPos3>
+      <MethodPos3>SendBlock</MethodPos3>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>218</LineBeg>
+      <LineBeg>246</LineBeg>
+      <LineEnd>270</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos4>ClearRxBuf</MethodPos4>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>271</LineBeg>
+      <LineEnd>287</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos5>ClearTxBuf</MethodPos5>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>288</LineBeg>
+      <LineEnd>305</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos6>GetCharsInRxBuf</MethodPos6>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>306</LineBeg>
+      <LineEnd>320</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos7>GetCharsInTxBuf</MethodPos7>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>321</LineBeg>
+      <LineEnd>336</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos8>InterruptRx</MethodPos8>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>337</LineBeg>
+      <LineEnd>350</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos9>InterruptTx</MethodPos9>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>351</LineBeg>
+      <LineEnd>364</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos10>InterruptError</MethodPos10>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>365</LineBeg>
+      <LineEnd>378</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos11>InterruptCs</MethodPos11>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>379</LineBeg>
+      <LineEnd>379</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos12>Init</MethodPos12>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>380</LineBeg>
+      <LineEnd>392</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos13>RecvChar</MethodPos13>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>145</LineBeg>
+      <LineEnd>194</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos14>SendChar</MethodPos14>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>195</LineBeg>
       <LineEnd>232</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos4>InterruptRx</MethodPos4>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
+      <MethodPos15>RecvBlock</MethodPos15>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
       <LineBeg>233</LineBeg>
-      <LineEnd>246</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos5>InterruptTx</MethodPos5>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>247</LineBeg>
-      <LineEnd>260</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos6>InterruptError</MethodPos6>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>261</LineBeg>
-      <LineEnd>274</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos7>InterruptCs</MethodPos7>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>275</LineBeg>
-      <LineEnd>275</LineEnd>
-    </MethodPos>
-    <MethodPos>
-      <MethodPos8>Init</MethodPos8>
-      <MethodType>internal_method</MethodType>
-      <ModuleType>Header</ModuleType>
-      <LineBeg>276</LineBeg>
       <LineEnd>288</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos9>RecvChar</MethodPos9>
+      <MethodPos16>SendBlock</MethodPos16>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>131</LineBeg>
-      <LineEnd>177</LineEnd>
+      <LineBeg>289</LineBeg>
+      <LineEnd>340</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos10>SendChar</MethodPos10>
+      <MethodPos17>ClearRxBuf</MethodPos17>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>178</LineBeg>
-      <LineEnd>213</LineEnd>
+      <LineBeg>341</LineBeg>
+      <LineEnd>366</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos11>GetCharsInRxBuf</MethodPos11>
+      <MethodPos18>ClearTxBuf</MethodPos18>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>214</LineBeg>
-      <LineEnd>230</LineEnd>
+      <LineBeg>367</LineBeg>
+      <LineEnd>392</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos12>GetCharsInTxBuf</MethodPos12>
+      <MethodPos19>GetCharsInRxBuf</MethodPos19>
       <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>231</LineBeg>
-      <LineEnd>248</LineEnd>
+      <LineBeg>393</LineBeg>
+      <LineEnd>410</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos13>InterruptRx</MethodPos13>
-      <MethodType>internal_method</MethodType>
+      <MethodPos20>GetCharsInTxBuf</MethodPos20>
+      <MethodType>method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>249</LineBeg>
-      <LineEnd>289</LineEnd>
+      <LineBeg>411</LineBeg>
+      <LineEnd>429</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos14>InterruptTx</MethodPos14>
+      <MethodPos21>InterruptRx</MethodPos21>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>290</LineBeg>
-      <LineEnd>317</LineEnd>
+      <LineBeg>430</LineBeg>
+      <LineEnd>477</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos15>InterruptError</MethodPos15>
+      <MethodPos22>InterruptTx</MethodPos22>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>318</LineBeg>
-      <LineEnd>338</LineEnd>
+      <LineBeg>478</LineBeg>
+      <LineEnd>519</LineEnd>
     </MethodPos>
     <MethodPos>
-      <MethodPos16>Init</MethodPos16>
+      <MethodPos23>InterruptError</MethodPos23>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>339</LineBeg>
-      <LineEnd>367</LineEnd>
+      <LineBeg>520</LineBeg>
+      <LineEnd>540</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos24>Init</MethodPos24>
+      <MethodType>internal_method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>541</LineBeg>
+      <LineEnd>576</LineEnd>
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
   </ComponentID_114>

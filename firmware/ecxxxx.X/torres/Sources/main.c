@@ -76,7 +76,7 @@ char lidar[2];
 //retorna 1 si llegó a la posicion
 
 
-void mover_cuadrante()
+void mover_cuadrante()	//mueve el motor al cuadrante (zona) solicitado
 {	
 	char pasos=63; 	// pasos totales de barrido de la torre
 	char div=5;		// cantidad de cuadrantes
@@ -107,7 +107,7 @@ void paso(){ // esta funcion se ampliara mas adelante para que el motor de deter
 	}
 }
 
-unsigned int sensores(){
+unsigned int sensores(){	//Lee los dos sensores
 	unsigned int t2=0;
 	if(cuadrante_a==cuadrante){
 		AD1_MeasureChan(TRUE,1); // Lee el lidar conectado al canal 1
@@ -118,11 +118,11 @@ unsigned int sensores(){
 	return t2;
 }
 
-void solindar(char fusion[],unsigned int tsonar, char lidar[]){
+void solindar(char fusion[],unsigned int tsonar, char lidar[]){	// Fusión de los vectores
 	
 }
 
-void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) // OPERATIVO Y PROBADO
+void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) // OPERATIVO Y PROBADO enviando datos al pc
 {
 	   /* Las variables son:
 	    * maskblock hace referencia a los 4 bytes completos que envía el demoQE, sería la trama según el protocolo
@@ -160,7 +160,7 @@ void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) //
 		
 }		
 
-void main(void)
+void main(void)	//
 {
   /* Write your local variable definition here */
 char ready=0,init=0; // un retardo antes de iniciar el programa que depende una comparacion con la variable init y el tiempo que se desea

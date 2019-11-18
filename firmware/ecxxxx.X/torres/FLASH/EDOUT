@@ -1,0 +1,8 @@
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:113:warning:C1420 Result of function-call is ignored
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:114:warning:C1420 Result of function-call is ignored
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:121:information:C5703 Parameter 'fusion' declared in function 'solindar' but not referenced
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:142:warning:C2705 Possible loss of data
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:159:warning:C1420 Result of function-call is ignored
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:138:information:C5702 Local variable 'ptr2' declared in function 'enviar' but not referenced
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:143:warning:C5651 Local variable "temp2" may be not initialized
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:188:warning:C2705 Possible loss of data
