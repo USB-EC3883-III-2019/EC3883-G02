@@ -1,5 +1,0 @@
-C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:120:warning:C1420 Result of function-call is ignored
-C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:121:warning:C1420 Result of function-call is ignored
-C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:122:error:C2801 '}' missing
-C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:122:error:C1815 t2 not declared (or typename)
-C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:124:error:C2801 ';' missing

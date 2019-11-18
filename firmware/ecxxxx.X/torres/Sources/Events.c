@@ -75,8 +75,12 @@ void  AS1_OnError(void)
 void  AS1_OnRxChar(void)
 {
   /* Write your code here ... */
-  AS1_RecvChar(&a);
-  Bit1_NegVal();
+  char b[2];
+  AS1_RecvChar(b);
+  if(b[0] != 0)
+  {
+	  Bit1_NegVal();
+  }
 }
 void  AS1_OnFullRxBuf(void)
 { 

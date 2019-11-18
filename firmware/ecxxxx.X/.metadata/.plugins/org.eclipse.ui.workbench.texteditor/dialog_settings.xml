@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="cuadrante" key="selection"/>
+		<item value="Bit1" key="selection"/>
 		<list key="findhistory">
-			<item value="cuadrante"/>
-			<item value="int time"/>
-			<item value="time"/>
+			<item value="bit1"/>
+			<item value="bit"/>
+			<item value="rx"/>
 			<item value="t2"/>
-			<item value="mask1"/>
-			<item value="mask1(maskblock,t2,lidar,posicion);&#x09;// Llamamos al procedimiento mask1&#x09;      // para una prueba estamos metiendo el tiempo en posicion"/>
-			<item value="TIME"/>
-			<item value="CAP"/>
+			<item value="mover_paso"/>
+			<item value="mover paso"/>
+			<item value="enviar"/>
+			<item value="cuadrante"/>
 		</list>
 		<list key="replacehistory">
 			<item value="lidar"/>

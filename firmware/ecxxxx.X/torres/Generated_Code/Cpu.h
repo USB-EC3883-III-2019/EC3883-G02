@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-09, 14:04, # CodeGen: 31
+**     Date/Time   : 2019-11-14, 07:26, # CodeGen: 40
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -107,6 +107,7 @@ extern volatile byte CCR_lock;         /* Nesting level of critical regions */
 
 /* Shadow variables */
 extern byte Shadow_PTE;                /* Shadow variable for I/O components */
+extern byte Shadow_PTD;                /* Shadow variable for I/O components */
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 void _EntryPoint(void);
