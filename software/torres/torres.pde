@@ -2,10 +2,12 @@ import processing.serial.*;
 Serial puerto;
 String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
-
+int[] info = new int[32];
+int[] trama = new int[4]; 
+char[] mask = new char[4];
 int estado = 0; 
 String input=""; 
-int[] a = new int [16]; // vector informacion a transmitir por las torres
+char[] a = new char [16]; // vector informacion a transmitir por las torres
 char modo;
 int linea=200;           // variable para controlar posicion vertical del cursor al imprimir en pantalla
 
@@ -44,6 +46,7 @@ float aux=0; //variable auxiliar
 
 String valores;
 boolean comprobacion=false;
+byte[] b = new byte [4]; // vector de prueba para enviar info al micro con trama oficial
 
 void setup() { 
   size(800, 500);
@@ -63,16 +66,27 @@ void setup() {
 
 
 void draw() { 
-
+  //if(puerto.available() > 0){
+   puerto.write(trama[0]);
+   puerto.write(trama[1]);
+   puerto.write(trama[2]);
+   puerto.write(trama[3]);
+   //puerto.write(135);
+   //puerto.write(13);
+   //puerto.write(2);
+   //puerto.write(38);
+  //}
   background(255); 
   
   if(estado==2 | estado==3){
-  text ("Monitor serial : " + binary(U1V[0],4) + " " + binary(U2V[0],4) + " " + binary(H1V[0],4) + " " +binary(H2V[0],4),150,25);
-  text ("Sonar : " + dfsonar,150,50);
-  text ("Lidar : " + dflidar,150,75);
-  text ("Fusion: " + dffus,150,100);
-  text ("V_sonar: " + var_sonar,150,125);
-  text ("V_lidar: " + var_lidar,150,150);
+  text ("Monitor serial IN     : " + binary(U1V[0],8) + " " + binary(U2V[0],8) + " " + binary(H1V[0],8) + " " +binary(H2V[0],8),150,25);
+  text ("Monitor serial OUT : " + binary(b[0],8) + " " + binary(b[1],8) + " " + binary(b[2],8) + " " +binary(b[3],8),150,50);
+  text ("Sonar : \t\t" + dfsonar,150,75);
+  text ("Lidar : \t\t" + dflidar,150,100);
+  text ("Fusion: \t\t" + dffus,150,125);
+  text ("V_sonar: \t\t" + var_sonar,150,150);
+  text ("V_lidar: \t\t" + var_lidar,150,175);
+  text ("Estado : " + estado,150,200); 
   }
   
   switch (estado) {
@@ -91,24 +105,61 @@ void draw() {
 
   case 2:            // ENVIAR INFO AL MICRO Y CONFIRMAR RECEPCION
     fill(0); 
-    text ("TRANSMITIENDO: " + input, 150, 300); 
-    //puerto.write(a[0]);  // cambiar por trama hacia el micro 
-    byte[] b = new byte [4]; // vector de prueba para enviar info al micro con trama oficial
-    
-    b[0]=1;
-    b[1]=2;
-    b[2]=3;
-    b[3]=4;
-    
-    puerto.write(b);
-    
-    delay(200);
+    text ("TRANSMITIENDO: " + input, 150, 300);
+    for(int ci=0;ci<32;ci++){
+      info[ci]=input.charAt(ci); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
+  }
+  
+  //trama[0]=(info[0]-48)<<7;
+  
+ for(int ci=0;ci<32;ci++){
+    if(ci == 0){
+       trama[0] = (info[ci]-48); 
+      }
+      else if(0 < ci || ci < 8){
+       trama[0] = trama[0] << 1 | (info[ci]-48); 
+      }
+      else if(ci == 8){
+       trama[1] = (info[ci]-48); 
+      }
+      else if(8 < ci || ci < 16){
+       trama[1] = (trama[1] << 1) | (info[ci]-48); 
+      }
+      else if(ci == 16){
+       trama[2] = info[ci]; 
+      }
+      else if(16 < ci || ci < 24){
+       trama[2] = (trama[2] << 1) | (info[ci]-48); 
+      }
+      else if(ci == 24){
+       trama[3] = (info[ci]-48); 
+      }
+      else if(24 < ci || ci < 32){
+       trama[3] = (trama[3] << 1) | (info[ci]-48); 
+      }
+        //print("trama 0 ");
+        //println(trama[0]);
+        //print("trama 1 ");
+        //println(trama[1]);
+        //print("trama 2 ");
+        //println(trama[2]);
+        //print("trama 3 ");
+        //println(trama[3]);
+  
+  }
+    //aqui se debe entramar la info en los primeros 4 espacios del vaector char o en un nuevo vector
+    //y se deben enviar los 4 bytes
+   
+        
+    delay(100); //<>//
     fill(255, 2, 2); 
- //   estado = 3;
     break;
 
   case 3: //esperar que llegue al cuadrante
-    // if (llega al cuadrante) { estadi=40;} // esto se confirma por que el micro esta enviando informacion constante con su posicion
+  
+  estado = 0;
+    
+  // if (llega al cuadrante) { estadi=40;} // esto se confirma por que el micro esta enviando informacion constante con su posicion
  
   break;
   
@@ -153,7 +204,7 @@ void draw() {
 
   case 8:      // 
     fill(0); 
-    text ("MODO ESCLAVO \n"+input, 150, 300); 
+    text ("MODO ESCLAVO \n", 150, 300); 
     fill(255, 2, 2); 
     text ("PRESIONE CUALQUIER TECLA PARA CONTINUAR \n", 150, 400);
     break;    
@@ -167,6 +218,11 @@ void keyPressed() {
     case 1:        // SI ESTOY EN MASTER (1) PASO A (2)
       estado=2;
       break;
+
+    case 2:        // SI ESTOY EN MASTER (1) PASO A (2)
+      estado=7;
+      break;
+
 
     case 7:       // SE RECIBIO EL MENSAJE Y SE PUEDE PRESIONAR ENTER PARA REINICIAR EL PROGRAMA  
       estado=0;
@@ -191,10 +247,7 @@ void keyPressed() {
 
     case 1:
       input = input + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
-      a[p]=key-48;              // guarda cada letra presionada en una posicion del vector y la convierte a numero 
-      p++;          // incrementa la posicion del vector en la que se guardara el valor de la tecla pulsada
-
-    }
+  }
   }
 }
 
