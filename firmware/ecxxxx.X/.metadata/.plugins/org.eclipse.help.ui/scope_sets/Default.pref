@@ -1,2 +1,4 @@
-#Sat Nov 09 07:08:09 VET 2019
+#Mon Nov 18 17:08:06 VET 2019
 __DEFAULT__=true
+org.eclipse.sdk.Eclipse.master=true
+org.eclipse.help.ui.localSearch.master=true

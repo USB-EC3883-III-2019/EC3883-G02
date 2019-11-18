@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-14, 07:26, # CodeGen: 40
+**     Date/Time   : 2019-11-18, 17:09, # CodeGen: 43
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -70,12 +70,11 @@
 #include "AS1.h"
 #include "Byte1.h"
 #include "Bit1.h"
-#include "TI1.h"
 #include "PWM1.h"
-#include "Cap1.h"
 #include "AD1.h"
-#include "Bit2.h"
-#include "Bit3.h"
+#include "PWM_IR.h"
+#include "Cap1.h"
+#include "IR.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -92,7 +91,6 @@ volatile byte CCR_lock;                /* Nesting level of critical regions */
 
 /*Definition of global shadow variables*/
 byte Shadow_PTE;
-byte Shadow_PTD;
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 
@@ -182,25 +180,20 @@ loop:
     /* 100 us delay block begin */
     /*
      * Delay
-     *   - requested                  : 100 us @ 7.471104MHz,
-     *   - possible                   : 747 c, 99985.22 ns, delta -14.78 ns
-     *   - without removable overhead : 739 c, 98914.43 ns
+     *   - requested                  : 100 us @ 14.942208MHz,
+     *   - possible                   : 1494 c, 99985.22 ns, delta -14.78 ns
+     *   - without removable overhead : 1486 c, 99449.83 ns
      */
-    pshh                               /* (2 c: 267.7 ns) backup H */
-    pshx                               /* (2 c: 267.7 ns) backup X */
-    ldhx #$005A                        /* (3 c: 401.55 ns) number of iterations */
+    pshh                               /* (2 c: 133.85 ns) backup H */
+    pshx                               /* (2 c: 133.85 ns) backup X */
+    ldhx #$00B8                        /* (3 c: 200.77 ns) number of iterations */
 label0:
-    aix #-1                            /* (2 c: 267.7 ns) decrement H:X */
-    cphx #0                            /* (3 c: 401.55 ns) compare it to zero */
-    bne label0                         /* (3 c: 401.55 ns) repeat 90x */
-    pulx                               /* (3 c: 401.55 ns) restore X */
-    pulh                               /* (3 c: 401.55 ns) restore H */
-    nop                                /* (1 c: 133.85 ns) wait for 1 c */
-    nop                                /* (1 c: 133.85 ns) wait for 1 c */
-    nop                                /* (1 c: 133.85 ns) wait for 1 c */
-    nop                                /* (1 c: 133.85 ns) wait for 1 c */
-    nop                                /* (1 c: 133.85 ns) wait for 1 c */
-    nop                                /* (1 c: 133.85 ns) wait for 1 c */
+    aix #-1                            /* (2 c: 133.85 ns) decrement H:X */
+    cphx #0                            /* (3 c: 200.77 ns) compare it to zero */
+    bne label0                         /* (3 c: 200.77 ns) repeat 184x */
+    pulx                               /* (3 c: 200.77 ns) restore X */
+    pulh                               /* (3 c: 200.77 ns) restore H */
+    nop                                /* (1 c: 66.92 ns) wait for 1 c */
     /* 100 us delay block end */
     aix #-1                            /* us100 parameter is passed via H:X registers */
     cphx #0
@@ -234,8 +227,6 @@ void _EntryPoint(void)
   /* Common initialization of the write once registers */
   /* SOPT1: COPE=0,COPT=1,STOPE=0,??=0,??=0,RSTOPE=0,BKGDPE=1,RSTPE=0 */
   setReg8(SOPT1, 0x42U);                
-  /* SOPT2: COPCLKS=0,??=0,??=0,??=0,SPI1PS=0,ACIC2=0,IIC1PS=0,ACIC1=0 */
-  setReg8(SOPT2, 0x00U);                
   /* SPMSC1: LVDF=0,LVDACK=0,LVDIE=0,LVDRE=1,LVDSE=1,LVDE=1,??=0,BGBE=0 */
   setReg8(SPMSC1, 0x1CU);               
   /* SPMSC2: LPR=0,LPRS=0,LPWUI=0,??=0,PPDF=0,PPDACK=0,PPDE=1,PPDC=0 */
@@ -251,8 +242,8 @@ void _EntryPoint(void)
   /*lint -restore Enable MISRA rule (11.3) checking. */
   /* ICSC1: CLKS=0,RDIV=0,IREFS=1,IRCLKEN=1,IREFSTEN=0 */
   setReg8(ICSC1, 0x06U);               /* Initialization of the ICS control register 1 */ 
-  /* ICSC2: BDIV=2,RANGE=0,HGO=0,LP=0,EREFS=0,ERCLKEN=0,EREFSTEN=0 */
-  setReg8(ICSC2, 0x80U);               /* Initialization of the ICS control register 2 */ 
+  /* ICSC2: BDIV=1,RANGE=1,HGO=0,LP=0,EREFS=0,ERCLKEN=1,EREFSTEN=0 */
+  setReg8(ICSC2, 0x62U);               /* Initialization of the ICS control register 2 */ 
   while(ICSSC_IREFST == 0U) {          /* Wait until the source of reference clock is internal clock */
   }
   /* ICSSC: DRST_DRS=2,DMX32=1 */
@@ -288,36 +279,34 @@ void PE_low_level_init(void)
   /* SCGC2: DBG=1,FLS=1,IRQ=1,KBI=1,ACMP=1,RTC=1,SPI2=1,SPI1=1 */
   setReg8(SCGC2, 0xFFU);                
   /* Common initialization of the CPU registers */
-  /* PTBDD: PTBDD5=0,PTBDD1=1,PTBDD0=0 */
-  clrSetReg8Bits(PTBDD, 0x21U, 0x02U);  
+  /* PTBDD: PTBDD1=1,PTBDD0=0 */
+  clrSetReg8Bits(PTBDD, 0x01U, 0x02U);  
   /* PTBD: PTBD1=1 */
   setReg8Bits(PTBD, 0x02U);             
-  /* PTCD: PTCD7=1,PTCD6=1,PTCD5=1,PTCD4=1,PTCD3=1,PTCD2=1,PTCD1=1,PTCD0=1 */
-  setReg8(PTCD, 0xFFU);                 
-  /* PTCPE: PTCPE7=0,PTCPE6=0,PTCPE5=0,PTCPE4=0,PTCPE3=0,PTCPE2=0,PTCPE1=0,PTCPE0=0 */
-  setReg8(PTCPE, 0x00U);                
-  /* PTCDD: PTCDD7=1,PTCDD6=1,PTCDD5=1,PTCDD4=1,PTCDD3=1,PTCDD2=1,PTCDD1=1,PTCDD0=1 */
-  setReg8(PTCDD, 0xFFU);                
+  /* PTDD: PTDD7=1,PTDD6=1,PTDD5=1,PTDD4=1,PTDD3=1,PTDD2=1,PTDD1=1,PTDD0=1 */
+  setReg8(PTDD, 0xFFU);                 
+  /* PTDPE: PTDPE7=0,PTDPE6=0,PTDPE5=0,PTDPE4=0,PTDPE3=0,PTDPE2=0,PTDPE1=0,PTDPE0=0 */
+  setReg8(PTDPE, 0x00U);                
+  /* PTDDD: PTDDD7=1,PTDDD6=1,PTDDD5=1,PTDDD4=1,PTDDD3=1,PTDDD2=1,PTDDD1=1,PTDDD0=1 */
+  setReg8(PTDDD, 0xFFU);                
   /* PTED: PTED7=0 */
   clrReg8Bits(PTED, 0x80U);             
   /* PTEPE: PTEPE7=0 */
   clrReg8Bits(PTEPE, 0x80U);            
   /* PTEDD: PTEDD7=1 */
   setReg8Bits(PTEDD, 0x80U);            
-  /* PTADD: PTADD7=1 */
-  setReg8Bits(PTADD, 0x80U);            
-  /* PTAD: PTAD7=0 */
-  clrReg8Bits(PTAD, 0x80U);             
-  /* PTBPE: PTBPE5=0 */
-  clrReg8Bits(PTBPE, 0x20U);            
+  /* PTADD: PTADD7=1,PTADD6=1 */
+  setReg8Bits(PTADD, 0xC0U);            
+  /* PTAD: PTAD7=0,PTAD6=0 */
+  clrReg8Bits(PTAD, 0xC0U);             
   /* APCTL1: ADPC1=1,ADPC0=1 */
   setReg8Bits(APCTL1, 0x03U);           
-  /* PTDD: PTDD1=0,PTDD0=0 */
-  clrReg8Bits(PTDD, 0x03U);             
-  /* PTDPE: PTDPE1=0,PTDPE0=0 */
-  clrReg8Bits(PTDPE, 0x03U);            
-  /* PTDDD: PTDDD1=1,PTDDD0=1 */
-  setReg8Bits(PTDDD, 0x03U);            
+  /* PTCPE: PTCPE3=0 */
+  clrReg8Bits(PTCPE, 0x08U);            
+  /* PTCDD: PTCDD7=1,PTCDD6=0,PTCDD3=0 */
+  clrSetReg8Bits(PTCDD, 0x48U, 0x80U);  
+  /* PTCD: PTCD7=1 */
+  setReg8Bits(PTCD, 0x80U);             
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -360,18 +349,16 @@ void PE_low_level_init(void)
   /* ### ByteIO "Byte1" init code ... */
   /* ### BitIO "Bit1" init code ... */
   Shadow_PTE &= 0x7FU;                 /* Initialize pin shadow variable bit */
-  /* ### TimerInt "TI1" init code ... */
-  TI1_Init();
   /* ### Programable pulse generation "PWM1" init code ... */
   PWM1_Init();
-  /* ### Timer capture encapsulation "Cap1" init code ... */
-  Cap1_Init();
   /* ###  "AD1" init code ... */
   AD1_Init();
-  /* ### BitIO "Bit2" init code ... */
-  Shadow_PTD &= 0xFDU;                 /* Initialize pin shadow variable bit */
-  /* ### BitIO "Bit3" init code ... */
-  Shadow_PTD &= 0xFEU;                 /* Initialize pin shadow variable bit */
+  /* ### Programable pulse generation "PWM_IR" init code ... */
+  PWM_IR_Init();
+  /* ### Timer capture encapsulation "Cap1" init code ... */
+  Cap1_Init();
+  /* ### Asynchro serial "IR" init code ... */
+  IR_Init();
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }

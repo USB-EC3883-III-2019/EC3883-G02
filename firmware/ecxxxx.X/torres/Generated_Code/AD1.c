@@ -6,7 +6,7 @@
 **     Component   : ADC
 **     Version     : Component 01.690, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-10, 06:16, # CodeGen: 34
+**     Date/Time   : 2019-11-17, 15:50, # CodeGen: 41
 **     Abstract    :
 **         This device "ADC" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -416,8 +416,8 @@ void AD1_Init(void)
   setReg8(ADCSC2, 0x00U);              /* Disable HW trigger and autocompare */ 
   OutFlg = 0U;                         /* No measured value */
   ModeFlg = STOP;                      /* Device isn't running */
-  /* ADCCFG: ADLPC=0,ADIV1=0,ADIV0=0,ADLSMP=0,MODE1=0,MODE0=1,ADICLK1=0,ADICLK0=0 */
-  setReg8(ADCCFG, 0x04U);              /* Set prescaler bits */ 
+  /* ADCCFG: ADLPC=0,ADIV1=0,ADIV0=1,ADLSMP=0,MODE1=0,MODE0=1,ADICLK1=0,ADICLK0=0 */
+  setReg8(ADCCFG, 0x24U);              /* Set prescaler bits */ 
 }
 
 

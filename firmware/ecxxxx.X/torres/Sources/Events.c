@@ -34,7 +34,7 @@
 extern unsigned int a;
 extern unsigned int p;
 extern unsigned int time;
-
+extern char block5[4],mensaje,z1,z2,z3,z4;
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
 /*
@@ -75,16 +75,26 @@ void  AS1_OnError(void)
 void  AS1_OnRxChar(void)
 {
   /* Write your code here ... */
-  char b[2];
-  AS1_RecvChar(b);
-  if(b[0] != 0)
-  {
-	  Bit1_NegVal();
-  }
 }
+
 void  AS1_OnFullRxBuf(void)
 { 
-	AS1_ClearRxBuf();
+	  char b[4];
+	  unsigned int ptr4;
+	  AS1_RecvBlock(b,4,&ptr4);
+	  if((b[0] & 0b10000000) == 0b10000000){
+	  mensaje= ( b[0]<<4 ) | ( b[1] & 0b00001111 ) ;  // 8 BITS DE MENSAJE
+	  z1= ( b[2] & 0b00111000 ) >> 3;
+	  z2= ( b[2] & 0b00000111);
+	  z3= ( b[3] & 0b00111000) >> 3;
+	  z4= ( b[3] & 0b00000111);
+	  block5[0]=b[0];
+	  block5[1]=b[1];
+	  block5[2]=b[2];
+	  block5[3]=b[3];
+	  ptr4=0;
+	  }
+	  AS1_ClearRxBuf();
   /* Write your code here ... */
 }
 
@@ -181,6 +191,62 @@ void Cap1_OnCapture(void)
 	if(Cap1_GetPinValue())
 			  Cap1_Reset();
 		  else Cap1_GetCaptureValue(&time);
+}
+
+/*
+** ===================================================================
+**     Event       :  IR_OnError (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called when a channel error (not the error
+**         returned by a given method) occurs. The errors can be read
+**         using <GetError> method.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void  IR_OnError(void)
+{
+  /* Write your code here ... */
+}
+
+/*
+** ===================================================================
+**     Event       :  IR_OnRxChar (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called after a correct character is received.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled and either the <Receiver>
+**         property is enabled or the <SCI output mode> property (if
+**         supported) is set to Single-wire mode.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void  IR_OnRxChar(void)
+{
+  /* Write your code here ... */
+}
+
+/*
+** ===================================================================
+**     Event       :  IR_OnTxChar (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called after a character is transmitted.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void  IR_OnTxChar(void)
+{
+  /* Write your code here ... */
 }
 
 /* END Events */

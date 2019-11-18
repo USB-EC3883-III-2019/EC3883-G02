@@ -38,12 +38,11 @@
 #include "AS1.h"
 #include "Byte1.h"
 #include "Bit1.h"
-#include "TI1.h"
 #include "PWM1.h"
 #include "Cap1.h"
+#include "IR.h"
 #include "AD1.h"
-#include "Bit2.h"
-#include "Bit3.h"
+#include "PWM_IR.h"
 
 void TI1_OnInterrupt(void);
 
@@ -165,6 +164,53 @@ void AD1_OnEnd(void);
 **         of <1 or more conversions>) is/are finished.
 **         The event is available only when the <Interrupt
 **         service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void IR_OnError(void);
+/*
+** ===================================================================
+**     Event       :  IR_OnError (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called when a channel error (not the error
+**         returned by a given method) occurs. The errors can be read
+**         using <GetError> method.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void IR_OnRxChar(void);
+/*
+** ===================================================================
+**     Event       :  IR_OnRxChar (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called after a correct character is received.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled and either the <Receiver>
+**         property is enabled or the <SCI output mode> property (if
+**         supported) is set to Single-wire mode.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void IR_OnTxChar(void);
+/*
+** ===================================================================
+**     Event       :  IR_OnTxChar (module Events)
+**
+**     Component   :  IR [AsynchroSerial]
+**     Description :
+**         This event is called after a character is transmitted.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================

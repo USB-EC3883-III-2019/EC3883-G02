@@ -1,2 +1,0 @@
-WARNING L1827: Symbol a has different size in main_c.obj (1 bytes) and Events_c.obj (2 bytes)
-ERROR L1822: Symbol mover in file C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/FLASH/Sources\main_c.obj is undefined

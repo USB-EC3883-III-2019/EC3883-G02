@@ -33,12 +33,11 @@
 #include "AS1.h"
 #include "Byte1.h"
 #include "Bit1.h"
-#include "TI1.h"
 #include "PWM1.h"
 #include "Cap1.h"
+#include "IR.h"
 #include "AD1.h"
-#include "Bit2.h"
-#include "Bit3.h"
+#include "PWM_IR.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -48,25 +47,23 @@
 /* User includes (#include below this line is not maintained by Processor Expert) */
 /*	INFO GENERAL
  * 
- * 	PIN NOMBRE	DESCRIPCION 	VARIABLE	I/O		NOTAS
+ * 	PIN 	ANTES	DESCRIPCION 	VARIABLE	I/O		NOTAS
  * 	-----------------------------------------------------------------------
- *  1	VDD	   	+3V							O		SALIDA DE VOLTAGE POSITIVO DEMOQE	
- *  3	VSS	   	0							O		TIERRA DEL DEMOQE 
- *  13	PTC0	MOTOR 1 (VERDE)				O		BOBINA MOTOR
- *  15	PTC1	MOTOR 2	(ROJO)				O		BOBINA MOTOR
- *  33	PTC2	MOTOR 3	(GRIS1)				O		BOBINA MOTOR
- *  35	PTC3	MOTOR 4	(GRIS2)				O		BOBINA MOTOR
- *  27	PTD2	ZERO IZQ					I		SENSOR PARA DETECTAR MAXIMO IZQUIERDA
- *  			ZERO DER					I		SENSOR PARA DETECTAR MAXIMO DERECHA
- *  31	PTD3	FILTRO						I		BOTON PARA ACTIVAR O DESACTIVAR FILTRO
- *  23	PTB5	SONAR			Cap1		I		COMPONENTE DE CAPTURA PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
- *  24	PTA7	TRIGGER			PWM1		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION, SE HACE MEDIANTE UNA ONDA CUADRADA QUE SE GENERA CADA 15ms
- *  14	PTA0	LIDAR						I		SENSOR SHARP
- *  16	PTA1	POTENCIOMETRO				I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
+ *  1	VDD	   		+3V							O		SALIDA DE VOLTAGE POSITIVO DEMOQE	
+ *  3	VSS		   	0							O		TIERRA DEL DEMOQE 
+ *  13	PTD0		MOTOR 1 (VERDE)				O		BOBINA MOTOR
+ *  15	PTD1		MOTOR 2	(ROJO)				O		BOBINA MOTOR
+ *  33	PTD2		MOTOR 3	(GRIS1)				O		BOBINA MOTOR
+ *  35	PTD3		MOTOR 4	(GRIS2)				O		BOBINA MOTOR
+ *  23	PTC3(PTB5)	SONAR			Cap1		I		COMPONENTE DE CAPTURA PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
+ *  24	PTA7		TRIGGER			PWM1		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION, SE HACE MEDIANTE UNA ONDA CUADRADA QUE SE GENERA CADA 15ms
+ *  14	PTA0		LIDAR						I		SENSOR SHARP
+ *  16	PTA1		POTENCIOMETRO				I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
  */
 
-unsigned char a=1,b=0;
-unsigned int p=0;
+unsigned char b=0;
+char block5[4],mensaje,z1,z2,z3,z4;			// este vector contiene lo recibido por serial
+unsigned int p=0,a;
 char posicion=0;	// posicion del motor, esta variable es global dado que se utiliza en varias funciones y requiere estar actualizada en todo momento
 char cuadrante=1;    ////cuadrante al cual se quiere mover
 char cuadrante_a=1;  //variable de control para verificar que se va a cambiar a un cuadrante nuevo
@@ -98,13 +95,6 @@ void mover_cuadrante()
 		   }
 		   if(posicion==objetivo){
 			  cuadrante_a=cuadrante;
-			/*  if(control%10==0){ 
-			  Bit1_NegVal();
-			  }
-			  control++;
-			  if(control>50){
-				  control=0;
-			  }*/
 		  }
 	}
 			Byte1_PutVal(secuencia[posicion%8]);			     
@@ -164,9 +154,9 @@ void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) //
 		maskblock[2]= maskblock[2] | 0b10000000;
 		maskblock[3]= lidar[1] & 0b01111111;
 		maskblock[3]= maskblock[3] | 0b10000000;
-		maskblock[4]= (posicion/12)+1;					// envia el cuadrante actual 12 es la cantidad de pasos por cuadrante.
+//		maskblock[4]= (posicion/12)+1;					// envia el cuadrante actual 12 es la cantidad de pasos por cuadrante.
 		
-		AS1_SendBlock(maskblock,5,&ptr); // enviamos el entramado (hay que adaptarlo al nuevo poryecto)		   	   
+		AS1_SendBlock(maskblock,4,&ptr); // enviamos el entramado (hay que adaptarlo al nuevo poryecto)		   	   
 		
 }		
 
@@ -175,7 +165,7 @@ void main(void)
   /* Write your local variable definition here */
 char ready=0,init=0; // un retardo antes de iniciar el programa que depende una comparacion con la variable init y el tiempo que se desea
 unsigned int t2;	// variable para tiempo del sonar
-char maskblock[5]; // vector entramado que se enviara al processing
+char maskblock[4]; // vector entramado que se enviara al processing
 
 /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();

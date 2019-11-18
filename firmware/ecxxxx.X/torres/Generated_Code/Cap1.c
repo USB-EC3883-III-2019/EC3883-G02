@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-10, 06:10, # CodeGen: 33
+**     Date/Time   : 2019-11-17, 15:50, # CodeGen: 41
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -17,41 +17,41 @@
 **             Timer capture encapsulation : Capture
 **
 **         Timer
-**             Timer                   : TPM1
+**             Timer                   : TPM3
 **             Counter shared          : No
 **
 **         High speed mode
-**             Prescaler               : divide-by-8
+**             Prescaler               : divide-by-4
 **           Maximal time for capture register
-**             Xtal ticks              : 2300
-**             microseconds            : 70175
-**             milliseconds            : 70
-**             seconds (real)          : 0.070175438596
-**             Hz                      : 14
+**             Xtal ticks              : 877193
+**             microseconds            : 17544
+**             milliseconds            : 18
+**             seconds (real)          : 0.017543859649
+**             Hz                      : 57
 **           One tick of timer is
-**             microseconds            : 1.070792
+**             nanoseconds             : 250
 **
 **         Initialization:
 **              Timer                  : Enabled
 **              Events                 : Enabled
 **
 **         Timer registers
-**              Capture                : TPM1C1V   [$0049]
-**              Counter                : TPM1CNT   [$0041]
-**              Mode                   : TPM1SC    [$0040]
-**              Run                    : TPM1SC    [$0040]
-**              Prescaler              : TPM1SC    [$0040]
+**              Capture                : TPM3C3V   [$006F]
+**              Counter                : TPM3CNT   [$0061]
+**              Mode                   : TPM3SC    [$0060]
+**              Run                    : TPM3SC    [$0060]
+**              Prescaler              : TPM3SC    [$0060]
 **
 **         Used input pin              : 
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       22            |  PTB5_TPM1CH1_SS1
+**                       24            |  PTC3_TPM3CH3
 **             ----------------------------------------------------
 **
-**         Port name                   : PTB
-**         Bit number (in port)        : 5
-**         Bit mask of the port        : $0020
+**         Port name                   : PTC
+**         Bit number (in port)        : 3
+**         Bit mask of the port        : $0008
 **
 **         Signal edge/level           : both
 **         Priority                    : 
@@ -143,7 +143,7 @@ byte Cap1_Reset(word *Value)
 **     Description :
 **         This method gets the last value captured by enabled timer.
 **         Note: one tick of timer is
-**               1.070792 us in high speed mode
+**               250 ns in high speed mode
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **       * Value           - A pointer to the content of the
@@ -194,20 +194,20 @@ bool Cap1_GetPinValue(void)
 */
 void Cap1_Init(void)
 {
-  /* TPM1SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=0,PS2=0,PS1=0,PS0=0 */
-  setReg8(TPM1SC, 0x00U);              /* Stop HW */ 
-  /* TPM1MOD: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0,BIT7=0,BIT6=0,BIT5=0,BIT4=0,BIT3=0,BIT2=0,BIT1=0,BIT0=0 */
-  setReg16(TPM1MOD, 0x00U);            /* Disable modulo register */ 
-  /* TPM1CNTH: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0 */
-  setReg8(TPM1CNTH, 0x00U);            /* Reset counter */ 
-  /* TPM1C1V: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0,BIT7=0,BIT6=0,BIT5=0,BIT4=0,BIT3=0,BIT2=0,BIT1=0,BIT0=0 */
-  setReg16(TPM1C1V, 0x00U);            /* Clear capture register */ 
-  /* TPM1SC: PS2=0,PS1=1,PS0=1 */
-  clrSetReg8Bits(TPM1SC, 0x04U, 0x03U); /* Set prescaler register */ 
-  /* TPM1C1SC: CH1F=0,CH1IE=1,MS1B=0,MS1A=0,ELS1B=1,ELS1A=1,??=0,??=0 */
-  setReg8(TPM1C1SC, 0x4CU);            /* Enable both interrupt and capture function */ 
-  /* TPM1SC: CLKSB=0,CLKSA=1 */
-  clrSetReg8Bits(TPM1SC, 0x10U, 0x08U); /* Run counter */ 
+  /* TPM3SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=0,PS2=0,PS1=0,PS0=0 */
+  setReg8(TPM3SC, 0x00U);              /* Stop HW */ 
+  /* TPM3MOD: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0,BIT7=0,BIT6=0,BIT5=0,BIT4=0,BIT3=0,BIT2=0,BIT1=0,BIT0=0 */
+  setReg16(TPM3MOD, 0x00U);            /* Disable modulo register */ 
+  /* TPM3CNTH: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0 */
+  setReg8(TPM3CNTH, 0x00U);            /* Reset counter */ 
+  /* TPM3C3V: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0,BIT7=0,BIT6=0,BIT5=0,BIT4=0,BIT3=0,BIT2=0,BIT1=0,BIT0=0 */
+  setReg16(TPM3C3V, 0x00U);            /* Clear capture register */ 
+  /* TPM3SC: PS2=0,PS1=1,PS0=0 */
+  clrSetReg8Bits(TPM3SC, 0x05U, 0x02U); /* Set prescaler register */ 
+  /* TPM3C3SC: CH3F=0,CH3IE=1,MS3B=0,MS3A=0,ELS3B=1,ELS3A=1,??=0,??=0 */
+  setReg8(TPM3C3SC, 0x4CU);            /* Enable both interrupt and capture function */ 
+  /* TPM3SC: CLKSB=0,CLKSA=1 */
+  clrSetReg8Bits(TPM3SC, 0x10U, 0x08U); /* Run counter */ 
 }
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
@@ -224,9 +224,9 @@ void Cap1_Init(void)
 */
 ISR(Cap1_Interrupt)
 {
-  (void)TPM1C1SC;                      /* Dummy read to reset interrupt request flag */
-  /* TPM1C1SC: CH1F=0 */
-  clrReg8Bits(TPM1C1SC, 0x80U);        /* Reset interrupt request flag */ 
+  (void)TPM3C3SC;                      /* Dummy read to reset interrupt request flag */
+  /* TPM3C3SC: CH3F=0 */
+  clrReg8Bits(TPM3C3SC, 0x80U);        /* Reset interrupt request flag */ 
   Cap1_OnCapture();                    /* Invoke user event */
 }
 

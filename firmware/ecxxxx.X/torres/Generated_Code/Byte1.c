@@ -6,7 +6,7 @@
 **     Component   : ByteIO
 **     Version     : Component 02.063, Driver 03.26, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-04, 12:57, # CodeGen: 12
+**     Date/Time   : 2019-11-17, 15:50, # CodeGen: 41
 **     Abstract    :
 **         This component "ByteIO" implements an one-byte input/output.
 **         It uses one 8-bit port.
@@ -14,26 +14,26 @@
 **         Methods of this component are mostly implemented as a macros 
 **         (if supported by target langauage and compiler).
 **     Settings    :
-**         Port name                   : PTC
+**         Port name                   : PTD
 **
 **         Initial direction           : Output (direction cannot be changed)
 **         Initial output value        : 255 = 0FFH
 **         Initial pull option         : off
 **
-**         8-bit data register         : PTCD      [$0004]
-**         8-bit control register      : PTCDD     [$0005]
+**         8-bit data register         : PTDD      [$0006]
+**         8-bit control register      : PTDDD     [$0007]
 **
 **             ----------------------------------------------------
 **                   Bit     |   Pin   |   Name
 **             ----------------------------------------------------
-**                    0      |    34   |   PTC0_TPM3CH0
-**                    1      |    33   |   PTC1_TPM3CH1
-**                    2      |    25   |   PTC2_TPM3CH2
-**                    3      |    24   |   PTC3_TPM3CH3
-**                    4      |    78   |   PTC4_TPM3CH4_RSTO
-**                    5      |    77   |   PTC5_TPM3CH5_ACMP2O
-**                    6      |    64   |   PTC6_RxD2_ACMP2PLUS
-**                    7      |    63   |   PTC7_TxD2_ACMP2MINUS
+**                    0      |    2    |   PTD0_KBI2P0_SPSCK2
+**                    1      |    1    |   PTD1_KBI2P1_MOSI2
+**                    2      |    58   |   PTD2_KBI2P2_MISO2
+**                    3      |    57   |   PTD3_KBI2P3_SS2
+**                    4      |    56   |   PTD4_KBI2P4
+**                    5      |    28   |   PTD5_KBI2P5
+**                    6      |    27   |   PTD6_KBI2P6
+**                    7      |    26   |   PTD7_KBI2P7
 **             ----------------------------------------------------
 **     Contents    :
 **         GetDir - bool Byte1_GetDir(void);
@@ -179,7 +179,7 @@ void Byte1_PutVal(byte Val)
 bool Byte1_GetBit(byte Bit)
 {
   byte const Mask = Byte1_GetMsk(Bit); /* Temporary variable - bit mask to test */
-  return (bool)(((getReg8(PTCD) & Mask) == Mask) ? 1U : 0U); /* Test if specified bit of port data register is set */
+  return (bool)(((getReg8(PTDD) & Mask) == Mask) ? 1U : 0U); /* Test if specified bit of port data register is set */
 }
 
 /*
@@ -200,9 +200,9 @@ void Byte1_PutBit(byte Bit, bool Val)
 {
   byte const Mask = Byte1_GetMsk(Bit); /* Temporary variable - put bit mask */
   if (Val) {
-    setReg8Bits(PTCD, Mask);           /* [bit Bit]=0x01U */
+    setReg8Bits(PTDD, Mask);           /* [bit Bit]=0x01U */
   } else { /* !Val */
-    clrReg8Bits(PTCD, Mask);           /* [bit Bit]=0x00U */
+    clrReg8Bits(PTDD, Mask);           /* [bit Bit]=0x00U */
   } /* !Val */
 }
 
@@ -222,7 +222,7 @@ void Byte1_PutBit(byte Bit, bool Val)
 void Byte1_SetBit(byte Bit)
 {
   byte const Mask = Byte1_GetMsk(Bit); /* Temporary variable - set bit mask */
-  setReg8Bits(PTCD, Mask);             /* [bit Bit]=0x01U */
+  setReg8Bits(PTDD, Mask);             /* [bit Bit]=0x01U */
 }
 
 /*
@@ -241,7 +241,7 @@ void Byte1_SetBit(byte Bit)
 void Byte1_ClrBit(byte Bit)
 {
   byte const Mask = Byte1_GetMsk(Bit); /* Temporary variable - set bit mask */
-  clrReg8Bits(PTCD, Mask);             /* [bit Bit]=0x00U */
+  clrReg8Bits(PTDD, Mask);             /* [bit Bit]=0x00U */
 }
 
 /*
@@ -259,7 +259,7 @@ void Byte1_ClrBit(byte Bit)
 void Byte1_NegBit(byte Bit)
 {
   byte const Mask = Byte1_GetMsk(Bit); /* Temporary variable - set bit mask */
-  setReg8(PTCTOG, Mask);               /* [bit Bit]=0x01U */
+  invertReg8Bits(PTDD, Mask);          /* [bit Bit]=invert */
 }
 
 /*

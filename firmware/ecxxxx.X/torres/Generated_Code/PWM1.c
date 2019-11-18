@@ -6,7 +6,7 @@
 **     Component   : PWM
 **     Version     : Component 02.240, Driver 01.28, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-09, 14:04, # CodeGen: 31
+**     Date/Time   : 2019-11-17, 15:50, # CodeGen: 41
 **     Abstract    :
 **         This component implements a pulse-width modulation generator
 **         that generates signal with variable duty and fixed cycle. 
@@ -39,10 +39,10 @@
 **              Timer                  : Enabled
 **              Event                  : Enabled
 **         High speed mode
-**             Prescaler               : divide-by-4
+**             Prescaler               : divide-by-8
 **             Clock                   : 1867776 Hz
 **           Initial value of            period     pulse width
-**             Xtal ticks              : 983        981
+**             Xtal ticks              : 1499993    1497503
 **             microseconds            : 30000      29950
 **             milliseconds            : 30         30
 **             seconds (real)          : 0.029999850089 0.029950058251
@@ -291,8 +291,8 @@ void PWM1_Init(void)
   /* TPM2MOD: BIT15=1,BIT14=1,BIT13=0,BIT12=1,BIT11=1,BIT10=0,BIT9=1,BIT8=0,BIT7=1,BIT6=1,BIT5=1,BIT4=0,BIT3=0,BIT2=0,BIT1=0,BIT0=0 */
   setReg16(TPM2MOD, 0xDAE0U);          /* Set modulo register */ 
   SetRatio();                          /* Calculate and set up new values of the compare according to the selected speed CPU mode */
-  /* TPM2SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=0,PS1=1,PS0=0 */
-  setReg8(TPM2SC, 0x0AU);              /* Run the counter (set CLKSB:CLKSA) */ 
+  /* TPM2SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=0,PS1=1,PS0=1 */
+  setReg8(TPM2SC, 0x0BU);              /* Run the counter (set CLKSB:CLKSA) */ 
 }
 
 /* END PWM1. */
