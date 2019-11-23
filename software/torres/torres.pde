@@ -50,8 +50,8 @@ byte[] b = new byte [4]; // vector de prueba para enviar info al micro con trama
 
 void setup() { 
   size(800, 500);
-  printArray(Serial.list());
-  puerto = new Serial(this, Serial.list()[2], 115200); // en el servidor el puerto es el COM3 ubicado en el [2]
+  //printArray(Serial.list());
+  puerto = new Serial(this, Serial.list()[0], 115200); // en el servidor el puerto es el COM3 ubicado en el [2]
   puerto.buffer(1);  
   for(int pk=0;pk<muestras;pk++)
   {
@@ -113,38 +113,48 @@ void draw() {
   //trama[0]=(info[0]-48)<<7;
   
  for(int ci=0;ci<32;ci++){
+   //print("ci == ");
+   //println(ci);
     if(ci == 0){
+      //println("ci = 0");
        trama[0] = (info[ci]-48); 
       }
-      else if(0 < ci || ci < 8){
+      else if(0 < ci && ci < 8){
+        //println("0 < ci < 8");
        trama[0] = trama[0] << 1 | (info[ci]-48); 
       }
       else if(ci == 8){
-       trama[1] = (info[ci]-48); 
+         //println("ci = 8");
+        trama[1] = (info[ci]-48); 
       }
-      else if(8 < ci || ci < 16){
+      else if(8 < ci && ci < 16){
+        //println("8 < ci < 16");
        trama[1] = (trama[1] << 1) | (info[ci]-48); 
       }
       else if(ci == 16){
+        //println("ci = 16");
        trama[2] = info[ci]; 
       }
-      else if(16 < ci || ci < 24){
+      else if(16 < ci && ci < 24){
+        //println("16 < ci < 24");
        trama[2] = (trama[2] << 1) | (info[ci]-48); 
       }
       else if(ci == 24){
+        //println("ci = 24");
        trama[3] = (info[ci]-48); 
       }
-      else if(24 < ci || ci < 32){
+      else if(24 < ci && ci < 32){
+        //println("24 < ci < 32");
        trama[3] = (trama[3] << 1) | (info[ci]-48); 
       }
-        //print("trama 0 ");
-        //println(trama[0]);
-        //print("trama 1 ");
-        //println(trama[1]);
-        //print("trama 2 ");
-        //println(trama[2]);
-        //print("trama 3 ");
-        //println(trama[3]);
+        ////print("trama 0 ");
+        ////println(trama[0]);
+        ////print("trama 1 ");
+        ////println(trama[1]);
+        ////print("trama 2 ");
+        ////println(trama[2]);
+        ////print("trama 3 ");
+        ////println(trama[3]);
   
   }
     //aqui se debe entramar la info en los primeros 4 espacios del vaector char o en un nuevo vector
