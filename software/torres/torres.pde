@@ -46,7 +46,7 @@ float aux=0; //variable auxiliar
 
 String valores;
 boolean comprobacion=false;
-byte[] b = new byte [4]; // vector de prueba para enviar info al micro con trama oficial
+//byte[] b = new byte [4]; // vector de prueba para enviar info al micro con trama oficial
 
 void setup() { 
   size(800, 500);
@@ -79,8 +79,9 @@ void draw() {
   background(255); 
   
   if(estado==2 | estado==3){
-  text ("Monitor serial IN     : " + binary(U1V[0],8) + " " + binary(U2V[0],8) + " " + binary(H1V[0],8) + " " +binary(H2V[0],8),150,25);
-  text ("Monitor serial OUT : " + binary(b[0],8) + " " + binary(b[1],8) + " " + binary(b[2],8) + " " +binary(b[3],8),150,50);
+
+  text ("Monitor serial IN     : " + binary(U1,8) + " " + binary(U2,8) + " " + binary(H1,8) + " " + binary(H2,8),150,25);
+  text ("Monitor serial OUT : " + binary(trama[0],8) + " " + binary(trama[1],8) + " " + binary(trama[2],8) + " " +binary(trama[3],8),150,50);
   text ("Sonar : \t\t" + dfsonar,150,75);
   text ("Lidar : \t\t" + dflidar,150,100);
   text ("Fusion: \t\t" + dffus,150,125);
@@ -147,19 +148,21 @@ void draw() {
         //println("24 < ci < 32");
        trama[3] = (trama[3] << 1) | (info[ci]-48); 
       }
-        ////print("trama 0 ");
-        ////println(trama[0]);
-        ////print("trama 1 ");
-        ////println(trama[1]);
-        ////print("trama 2 ");
-        ////println(trama[2]);
-        ////print("trama 3 ");
-        ////println(trama[3]);
   
   }
+  
+  
     //aqui se debe entramar la info en los primeros 4 espacios del vaector char o en un nuevo vector
     //y se deben enviar los 4 bytes
-   
+  
+        //print("trama 0 ");
+        //println(trama[0]);
+        //print("trama 1 ");
+        //println(trama[1]);
+        //print("trama 2 ");
+        //println(trama[2]);
+        //print("trama 3 ");
+        //println(trama[3]);
         
     delay(100); //<>//
     fill(255, 2, 2); 
@@ -268,23 +271,27 @@ void serialEvent (Serial puerto) {
   inBuffer = puerto.readChar();
   if(i<muestras){
     
-  if(p==0 && ((inBuffer & 128) == 0)){
+  if(p==0 && ((inBuffer & 128) == 128)){
     U1V[i] = inBuffer;
+    U1 = U1V[i];
     p++;
   }
   
   else if(p==1){
     U2V[i] = inBuffer;
+    U2 = U2V[i];
     p++;
   }
   
   else if(p==2){
     H1V[i] = inBuffer;
+    H1 = H1V[i];
     p++;
   }
   
   else if(p==3){
     H2V[i] = inBuffer;
+    H2 = H2V[i];
     p=0;
     i++;
   }
@@ -294,21 +301,25 @@ void serialEvent (Serial puerto) {
     i=0;
     if(p==0 && ((inBuffer & 128) == 0)){
     U1V[i] = inBuffer;
+    U1 = U1V[i];
     p++;
   }
   
   else if(p==1){
     U2V[i] = inBuffer;
+    U2 = U2V[i];
     p++;
   }
   
   else if(p==2){
     H1V[i] = inBuffer;
+    H1 = H1V[i];
     p++;
   }
   
   else if(p==3){
     H2V[i] = inBuffer;
+    H2 = H2V[i];
     p=0;
     i++;
   }
