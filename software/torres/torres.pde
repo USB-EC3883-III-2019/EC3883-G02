@@ -1,12 +1,19 @@
-import processing.serial.*;
+import processing.serial.*; //<>//
 Serial puerto;
 String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1,U2,H1,H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
 int[] info = new int[32];
+int[] mensaje = new int[4];
+int nt, zm, z1, z2, z3, z4;
 int[] trama = new int[4]; 
 char[] mask = new char[4];
 int estado = 0; 
 String input=""; 
+String input2="";
+String input3="";
+String input4="";
+String input5="";
+String input6="";
 char[] a = new char [16]; // vector informacion a transmitir por las torres
 char modo;
 int linea=200;           // variable para controlar posicion vertical del cursor al imprimir en pantalla
@@ -25,6 +32,9 @@ int[] U2V = new int[muestras];
 int[] H1V = new int[muestras];
 int[] H2V = new int[muestras];
 
+//String mensaje, ntorres, zm, z1, z2, z3, z4;
+
+String ntorres = "";
 
 float[] y = new float[muestras];
 int time=1;
@@ -60,6 +70,10 @@ void setup() {
       H1V[pk]=0;
       H2V[pk]=0; 
   } 
+  
+  for(int ci=0;ci<4;ci++){
+    mensaje[ci]=0;
+  }
 
 }
 
@@ -69,7 +83,7 @@ void draw() {
   //if(puerto.available() > 0){
    puerto.write(trama[0]);
    puerto.write(trama[1]);
-   puerto.write(trama[2]);
+   puerto.write(trama[2]); //<>//
    puerto.write(trama[3]);
    //puerto.write(135);
    //puerto.write(13);
@@ -79,8 +93,7 @@ void draw() {
   background(255); 
   
   if(estado==2 | estado==3){
-
-  text ("Monitor serial IN     : " + binary(U1,8) + " " + binary(U2,8) + " " + binary(H1,8) + " " + binary(H2,8),150,25);
+  text ("Monitor serial IN     : " + binary(U1V[0],8) + " " + binary(U2V[0],8) + " " + binary(H1V[0],8) + " " + binary(H2V[0],8),150,25);
   text ("Monitor serial OUT : " + binary(trama[0],8) + " " + binary(trama[1],8) + " " + binary(trama[2],8) + " " +binary(trama[3],8),150,50);
   text ("Sonar : \t\t" + dfsonar,150,75);
   text ("Lidar : \t\t" + dflidar,150,100);
@@ -89,69 +102,199 @@ void draw() {
   text ("V_lidar: \t\t" + var_lidar,150,175);
   text ("Estado : " + estado,150,200); 
   }
-  
+   //<>//
   switch (estado) {
-  case 0:              // INICIO
+  case 0:              // INICIO //<>//
     fill(0); 
     text ("Seleccione Modo, [S] Esclavo / [M] Maestro \n"+input, 150, 200); 
     break;
 
-  case 1:             // MAESTRO
+  case 1:             // MAESTRO //<>//
     fill(0); 
     text ("MODO MAESTRO \n", 150, 250); 
     fill(255, 2, 2); 
-    text ("Ingrese info \n"+input, 150, 300);
+    text ("Ingrese mensaje (valor del 000 a 255): \n"+input, 150, 300);
+    fill(0);
+    
+    break;
+
+  //case 11:
+  //  for(int ci=0;ci<8;ci++){
+  //      mensaje[ci]=input.charAt(ci);
+  //  }
+  //break;
+
+  case 12:
     fill(0); 
+    text ("MODO MAESTRO \n", 150, 250); 
+    fill(255, 2, 2); 
+    text ("Ingrese numero de torres: \n"+ntorres, 150, 300);
+    fill(0);
+    for(int ci=0;ci<3;ci++){
+        mensaje[ci]=input.charAt(ci);
+    }
+    break;
+
+ case 13:
+    fill(0); 
+    text ("MODO MAESTRO \n", 150, 250); 
+    fill(255, 2, 2); 
+    
+    text ("Ingrese zona para el Maestro: \n"+input2, 150, 300);
+    fill(0);
+    nt=ntorres.charAt(0); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
+    
+    
+    break;
+
+ case 14:
+    fill(0); 
+    text ("MODO MAESTRO \n", 150, 250); 
+    fill(255, 2, 2); 
+
+    text ("Ingrese zona para el Esclavo 1: \n"+input3, 150, 300);
+    fill(0);
+    
+    zm=input2.charAt(0); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
+    break;
+
+ case 15:
+    fill(0); 
+    text ("MODO MAESTRO \n", 150, 250); 
+    fill(255, 2, 2); 
+    text ("Ingrese zona para el Esclavo 2: \n"+input4, 150, 300);
+    //for(int ci=26;ci<29;ci++){
+    //  info[ci]=input.charAt(ci); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
+    //}
+    z1=input3.charAt(0);
+    fill(0); 
+    
+    break;
+
+ case 16:
+    fill(0); 
+    text ("MODO MAESTRO \n", 150, 250); 
+    fill(255, 2, 2); 
+    text ("Ingrese zona para el Esclavo 3: \n"+input5, 150, 300);
+    fill(0); 
+    //for(int ci=21;ci<24;ci++){
+    //  info[ci]=input.charAt(ci); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
+    //}
+    z2=input4.charAt(0);
+    
+    break;
+
+ case 17:
+    fill(0); 
+    text ("MODO MAESTRO \n", 150, 250); 
+    fill(255, 2, 2); 
+    text ("Ingrese zona para el Esclavo 4: \n"+input6, 150, 300);
+    fill(0);
+    //for(int ci=18;ci<21;ci++){
+    //  info[ci]=input.charAt(ci); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
+    //}
+    z3=input5.charAt(0);
     break;
 
   case 2:            // ENVIAR INFO AL MICRO Y CONFIRMAR RECEPCION
     fill(0); 
-    text ("TRANSMITIENDO: " + input, 150, 300);
-    for(int ci=0;ci<32;ci++){
-      info[ci]=input.charAt(ci); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
-  }
-  
+    //text ("TRANSMITIENDO: " + input, 150, 300);
+    //text ("MENSAJE: " + mensaje[0] + mensaje[1] + mensaje[2], 150, 300);
+    //text ("NUM TORRES: " + (nt-48), 150, 325);
+    //text ("ZONA MASTER: " + (zm-48), 150, 350);
+    //text ("ZONA 1: " + (z1-48), 150, 375);
+    //text ("ZONA 2: " + (z2-48), 150, 400);
+    //text ("ZONA 3: " + (z3-48), 150, 425);
+    //text ("ZONA 4: " + (z4-48), 150, 450);
+  //  for(int ci=0;ci<32;ci++){
+  //    info[ci]=input.charAt(ci); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
+  //}
+    z4=input6.charAt(0);
   //trama[0]=(info[0]-48)<<7;
   
- for(int ci=0;ci<32;ci++){
-   //print("ci == ");
-   //println(ci);
-    if(ci == 0){
-      //println("ci = 0");
-       trama[0] = (info[ci]-48); 
-      }
-      else if(0 < ci && ci < 8){
-        //println("0 < ci < 8");
-       trama[0] = trama[0] << 1 | (info[ci]-48); 
-      }
-      else if(ci == 8){
-         //println("ci = 8");
-        trama[1] = (info[ci]-48); 
-      }
-      else if(8 < ci && ci < 16){
-        //println("8 < ci < 16");
-       trama[1] = (trama[1] << 1) | (info[ci]-48); 
-      }
-      else if(ci == 16){
-        //println("ci = 16");
-       trama[2] = info[ci]; 
-      }
-      else if(16 < ci && ci < 24){
-        //println("16 < ci < 24");
-       trama[2] = (trama[2] << 1) | (info[ci]-48); 
-      }
-      else if(ci == 24){
-        //println("ci = 24");
-       trama[3] = (info[ci]-48); 
-      }
-      else if(24 < ci && ci < 32){
-        //println("24 < ci < 32");
-       trama[3] = (trama[3] << 1) | (info[ci]-48); 
-      }
+  mensaje[0]= mensaje[0] & 7;
+  mensaje[1]= mensaje[1] & 15;
+  mensaje[2]= mensaje[2] & 15;
+  mensaje[3]= mensaje[2] + 10 * mensaje[1] + 100 * mensaje[0];
+  nt = nt & 7;
+  zm = zm & 7;
+  z1 = z1 & 7;
+  z2 = z2 & 7;
+  z3 = z3 & 7;
+  z4 = z4 & 7;
   
-  }
+  text ("MENSAJE: " + mensaje[3], 150, 300);
+    text ("NUM TORRES: " + (nt), 150, 325);
+    text ("ZONA MASTER: " + (zm), 150, 350);
+    text ("ZONA 1: " + (z1), 150, 375);
+    text ("ZONA 2: " + (z2), 150, 400);
+    text ("ZONA 3: " + (z3), 150, 425);
+    text ("ZONA 4: " + (z4), 150, 450);
+   //<>//
+  trama[0] = 144 | (mensaje[3] >> 4);
+  trama[1] = (zm << 4) | (mensaje[3] & 15);
+  trama[2] = (z4 << 3) | z3;
+  trama[3] = (z2 << 3) | z1; //<>//
   
+ //for(int ci=0;ci<32;ci++){
+ //  //print("ci == ");
+ //  //println(ci);
+ //   if(ci == 0){
+ //     //println("ci = 0"); //<>//
+ //      trama[0] = (info[ci]-48); 
+ //     }
+ //     else if(0 < ci && ci < 8){
+ //       //println("0 < ci < 8");
+ //      trama[0] = trama[0] << 1 | (info[ci]-48); 
+ //     }
+ //     else if(ci == 8){
+ //        //println("ci = 8");
+ //       trama[1] = (info[ci]-48); 
+ //     }
+ //     else if(8 < ci && ci < 16){
+ //       //println("8 < ci < 16");
+ //      trama[1] = (trama[1] << 1) | (info[ci]-48); 
+ //     }
+ //     else if(ci == 16){
+ //       //println("ci = 16"); //<>//
+ //      trama[2] = info[ci]; 
+ //     }
+ //     else if(16 < ci && ci < 24){
+ //       //println("16 < ci < 24");
+ //      trama[2] = (trama[2] << 1) | (info[ci]-48); 
+ //     }
+ //     else if(ci == 24){
+ //       //println("ci = 24");
+ //      trama[3] = (info[ci]-48); 
+ //     }
+ //     else if(24 < ci && ci < 32){
+ //       //println("24 < ci < 32");
+ //      trama[3] = (trama[3] << 1) | (info[ci]-48); 
+ //     }
   
+ // }
+  
+        print("mn ");
+        println(binary(mensaje[3]));
+        println("m0" + binary(mensaje[0]));
+        println("m1" + binary(mensaje[1]));
+        println("m2" + binary(mensaje[2]));
+        print("nt ");
+        println(binary(nt));
+        print("zm ");
+        println(binary(zm));
+        print("z1 ");
+        println(binary(z1));
+        print("z2 ");
+        println(binary(z2));
+        print("z3 ");
+        println(binary(z3));
+        print("z4 ");
+        println(binary(z4));
+        
+        
+        
+        
     //aqui se debe entramar la info en los primeros 4 espacios del vaector char o en un nuevo vector
     //y se deben enviar los 4 bytes
   
@@ -164,7 +307,7 @@ void draw() {
         //print("trama 3 ");
         //println(trama[3]);
         
-    delay(100); //<>//
+    delay(100);
     fill(255, 2, 2); 
     break;
 
@@ -229,6 +372,37 @@ void keyPressed() {
   if (key==ENTER||key==RETURN) {
     switch(estado) {
     case 1:        // SI ESTOY EN MASTER (1) PASO A (2)
+      estado=12;
+
+      break;
+  
+    //case 11:        // SI ESTOY EN MASTER (1) PASO A (2)
+    //  estado=12;
+    //  break;
+  
+    case 12:        // SI ESTOY EN MASTER (1) PASO A (2)
+      estado=13;
+      input = "";
+      break;
+
+    case 13:        // SI ESTOY EN MASTER (1) PASO A (2)
+      estado=14;
+      //input = "";
+      break;
+
+    case 14:        // SI ESTOY EN MASTER (1) PASO A (2)
+      estado=15;
+      break;
+
+    case 15:        // SI ESTOY EN MASTER (1) PASO A (2)
+      estado=16;
+      break;
+
+    case 16:        // SI ESTOY EN MASTER (1) PASO A (2)
+      estado=17;
+      break;
+
+    case 17:        // SI ESTOY EN MASTER (1) PASO A (2)
       estado=2;
       break;
 
@@ -253,13 +427,39 @@ void keyPressed() {
         estado=1;
       } else {
         if (modo=='s' | modo=='S') {
-          estado=3;
+        estado=3;
         }
       }
       break;
 
     case 1:
       input = input + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
+      break;
+      
+    case 12:
+      ntorres = ntorres + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
+      
+      break;
+      
+    case 13:
+      input2 = input2 + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
+      break;
+      
+    case 14:
+      input3 = input3 + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
+      break;
+      
+    case 15:
+      input4 = input4 + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
+      break;
+      
+    case 16:
+      input5 = input5 + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
+      break;
+      
+    case 17:
+      input6 = input6 + (key-48); // guarda cada letra que se va tipeando en un string para imprimirlo despues
+      break;
   }
   }
 }
@@ -273,25 +473,21 @@ void serialEvent (Serial puerto) {
     
   if(p==0 && ((inBuffer & 128) == 128)){
     U1V[i] = inBuffer;
-    U1 = U1V[i];
     p++;
   }
   
   else if(p==1){
     U2V[i] = inBuffer;
-    U2 = U2V[i];
     p++;
   }
   
   else if(p==2){
     H1V[i] = inBuffer;
-    H1 = H1V[i];
     p++;
   }
   
   else if(p==3){
     H2V[i] = inBuffer;
-    H2 = H2V[i];
     p=0;
     i++;
   }
@@ -299,27 +495,23 @@ void serialEvent (Serial puerto) {
   }
   else{
     i=0;
-    if(p==0 && ((inBuffer & 128) == 0)){
+    if(p==0 && ((inBuffer & 128) == 128)){
     U1V[i] = inBuffer;
-    U1 = U1V[i];
     p++;
   }
   
   else if(p==1){
     U2V[i] = inBuffer;
-    U2 = U2V[i];
     p++;
   }
   
   else if(p==2){
     H1V[i] = inBuffer;
-    H1 = H1V[i];
     p++;
   }
   
   else if(p==3){
     H2V[i] = inBuffer;
-    H2 = H2V[i];
     p=0;
     i++;
   }
