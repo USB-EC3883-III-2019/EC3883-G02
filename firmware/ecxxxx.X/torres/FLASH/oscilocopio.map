@@ -17,12 +17,13 @@ main_c.obj                              Model: BANKED,        Lang: ANSI-C
 start08_c.obj                           Model: BANKED,        Lang: ANSI-C
 AD1_c.obj                               Model: BANKED,        Lang: ANSI-C
 AS1_c.obj                               Model: BANKED,        Lang: ANSI-C
-AS2_c.obj                               Model: BANKED,        Lang: ANSI-C
 Cap1_c.obj                              Model: BANKED,        Lang: ANSI-C
 Cpu_c.obj                               Model: BANKED,        Lang: ANSI-C
 IO_Map_c.obj                            Model: BANKED,        Lang: ANSI-C
+IR_c.obj                                Model: BANKED,        Lang: ANSI-C
 PWM1_c.obj                              Model: BANKED,        Lang: ANSI-C
-PWM2_c.obj                              Model: BANKED,        Lang: ANSI-C
+PWM_IR_c.obj                            Model: BANKED,        Lang: ANSI-C
+TI1_c.obj                               Model: BANKED,        Lang: ANSI-C
 Vectors_c.obj                           Model: BANKED,        Lang: ANSI-C
 rtshc08.o (ansibim.lib)                 Model: BANKED,        Lang: ANSI-C
 
@@ -33,8 +34,8 @@ Entry point: 0x2084 (_EntryPoint)
 _startupData is allocated at 0x20C9 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0xA0     52
-  _Copy    *toCopyDownBeg 0x23D6
+  _Range   pZeroOut       0xA0     61
+  _Copy    *toCopyDownBeg 0x2439
 } _startupData;
 
 *********************************************************************************************
@@ -45,9 +46,9 @@ Section Name                    Size  Type     From       To       Segment
 .init                             73     R     0x2080     0x20C8   ROM
 .startData                        18     R     0x20C9     0x20DA   ROM
 .rodata                            4     R     0x20DB     0x20DE   ROM
-NON_BANKED                       759     R     0x20DF     0x23D5   ROM
-.copy                              8     R     0x23D6     0x23DD   ROM
-.text                            820     R     0x8000     0x8333   PPAGE_0
+NON_BANKED                       858     R     0x20DF     0x2438   ROM
+.copy                              8     R     0x2439     0x2440   ROM
+.text                            521     R     0x8000     0x8208   PPAGE_0
 .abs_section_ffbd                  1     R     0xFFBD     0xFFBD   .absSeg0
 .abs_section_ffbf                  1     R     0xFFBF     0xFFBF   .absSeg1
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg2
@@ -231,19 +232,20 @@ NON_BANKED                       759     R     0x20DF     0x23D5   ROM
 .abs_section_1816                  2   N/I     0x1816     0x1817   .absSeg180
 .abs_section_1870                  2   N/I     0x1870     0x1871   .absSeg181
 .abs_section_ffc0                 64     R     0xFFC0     0xFFFF   .absSeg182
-.bss                              26   R/W       0xA2       0xBB   RAM
-AS1_CODE                         447     R     0x8334     0x84F2   PPAGE_0
-PWM1_CODE                        161     R     0x84F3     0x8593   PPAGE_0
-Cap1_CODE                         30     R     0x8594     0x85B1   PPAGE_0
-AS2_CODE                          41     R     0x85B2     0x85DA   PPAGE_0
-AD1_CODE                         181     R     0x85DB     0x868F   PPAGE_0
-PWM2_CODE                        148     R     0x8690     0x8723   PPAGE_0
-.common                           24   R/W       0xBC       0xD3   RAM
-.stack                           512   R/W       0xD4      0x2D3   RAM
+.bss                              38   R/W       0xA2       0xC7   RAM
+AS1_CODE                         397     R     0x8209     0x8395   PPAGE_0
+PWM1_CODE                        161     R     0x8396     0x8436   PPAGE_0
+Cap1_CODE                         30     R     0x8437     0x8454   PPAGE_0
+IR_CODE                           62     R     0x8455     0x8492   PPAGE_0
+TI1_CODE                          23     R     0x8493     0x84A9   PPAGE_0
+AD1_CODE                         181     R     0x84AA     0x855E   PPAGE_0
+PWM_IR_CODE                      148     R     0x855F     0x85F2   PPAGE_0
+.common                           21   R/W       0xC8       0xDC   RAM
+.stack                           512   R/W       0xDD      0x2DC   RAM
 
 Summary of section sizes per section type:
-READ_ONLY (R):         AC4 (dec:     2756)
-READ_WRITE (R/W):      234 (dec:      564)
+READ_ONLY (R):         9F6 (dec:     2550)
+READ_WRITE (R/W):      23D (dec:      573)
 NO_INIT (N/I):          CF (dec:      207)
 
 *********************************************************************************************
@@ -258,36 +260,33 @@ OBJECT-ALLOCATION SECTION
 MODULE:                 -- Events_c.obj --
 - PROCEDURES:
      AS1_OnError                               8000       1       1       4   .text       
-     AS1_OnRxChar                              8001       1       1       2   .text       
-     AS1_OnFullRxBuf                           8002      6B     107       2   .text       
-     AS1_OnTxChar                              806D       1       1       2   .text       
-     AS1_OnFreeTxBuf                           806E       1       1       2   .text       
-     AD1_OnEnd                                 806F       1       1       2   .text       
-     Cap1_OnCapture                            8070       C      12       2   .text       
-     AS2_OnError                               807C       1       1       4   .text       
-     AS2_OnRxChar                              807D       1       1       2   .text       
-     AS2_OnTxChar                              807E       1       1       2   .text       
+     AS1_OnRxChar                              8001       7       7       2   .text       
+     AS1_OnFullRxBuf                           8008       1       1       2   .text       
+     AS1_OnTxChar                              8009       1       1       2   .text       
+     AS1_OnFreeTxBuf                           800A       1       1       2   .text       
+     TI1_OnInterrupt                           800B       7       7       2   .text       
+     AD1_OnEnd                                 8012       1       1       2   .text       
+     Cap1_OnCapture                            8013       C      12       2   .text       
+     IR_OnError                                801F       1       1       4   .text       
+     IR_OnRxChar                               8020       1       1       2   .text       
+     IR_OnTxChar                               8021       1       1       2   .text       
+     IR_OnFullRxBuf                            8022       1       1       2   .text       
+     IR_OnFreeTxBuf                            8023       1       1       2   .text       
 - VARIABLES:
 MODULE:                 -- main_c.obj --
 - PROCEDURES:
-     mover_cuadrante                           807F      92     146       2   .text       
-     sensores                                  8111      34      52       2   .text       
-     enviar                                    8145      B6     182       2   .text       
-     main                                      81FB      88     136       2   .text       
+     mover_cuadrante                           8024      92     146       2   .text       
+     sensores                                  80B6      34      52       2   .text       
+     main                                      80EA      6A     106       2   .text       
 - VARIABLES:
      cuadrante                                   A0       1       1       6   .data       
      cuadrante_a                                 A1       1       1       3   .data       
-     p                                           A2       2       2       4   .bss        
-     posicion                                    A4       1       1       7   .bss        
-     block5                                      BC       4       4       4   .common     
-     mensaje                                     C0       1       1       1   .common     
-     z1                                          C1       1       1       1   .common     
-     z2                                          C2       1       1       1   .common     
-     z3                                          C3       1       1       1   .common     
-     z4                                          C4       1       1       1   .common     
-     a                                           C5       2       2       1   .common     
-     time                                        C7       2       2       2   .common     
-     lidar                                       C9       2       2       2   .common     
+     p                                           A2       2       2       3   .bss        
+     posicion                                    A4       1       1       6   .bss        
+     a                                           C8       2       2       4   .common     
+     time                                        CA       2       2       2   .common     
+     lidar                                       CC       2       2       1   .common     
+     b2                                          CE       4       4       3   .common     
 MODULE:                 -- start08_c.obj --
 - PROCEDURES:
      loadByte                                  20DF       E      14       5   NON_BANKED  
@@ -296,68 +295,58 @@ MODULE:                 -- start08_c.obj --
 - VARIABLES:
      _startupData                              20C9       6       6       4   .startData  
 - LABELS:
-     __SEG_END_SSTACK                           2D4       0       0       1               
+     __SEG_END_SSTACK                           2DD       0       0       1               
 MODULE:                 -- AD1_c.obj --
 - PROCEDURES:
      AD1_Interrupt                             2164      7F     127       1   NON_BANKED  
-     ClrSumV                                   85DB       9       9       2   AD1_CODE    
-     AD1_HWEnDi                                85E4      3B      59       2   AD1_CODE    
-     AD1_MeasureChan                           861F      2B      43       2   AD1_CODE    
-     AD1_GetChanValue                          864A      36      54       2   AD1_CODE    
-     AD1_Init                                  8680      10      16       2   AD1_CODE    
+     ClrSumV                                   84AA       9       9       2   AD1_CODE    
+     AD1_HWEnDi                                84B3      3B      59       2   AD1_CODE    
+     AD1_MeasureChan                           84EE      2B      43       2   AD1_CODE    
+     AD1_GetChanValue                          8519      36      54       2   AD1_CODE    
+     AD1_Init                                  854F      10      16       2   AD1_CODE    
 - VARIABLES:
      Table                                     20DB       2       2       3   .rodata     
      Channels                                  20DD       2       2       2   .rodata     
      OutFlg                                      A5       1       1       8   .bss        
      SumChan                                     A6       1       1      13   .bss        
      ModeFlg                                     A7       1       1       8   .bss        
-     AD1_OutV                                    CB       4       4      12   .common     
+     AD1_OutV                                    D2       4       4      12   .common     
 MODULE:                 -- AS1_c.obj --
 - PROCEDURES:
      AS1_InterruptRx                           21E3      61      97       1   NON_BANKED  
      AS1_InterruptTx                           2244      5C      92       1   NON_BANKED  
      AS1_InterruptError                        22A0      12      18       1   NON_BANKED  
-     AS1_RecvChar                              8334      63      99       2   AS1_CODE    
-     AS1_RecvBlock                             8397      57      87       2   AS1_CODE    
-     AS1_SendBlock                             83EE      A0     160       2   AS1_CODE    
-     AS1_ClearRxBuf                            848E      32      50       2   AS1_CODE    
-     AS1_Init                                  84C0      33      51       2   AS1_CODE    
+     AS1_RecvChar                              8209      63      99       2   AS1_CODE    
+     AS1_RecvBlock                             826C      57      87       2   AS1_CODE    
+     AS1_SendBlock                             82C3      A0     160       2   AS1_CODE    
+     AS1_Init                                  8363      33      51       2   AS1_CODE    
 - VARIABLES:
-     SerFlag                                     A8       1       1      12   .bss        
-     InpIndxR                                    A9       1       1       4   .bss        
-     InpIndxW                                    AA       1       1       4   .bss        
+     SerFlag                                     A8       1       1      10   .bss        
+     InpIndxR                                    A9       1       1       3   .bss        
+     InpIndxW                                    AA       1       1       3   .bss        
      InpBuffer                                   AB       4       4       2   .bss        
      OutIndxR                                    AF       1       1       3   .bss        
      OutIndxW                                    B0       1       1       3   .bss        
      OutBuffer                                   B1       4       4       2   .bss        
      OnFreeTxBuf_semaphore                       B5       1       1       5   .bss        
-     AS1_InpLen                                  CF       1       1       7   .common     
-     AS1_OutLen                                  D0       1       1       6   .common     
-MODULE:                 -- AS2_c.obj --
-- PROCEDURES:
-     AS2_InterruptRx                           22B2      47      71       1   NON_BANKED  
-     AS2_InterruptTx                           22F9      2A      42       1   NON_BANKED  
-     AS2_InterruptError                        2323      14      20       1   NON_BANKED  
-     AS2_Init                                  85B2      29      41       2   AS2_CODE    
-- VARIABLES:
-     SerFlag                                     B6       1       1      10   .bss        
-     BufferRead                                  B7       1       1       1   .bss        
+     AS1_InpLen                                  D6       1       1       6   .common     
+     AS1_OutLen                                  D7       1       1       6   .common     
 MODULE:                 -- Cap1_c.obj --
 - PROCEDURES:
-     Cap1_Interrupt                            2337       B      11       1   NON_BANKED  
-     Cap1_Init                                 8594      1E      30       2   Cap1_CODE   
+     Cap1_Interrupt                            22B2       B      11       1   NON_BANKED  
+     Cap1_Init                                 8437      1E      30       2   Cap1_CODE   
 - VARIABLES:
 MODULE:                 -- Cpu_c.obj --
 - PROCEDURES:
-     PE_low_level_init                         8283      B1     177       2   .text       
-     Cpu_Interrupt                             2080       4       4      23   .init       
+     PE_low_level_init                         8154      B5     181       2   .text       
+     Cpu_Interrupt                             2080       4       4      22   .init       
      _EntryPoint                               2084      45      69       1   .init       
 - VARIABLES:
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
-     CCR_reg                                     D1       1       1       6   .common     
-     CCR_lock                                    D2       1       1      12   .common     
-     Shadow_PTE                                  D3       1       1       1   .common     
+     CCR_reg                                     D8       1       1       4   .common     
+     CCR_lock                                    D9       1       1       9   .common     
+     Shadow_PTE                                  DA       1       1       2   .common     
 MODULE:                 -- IO_Map_c.obj --
 - PROCEDURES:
 - VARIABLES:
@@ -461,9 +450,9 @@ MODULE:                 -- IO_Map_c.obj --
      _FPROT                                    1824       1       1       0   .abs_section_1824
      _FSTAT                                    1825       1       1       0   .abs_section_1825
      _FCMD                                     1826       1       1       0   .abs_section_1826
-     _RTCSC                                    1830       1       1       0   .abs_section_1830
+     _RTCSC                                    1830       1       1       3   .abs_section_1830
      _RTCCNT                                   1831       1       1       0   .abs_section_1831
-     _RTCMOD                                   1832       1       1       0   .abs_section_1832
+     _RTCMOD                                   1832       1       1       1   .abs_section_1832
      _SPI2C1                                   1838       1       1       0   .abs_section_1838
      _SPI2C2                                   1839       1       1       0   .abs_section_1839
      _SPI2BR                                   183A       1       1       0   .abs_section_183a
@@ -503,17 +492,17 @@ MODULE:                 -- IO_Map_c.obj --
      _IIC2D                                    186C       1       1       0   .abs_section_186c
      _IIC2C2                                   186D       1       1       0   .abs_section_186d
      _SCI2C1                                   1872       1       1       1   .abs_section_1872
-     _SCI2C2                                   1873       1       1       4   .abs_section_1873
-     _SCI2S1                                   1874       1       1       2   .abs_section_1874
+     _SCI2C2                                   1873       1       1       3   .abs_section_1873
+     _SCI2S1                                   1874       1       1       3   .abs_section_1874
      _SCI2S2                                   1875       1       1       1   .abs_section_1875
      _SCI2C3                                   1876       1       1       1   .abs_section_1876
-     _SCI2D                                    1877       1       1       2   .abs_section_1877
+     _SCI2D                                    1877       1       1       3   .abs_section_1877
      _PTCSET                                   1878       1       1       0   .abs_section_1878
      _PTESET                                   1879       1       1       0   .abs_section_1879
      _PTCCLR                                   187A       1       1       0   .abs_section_187a
      _PTECLR                                   187B       1       1       0   .abs_section_187b
      _PTCTOG                                   187C       1       1       0   .abs_section_187c
-     _PTETOG                                   187D       1       1       0   .abs_section_187d
+     _PTETOG                                   187D       1       1       1   .abs_section_187d
      _ADCR                                       12       2       2       3   .abs_section_12
      _ADCCV                                      14       2       2       0   .abs_section_14
      _SCI1BD                                     20       2       2       2   .abs_section_20
@@ -541,45 +530,69 @@ MODULE:                 -- IO_Map_c.obj --
      _DBGCC                                    1814       2       2       0   .abs_section_1814
      _DBGF                                     1816       2       2       0   .abs_section_1816
      _SCI2BD                                   1870       2       2       2   .abs_section_1870
+MODULE:                 -- IR_c.obj --
+- PROCEDURES:
+     IR_InterruptRx                            22BD      63      99       1   NON_BANKED  
+     IR_InterruptTx                            2320      63      99       1   NON_BANKED  
+     IR_InterruptError                         2383      14      20       1   NON_BANKED  
+     IR_Init                                   8455      3E      62       2   IR_CODE     
+- VARIABLES:
+     SerFlag                                     B6       1       1       8   .bss        
+     InpIndxR                                    B7       1       1       1   .bss        
+     InpIndxW                                    B8       1       1       3   .bss        
+     InpBuffer                                   B9       4       4       1   .bss        
+     OutIndxR                                    BD       1       1       3   .bss        
+     OutIndxW                                    BE       1       1       1   .bss        
+     OutBuffer                                   BF       4       4       1   .bss        
+     OnFreeTxBuf_semaphore                       C3       1       1       2   .bss        
+     IR_InpLen                                   DB       1       1       4   .common     
+     IR_OutLen                                   DC       1       1       3   .common     
 MODULE:                 -- PWM1_c.obj --
 - PROCEDURES:
-     SetRatio                                  84F3      89     137       2   PWM1_CODE   
-     PWM1_Init                                 857C      18      24       2   PWM1_CODE   
+     SetRatio                                  8396      89     137       2   PWM1_CODE   
+     PWM1_Init                                 841F      18      24       2   PWM1_CODE   
 - VARIABLES:
-     ActualRatio                                 B8       2       2       6   .bss        
-MODULE:                 -- PWM2_c.obj --
+     ActualRatio                                 C4       2       2       6   .bss        
+MODULE:                 -- PWM_IR_c.obj --
 - PROCEDURES:
-     SetRatio                                  8690      7C     124       2   PWM2_CODE   
-     PWM2_Init                                 870C      18      24       2   PWM2_CODE   
+     SetRatio                                  855F      7C     124       2   PWM_IR_CODE 
+     PWM_IR_Init                               85DB      18      24       2   PWM_IR_CODE 
 - VARIABLES:
-     ActualRatio                                 BA       2       2       5   .bss        
+     ActualRatio                                 C6       2       2       5   .bss        
+MODULE:                 -- TI1_c.obj --
+- PROCEDURES:
+     TI1_Interrupt                             2397       E      14       1   NON_BANKED  
+     HWEnDi                                    8493       6       6       2   TI1_CODE    
+     TI1_Init                                  8499      11      17       2   TI1_CODE    
+- VARIABLES:
 MODULE:                 -- Vectors_c.obj --
 - PROCEDURES:
 - VARIABLES:
      _vect                                     FFC0      40      64       0   .abs_section_ffc0
 MODULE:                 -- rtshc08.o (ansibim.lib) --
 - PROCEDURES:
-     _IDIVMOD                                  2342      69     105       1   NON_BANKED  
-     _IDIVU_STAR08                             23AB       D      13       1   NON_BANKED  
-     _PUSH_CC                                  23B8       F      15       1   NON_BANKED  
-     _POP_CC                                   23C7       F      15       1   NON_BANKED  
+     _IDIVMOD                                  23A5      69     105       1   NON_BANKED  
+     _IDIVU_STAR08                             240E       D      13       1   NON_BANKED  
+     _PUSH_CC                                  241B       F      15       1   NON_BANKED  
+     _POP_CC                                   242A       F      15       1   NON_BANKED  
 - VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
-  Events_c.obj                                 0    127      0
-  main_c.obj                                  20    516      0
+  Events_c.obj                                 0     36      0
+  main_c.obj                                  15    304      0
   start08_c.obj                                0    133      0
   AD1_c.obj                                    7    308      4
-  AS1_c.obj                                   16    654      0
-  AS2_c.obj                                    2    174      0
+  AS1_c.obj                                   16    604      0
   Cap1_c.obj                                   0     41      0
-  Cpu_c.obj                                    3    250      2
+  Cpu_c.obj                                    3    254      2
   IO_Map_c.obj                               207      0      0
+  IR_c.obj                                    16    280      0
   PWM1_c.obj                                   2    161      0
-  PWM2_c.obj                                   2    148      0
+  PWM_IR_c.obj                                 2    148      0
+  TI1_c.obj                                    0     37      0
   Vectors_c.obj                                0      0     64
   rtshc08.o (ansibim.lib)                      0    148      0
   other                                      512     18      8
@@ -589,37 +602,40 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   AS1_OnError AS1_OnRxChar AS1_OnFullRxBuf AS1_OnTxChar AS1_OnFreeTxBuf 
-  AD1_OnEnd Cap1_OnCapture AS2_OnError AS2_OnRxChar AS2_OnTxChar 
-  mover_cuadrante sensores enviar main PE_low_level_init 
+  TI1_OnInterrupt AD1_OnEnd Cap1_OnCapture IR_OnError IR_OnRxChar IR_OnTxChar 
+  IR_OnFullRxBuf IR_OnFreeTxBuf mover_cuadrante sensores main PE_low_level_init 
 SECTION: ".data"
   cuadrante cuadrante_a 
 SECTION: ".bss"
   p posicion OutFlg SumChan ModeFlg SerFlag InpIndxR InpIndxW InpBuffer 
-  OutIndxR OutIndxW OutBuffer OnFreeTxBuf_semaphore SerFlag BufferRead 
-  ActualRatio ActualRatio 
+  OutIndxR OutIndxW OutBuffer OnFreeTxBuf_semaphore SerFlag InpIndxR InpIndxW 
+  InpBuffer OutIndxR OutIndxW OutBuffer OnFreeTxBuf_semaphore ActualRatio 
+  ActualRatio 
 SECTION: ".init"
   Cpu_Interrupt _EntryPoint 
 SECTION: ".rodata"
   Table Channels 
 SECTION: "NON_BANKED"
   loadByte Init _Startup AD1_Interrupt AS1_InterruptRx AS1_InterruptTx 
-  AS1_InterruptError AS2_InterruptRx AS2_InterruptTx AS2_InterruptError 
-  Cap1_Interrupt _IDIVMOD _IDIVU_STAR08 _PUSH_CC _POP_CC 
+  AS1_InterruptError Cap1_Interrupt IR_InterruptRx IR_InterruptTx 
+  IR_InterruptError TI1_Interrupt _IDIVMOD _IDIVU_STAR08 _PUSH_CC _POP_CC 
 SECTION: "AS1_CODE"
-  AS1_RecvChar AS1_RecvBlock AS1_SendBlock AS1_ClearRxBuf AS1_Init 
+  AS1_RecvChar AS1_RecvBlock AS1_SendBlock AS1_Init 
 SECTION: "PWM1_CODE"
   SetRatio PWM1_Init 
 SECTION: "Cap1_CODE"
   Cap1_Init 
-SECTION: "AS2_CODE"
-  AS2_Init 
+SECTION: "IR_CODE"
+  IR_Init 
+SECTION: "TI1_CODE"
+  HWEnDi TI1_Init 
 SECTION: "AD1_CODE"
   ClrSumV AD1_HWEnDi AD1_MeasureChan AD1_GetChanValue AD1_Init 
-SECTION: "PWM2_CODE"
-  SetRatio PWM2_Init 
+SECTION: "PWM_IR_CODE"
+  SetRatio PWM_IR_Init 
 SECTION: ".common"
-  block5 mensaje z1 z2 z3 z4 a time lidar AD1_OutV AS1_InpLen AS1_OutLen 
-  CCR_reg CCR_lock Shadow_PTE 
+  a time lidar b2 AD1_OutV AS1_InpLen AS1_OutLen CCR_reg CCR_lock Shadow_PTE 
+  IR_InpLen IR_OutLen 
 SECTION: ".abs_section_ffbd"
   NVPROT_INIT 
 SECTION: ".abs_section_ffbf"
@@ -1091,38 +1107,41 @@ OBJECT LIST SORTED BY ADDRESS
      _LAPAB                                      7F       1       1       0   .abs_section_7f
      cuadrante                                   A0       1       1       6   .data       
      cuadrante_a                                 A1       1       1       3   .data       
-     p                                           A2       2       2       4   .bss        
-     posicion                                    A4       1       1       7   .bss        
+     p                                           A2       2       2       3   .bss        
+     posicion                                    A4       1       1       6   .bss        
      OutFlg                                      A5       1       1       8   .bss        
      SumChan                                     A6       1       1      13   .bss        
      ModeFlg                                     A7       1       1       8   .bss        
-     SerFlag                                     A8       1       1      12   .bss        
-     InpIndxR                                    A9       1       1       4   .bss        
-     InpIndxW                                    AA       1       1       4   .bss        
+     SerFlag                                     A8       1       1      10   .bss        
+     InpIndxR                                    A9       1       1       3   .bss        
+     InpIndxW                                    AA       1       1       3   .bss        
      InpBuffer                                   AB       4       4       2   .bss        
      OutIndxR                                    AF       1       1       3   .bss        
      OutIndxW                                    B0       1       1       3   .bss        
      OutBuffer                                   B1       4       4       2   .bss        
      OnFreeTxBuf_semaphore                       B5       1       1       5   .bss        
-     SerFlag                                     B6       1       1      10   .bss        
-     BufferRead                                  B7       1       1       1   .bss        
-     ActualRatio                                 B8       2       2       6   .bss        
-     ActualRatio                                 BA       2       2       5   .bss        
-     block5                                      BC       4       4       4   .common     
-     mensaje                                     C0       1       1       1   .common     
-     z1                                          C1       1       1       1   .common     
-     z2                                          C2       1       1       1   .common     
-     z3                                          C3       1       1       1   .common     
-     z4                                          C4       1       1       1   .common     
-     a                                           C5       2       2       1   .common     
-     time                                        C7       2       2       2   .common     
-     lidar                                       C9       2       2       2   .common     
-     AD1_OutV                                    CB       4       4      12   .common     
-     AS1_InpLen                                  CF       1       1       7   .common     
-     AS1_OutLen                                  D0       1       1       6   .common     
-     CCR_reg                                     D1       1       1       6   .common     
-     CCR_lock                                    D2       1       1      12   .common     
-     Shadow_PTE                                  D3       1       1       1   .common     
+     SerFlag                                     B6       1       1       8   .bss        
+     InpIndxR                                    B7       1       1       1   .bss        
+     InpIndxW                                    B8       1       1       3   .bss        
+     InpBuffer                                   B9       4       4       1   .bss        
+     OutIndxR                                    BD       1       1       3   .bss        
+     OutIndxW                                    BE       1       1       1   .bss        
+     OutBuffer                                   BF       4       4       1   .bss        
+     OnFreeTxBuf_semaphore                       C3       1       1       2   .bss        
+     ActualRatio                                 C4       2       2       6   .bss        
+     ActualRatio                                 C6       2       2       5   .bss        
+     a                                           C8       2       2       4   .common     
+     time                                        CA       2       2       2   .common     
+     lidar                                       CC       2       2       1   .common     
+     b2                                          CE       4       4       3   .common     
+     AD1_OutV                                    D2       4       4      12   .common     
+     AS1_InpLen                                  D6       1       1       6   .common     
+     AS1_OutLen                                  D7       1       1       6   .common     
+     CCR_reg                                     D8       1       1       4   .common     
+     CCR_lock                                    D9       1       1       9   .common     
+     Shadow_PTE                                  DA       1       1       2   .common     
+     IR_InpLen                                   DB       1       1       4   .common     
+     IR_OutLen                                   DC       1       1       3   .common     
      _SRS                                      1800       1       1       0   .abs_section_1800
      _SBDFR                                    1801       1       1       0   .abs_section_1801
      _SOPT1                                    1802       1       1       1   .abs_section_1802
@@ -1151,9 +1170,9 @@ OBJECT LIST SORTED BY ADDRESS
      _FPROT                                    1824       1       1       0   .abs_section_1824
      _FSTAT                                    1825       1       1       0   .abs_section_1825
      _FCMD                                     1826       1       1       0   .abs_section_1826
-     _RTCSC                                    1830       1       1       0   .abs_section_1830
+     _RTCSC                                    1830       1       1       3   .abs_section_1830
      _RTCCNT                                   1831       1       1       0   .abs_section_1831
-     _RTCMOD                                   1832       1       1       0   .abs_section_1832
+     _RTCMOD                                   1832       1       1       1   .abs_section_1832
      _SPI2C1                                   1838       1       1       0   .abs_section_1838
      _SPI2C2                                   1839       1       1       0   .abs_section_1839
      _SPI2BR                                   183A       1       1       0   .abs_section_183a
@@ -1194,18 +1213,18 @@ OBJECT LIST SORTED BY ADDRESS
      _IIC2C2                                   186D       1       1       0   .abs_section_186d
      _SCI2BD                                   1870       2       2       2   .abs_section_1870
      _SCI2C1                                   1872       1       1       1   .abs_section_1872
-     _SCI2C2                                   1873       1       1       4   .abs_section_1873
-     _SCI2S1                                   1874       1       1       2   .abs_section_1874
+     _SCI2C2                                   1873       1       1       3   .abs_section_1873
+     _SCI2S1                                   1874       1       1       3   .abs_section_1874
      _SCI2S2                                   1875       1       1       1   .abs_section_1875
      _SCI2C3                                   1876       1       1       1   .abs_section_1876
-     _SCI2D                                    1877       1       1       2   .abs_section_1877
+     _SCI2D                                    1877       1       1       3   .abs_section_1877
      _PTCSET                                   1878       1       1       0   .abs_section_1878
      _PTESET                                   1879       1       1       0   .abs_section_1879
      _PTCCLR                                   187A       1       1       0   .abs_section_187a
      _PTECLR                                   187B       1       1       0   .abs_section_187b
      _PTCTOG                                   187C       1       1       0   .abs_section_187c
-     _PTETOG                                   187D       1       1       0   .abs_section_187d
-     Cpu_Interrupt                             2080       4       4      23   .init       
+     _PTETOG                                   187D       1       1       1   .abs_section_187d
+     Cpu_Interrupt                             2080       4       4      22   .init       
      _EntryPoint                               2084      45      69       1   .init       
      Table                                     20DB       2       2       3   .rodata     
      Channels                                  20DD       2       2       2   .rodata     
@@ -1216,45 +1235,49 @@ OBJECT LIST SORTED BY ADDRESS
      AS1_InterruptRx                           21E3      61      97       1   NON_BANKED  
      AS1_InterruptTx                           2244      5C      92       1   NON_BANKED  
      AS1_InterruptError                        22A0      12      18       1   NON_BANKED  
-     AS2_InterruptRx                           22B2      47      71       1   NON_BANKED  
-     AS2_InterruptTx                           22F9      2A      42       1   NON_BANKED  
-     AS2_InterruptError                        2323      14      20       1   NON_BANKED  
-     Cap1_Interrupt                            2337       B      11       1   NON_BANKED  
-     _IDIVMOD                                  2342      69     105       1   NON_BANKED  
-     _IDIVU_STAR08                             23AB       D      13       1   NON_BANKED  
-     _PUSH_CC                                  23B8       F      15       1   NON_BANKED  
-     _POP_CC                                   23C7       F      15       1   NON_BANKED  
+     Cap1_Interrupt                            22B2       B      11       1   NON_BANKED  
+     IR_InterruptRx                            22BD      63      99       1   NON_BANKED  
+     IR_InterruptTx                            2320      63      99       1   NON_BANKED  
+     IR_InterruptError                         2383      14      20       1   NON_BANKED  
+     TI1_Interrupt                             2397       E      14       1   NON_BANKED  
+     _IDIVMOD                                  23A5      69     105       1   NON_BANKED  
+     _IDIVU_STAR08                             240E       D      13       1   NON_BANKED  
+     _PUSH_CC                                  241B       F      15       1   NON_BANKED  
+     _POP_CC                                   242A       F      15       1   NON_BANKED  
      AS1_OnError                               8000       1       1       4   .text       
-     AS1_OnRxChar                              8001       1       1       2   .text       
-     AS1_OnFullRxBuf                           8002      6B     107       2   .text       
-     AS1_OnTxChar                              806D       1       1       2   .text       
-     AS1_OnFreeTxBuf                           806E       1       1       2   .text       
-     AD1_OnEnd                                 806F       1       1       2   .text       
-     Cap1_OnCapture                            8070       C      12       2   .text       
-     AS2_OnError                               807C       1       1       4   .text       
-     AS2_OnRxChar                              807D       1       1       2   .text       
-     AS2_OnTxChar                              807E       1       1       2   .text       
-     mover_cuadrante                           807F      92     146       2   .text       
-     sensores                                  8111      34      52       2   .text       
-     enviar                                    8145      B6     182       2   .text       
-     main                                      81FB      88     136       2   .text       
-     PE_low_level_init                         8283      B1     177       2   .text       
-     AS1_RecvChar                              8334      63      99       2   AS1_CODE    
-     AS1_RecvBlock                             8397      57      87       2   AS1_CODE    
-     AS1_SendBlock                             83EE      A0     160       2   AS1_CODE    
-     AS1_ClearRxBuf                            848E      32      50       2   AS1_CODE    
-     AS1_Init                                  84C0      33      51       2   AS1_CODE    
-     SetRatio                                  84F3      89     137       2   PWM1_CODE   
-     PWM1_Init                                 857C      18      24       2   PWM1_CODE   
-     Cap1_Init                                 8594      1E      30       2   Cap1_CODE   
-     AS2_Init                                  85B2      29      41       2   AS2_CODE    
-     ClrSumV                                   85DB       9       9       2   AD1_CODE    
-     AD1_HWEnDi                                85E4      3B      59       2   AD1_CODE    
-     AD1_MeasureChan                           861F      2B      43       2   AD1_CODE    
-     AD1_GetChanValue                          864A      36      54       2   AD1_CODE    
-     AD1_Init                                  8680      10      16       2   AD1_CODE    
-     SetRatio                                  8690      7C     124       2   PWM2_CODE   
-     PWM2_Init                                 870C      18      24       2   PWM2_CODE   
+     AS1_OnRxChar                              8001       7       7       2   .text       
+     AS1_OnFullRxBuf                           8008       1       1       2   .text       
+     AS1_OnTxChar                              8009       1       1       2   .text       
+     AS1_OnFreeTxBuf                           800A       1       1       2   .text       
+     TI1_OnInterrupt                           800B       7       7       2   .text       
+     AD1_OnEnd                                 8012       1       1       2   .text       
+     Cap1_OnCapture                            8013       C      12       2   .text       
+     IR_OnError                                801F       1       1       4   .text       
+     IR_OnRxChar                               8020       1       1       2   .text       
+     IR_OnTxChar                               8021       1       1       2   .text       
+     IR_OnFullRxBuf                            8022       1       1       2   .text       
+     IR_OnFreeTxBuf                            8023       1       1       2   .text       
+     mover_cuadrante                           8024      92     146       2   .text       
+     sensores                                  80B6      34      52       2   .text       
+     main                                      80EA      6A     106       2   .text       
+     PE_low_level_init                         8154      B5     181       2   .text       
+     AS1_RecvChar                              8209      63      99       2   AS1_CODE    
+     AS1_RecvBlock                             826C      57      87       2   AS1_CODE    
+     AS1_SendBlock                             82C3      A0     160       2   AS1_CODE    
+     AS1_Init                                  8363      33      51       2   AS1_CODE    
+     SetRatio                                  8396      89     137       2   PWM1_CODE   
+     PWM1_Init                                 841F      18      24       2   PWM1_CODE   
+     Cap1_Init                                 8437      1E      30       2   Cap1_CODE   
+     IR_Init                                   8455      3E      62       2   IR_CODE     
+     HWEnDi                                    8493       6       6       2   TI1_CODE    
+     TI1_Init                                  8499      11      17       2   TI1_CODE    
+     ClrSumV                                   84AA       9       9       2   AD1_CODE    
+     AD1_HWEnDi                                84B3      3B      59       2   AD1_CODE    
+     AD1_MeasureChan                           84EE      2B      43       2   AD1_CODE    
+     AD1_GetChanValue                          8519      36      54       2   AD1_CODE    
+     AD1_Init                                  854F      10      16       2   AD1_CODE    
+     SetRatio                                  855F      7C     124       2   PWM_IR_CODE 
+     PWM_IR_Init                               85DB      18      24       2   PWM_IR_CODE 
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
      _vect                                     FFC0      40      64       0   .abs_section_ffc0
@@ -1263,22 +1286,23 @@ OBJECT LIST SORTED BY ADDRESS
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
-Events_c.obj:
-  TI1_OnInterrupt 
 main_c.obj:
-  paso solindar 
+  paso solindar enviar 
 AD1_c.obj:
   AD1_Measure AD1_GetValue16 
 AS1_c.obj:
-  AS1_SendChar AS1_ClearTxBuf 
-AS2_c.obj:
-  AS2_RecvChar AS2_SendChar AS2_GetCharsInRxBuf AS2_GetCharsInTxBuf 
+  AS1_SendChar AS1_ClearRxBuf AS1_ClearTxBuf 
 Cpu_c.obj:
   Cpu_Delay100US 
+IR_c.obj:
+  IR_RecvChar IR_SendChar IR_RecvBlock IR_SendBlock IR_ClearRxBuf 
+  IR_ClearTxBuf 
 PWM1_c.obj:
   PWM1_SetRatio16 PWM1_SetDutyUS PWM1_SetDutyMS 
-PWM2_c.obj:
-  PWM2_SetRatio16 PWM2_SetDutyUS PWM2_SetDutyMS 
+PWM_IR_c.obj:
+  PWM_IR_SetRatio16 PWM_IR_SetDutyUS PWM_IR_SetDutyMS 
+TI1_c.obj:
+  TI1_Enable 
 rtshc08.o (ansibim.lib):
   _PUSH_ARGS_L _PUSH_ARGS_D _ENTER_UNARY_L _ENTER_UNARY_L64 _ENTER_UNARY_L64_4 
   _ENTER_BINARY_L _ENTER_BINARY_L_RC _ENTER_BINARY_L_LC _ENTER_BINARY_L64 
@@ -1300,23 +1324,23 @@ rtshc08.o (ansibim.lib):
   _CONV_FAR_TO_LINEAR _CONV_LINEAR_TO_FAR 
 NOT USED VARIABLES
 main_c.obj:
-  b control 
+  b control block5 mensaje z1 z2 z3 z4 master_position 
 rtshc08.o (ansibim.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x23D6 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x2439 ---- SIZE       4 ---
 Filling bytes inserted
  000200A0
-------- ROM-ADDRESS: 0x23DA ---- RAM-ADDRESS: 0xA0 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x243D ---- RAM-ADDRESS: 0xA0 ---- SIZE       1 ---
 Name of initialized Object : cuadrante
  01
-------- ROM-ADDRESS: 0x23DB ---- RAM-ADDRESS: 0xA1 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x243E ---- RAM-ADDRESS: 0xA1 ---- SIZE       1 ---
 Name of initialized Object : cuadrante_a
  01
-------- ROM-ADDRESS: 0x23DC ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x243F ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1335,42 +1359,47 @@ AS1_InterruptTx           USES SerFlag AS1_OutLen _SCI1S1 OutIndxR OutBuffer
                                 _SCI1D OnFreeTxBuf_semaphore _SCI1C2 AS1_OnTxChar 
                                 AS1_OnFreeTxBuf 
 AS1_InterruptError        USES _SCI1S1 _SCI1D SerFlag AS1_OnError 
-AS2_InterruptRx           USES _SCI2S1 _SCI2D SerFlag BufferRead AS2_OnError 
-                                AS2_OnRxChar 
-AS2_InterruptTx           USES SerFlag _SCI2C2 AS2_OnTxChar 
-AS2_InterruptError        USES _SCI2S1 _SCI2D SerFlag AS2_OnError 
 Cap1_Interrupt            USES _TPM3C3SC Cap1_OnCapture 
+IR_InterruptRx            USES _SCI2S1 _SCI2D IR_InpLen InpIndxW InpBuffer 
+                                SerFlag IR_OnError IR_OnRxChar IR_OnFullRxBuf 
+IR_InterruptTx            USES SerFlag IR_OutLen _SCI2S1 OutIndxR OutBuffer 
+                                _SCI2D OnFreeTxBuf_semaphore _SCI2C2 IR_OnTxChar 
+                                IR_OnFreeTxBuf 
+IR_InterruptError         USES _SCI2S1 _SCI2D SerFlag IR_OnError 
+TI1_Interrupt             USES _RTCSC TI1_OnInterrupt 
 _IDIVU_STAR08             USES _IDIVMOD 
-AS1_OnFullRxBuf           USES AS1_RecvBlock mensaje z1 z2 z3 z4 block5 
-                                AS1_ClearRxBuf 
+AS1_OnRxChar              USES a 
+TI1_OnInterrupt           USES p 
 Cap1_OnCapture            USES _PTCD _TPM3CNT _TPM3C3V time 
 mover_cuadrante           USES cuadrante cuadrante_a posicion _PTDD 
 sensores                  USES cuadrante cuadrante_a AD1_MeasureChan lidar 
                                 AD1_GetChanValue time _IDIVU_STAR08 
-enviar                    USES AS1_SendBlock 
 main                      USES PE_low_level_init p a cuadrante mover_cuadrante 
-                                sensores lidar posicion enviar 
+                                sensores b2 AS1_RecvBlock AS1_SendBlock _PTETOG 
+                                Shadow_PTE 
 PE_low_level_init         USES _SCGC1 _SCGC2 _PTBDD _PTBD _PTDD _PTDPE _PTDDD 
                                 _PTED _PTEPE _PTEDD _PTADD _PTAD _APCTL1 _PTCPE 
                                 _PTCDD _PTCD _PTASE _PTBSE _PTCSE _PTDSE _PTESE 
                                 _PTFSE _PTGSE _PTHSE _PTJSE _PTADS _PTBDS _PTCDS 
                                 _PTDDS _PTEDS _PTFDS _PTGDS _PTHDS _PTJDS AS1_Init 
-                                Shadow_PTE PWM1_Init AD1_Init PWM2_Init Cap1_Init 
-                                AS2_Init CCR_lock 
+                                Shadow_PTE PWM1_Init AD1_Init PWM_IR_Init Cap1_Init 
+                                IR_Init TI1_Init CCR_lock 
 AS1_RecvChar              USES AS1_InpLen CCR_lock CCR_reg InpIndxR InpBuffer 
                                 SerFlag _PUSH_CC _POP_CC 
 AS1_RecvBlock             USES AS1_RecvChar 
 AS1_SendBlock             USES OnFreeTxBuf_semaphore CCR_lock CCR_reg 
                                 AS1_OutLen OutIndxW OutBuffer _SCI1C2 
-AS1_ClearRxBuf            USES CCR_lock CCR_reg AS1_InpLen InpIndxR InpIndxW 
-                                SerFlag 
 AS1_Init                  USES SerFlag OnFreeTxBuf_semaphore AS1_InpLen 
                                 InpIndxR InpIndxW AS1_OutLen OutIndxR OutIndxW _SCI1C1 
                                 _SCI1C3 _SCI1C2 _SCI1S2 _SCI1BD 
 SetRatio                  USES ActualRatio _TPM2C2V 
 PWM1_Init                 USES _TPM2SC _TPM2C2SC ActualRatio _TPM2MOD SetRatio 
 Cap1_Init                 USES _TPM3SC _TPM3MOD _TPM3CNT _TPM3C3V _TPM3C3SC 
-AS2_Init                  USES SerFlag _SCI2C1 _SCI2C3 _SCI2C2 _SCI2S2 _SCI2BD 
+IR_Init                   USES SerFlag OnFreeTxBuf_semaphore IR_InpLen 
+                                InpIndxR InpIndxW IR_OutLen OutIndxR OutIndxW _SCI2C1 
+                                _SCI2C3 _SCI2C2 _SCI2S2 _SCI2BD 
+HWEnDi                    USES _RTCSC 
+TI1_Init                  USES _RTCSC _RTCMOD HWEnDi 
 ClrSumV                   USES AD1_OutV 
 AD1_HWEnDi                USES ModeFlg OutFlg SumChan ClrSumV Table AD1_OutV 
                                 Channels _ADCSC1 
@@ -1378,9 +1407,9 @@ AD1_MeasureChan           USES ModeFlg SumChan AD1_HWEnDi
 AD1_GetChanValue          USES OutFlg Table AD1_OutV 
 AD1_Init                  USES _ADCSC1 _ADCSC2 OutFlg ModeFlg _ADCCFG 
 SetRatio                  USES ActualRatio _TPM1C2V 
-PWM2_Init                 USES _TPM1SC _TPM1C2SC ActualRatio _TPM1MOD SetRatio 
-_vect                     USES Cpu_Interrupt Cap1_Interrupt AS2_InterruptTx 
-                                AS2_InterruptRx AS2_InterruptError AD1_Interrupt 
+PWM_IR_Init               USES _TPM1SC _TPM1C2SC ActualRatio _TPM1MOD SetRatio 
+_vect                     USES Cpu_Interrupt Cap1_Interrupt TI1_Interrupt 
+                                IR_InterruptTx IR_InterruptRx IR_InterruptError AD1_Interrupt 
                                 AS1_InterruptTx AS1_InterruptRx AS1_InterruptError _EntryPoint 
 
 *********************************************************************************************
@@ -1400,14 +1429,18 @@ DEPENDENCY TREE
  |  |  |       
  |  |  +- AD1_Init            
  |  |  |    
- |  |  +- PWM2_Init           
+ |  |  +- PWM_IR_Init         
  |  |  |  | 
  |  |  |  +- SetRatio            
  |  |  |       
  |  |  +- Cap1_Init           
  |  |  |    
- |  |  +- AS2_Init            
- |  |       
+ |  |  +- IR_Init             
+ |  |  |    
+ |  |  +- TI1_Init            
+ |  |     | 
+ |  |     +- HWEnDi              
+ |  |          
  |  +- mover_cuadrante     
  |  |    
  |  +- sensores            
@@ -1424,10 +1457,16 @@ DEPENDENCY TREE
  |  |     | 
  |  |     +- _IDIVMOD            
  |  |          
- |  +- enviar              
- |     | 
- |     +- AS1_SendBlock       
- |          
+ |  +- AS1_RecvBlock       
+ |  |  | 
+ |  |  +- AS1_RecvChar        
+ |  |     | 
+ |  |     +- _PUSH_CC            
+ |  |     |    
+ |  |     +- _POP_CC             
+ |  |          
+ |  +- AS1_SendBlock       
+ |       
  +- _EntryPoint         
     | 
     +- _Startup            
@@ -1446,19 +1485,27 @@ DEPENDENCY TREE
  |  | 
  |  +- Cap1_OnCapture      
  |       
- +- AS2_InterruptTx     
+ +- TI1_Interrupt       
  |  | 
- |  +- AS2_OnTxChar        
+ |  +- TI1_OnInterrupt     
  |       
- +- AS2_InterruptRx     
+ +- IR_InterruptTx      
  |  | 
- |  +- AS2_OnError         
+ |  +- IR_OnTxChar         
  |  |    
- |  +- AS2_OnRxChar        
+ |  +- IR_OnFreeTxBuf      
  |       
- +- AS2_InterruptError  
+ +- IR_InterruptRx      
  |  | 
- |  +- AS2_OnError          (see above)
+ |  +- IR_OnError          
+ |  |    
+ |  +- IR_OnRxChar         
+ |  |    
+ |  +- IR_OnFullRxBuf      
+ |       
+ +- IR_InterruptError   
+ |  | 
+ |  +- IR_OnError           (see above)
  |     
  +- AD1_Interrupt       
  |  | 
@@ -1477,17 +1524,7 @@ DEPENDENCY TREE
  |  +- AS1_OnRxChar        
  |  |    
  |  +- AS1_OnFullRxBuf     
- |     | 
- |     +- AS1_RecvBlock       
- |     |  | 
- |     |  +- AS1_RecvChar        
- |     |     | 
- |     |     +- _PUSH_CC            
- |     |     |    
- |     |     +- _POP_CC             
- |     |          
- |     +- AS1_ClearRxBuf      
- |          
+ |       
  +- AS1_InterruptError  
  |  | 
  |  +- AS1_OnError          (see above)
@@ -1500,6 +1537,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 13
-Total size of all blocks to be downloaded: 2756
+Number of blocks to be downloaded: 15
+Total size of all blocks to be downloaded: 2550
 

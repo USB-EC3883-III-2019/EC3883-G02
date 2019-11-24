@@ -41,6 +41,7 @@
 #include "PWM1.h"
 #include "Cap1.h"
 #include "IR.h"
+#include "TI1.h"
 #include "AD1.h"
 #include "PWM_IR.h"
 

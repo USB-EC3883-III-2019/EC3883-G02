@@ -36,6 +36,7 @@
 #include "PWM1.h"
 #include "Cap1.h"
 #include "IR.h"
+#include "TI1.h"
 #include "AD1.h"
 #include "PWM_IR.h"
 /* Include shared modules, which are used for whole project */
@@ -62,7 +63,7 @@
  */
 
 unsigned char b=0;
-char block5[4],mensaje,z1,z2,z3,z4;			// este vector contiene lo recibido por serial
+char block5[4],mensaje,z1,z2,z3,z4,master_position;			// este vector contiene lo recibido por serial
 unsigned int p=0,a;
 char posicion=0;	// posicion del motor, esta variable es global dado que se utiliza en varias funciones y requiere estar actualizada en todo momento
 char cuadrante=1;    ////cuadrante al cual se quiere mover
@@ -70,6 +71,7 @@ char cuadrante_a=1;  //variable de control para verificar que se va a cambiar a 
 int control=0;
 unsigned int time;   // variable para guardar el tiempo del sonar
 char lidar[2];
+unsigned char b2[4];
 
 //funcion mueve el motor hasta el inicio (grado menor) del cuadrante enviado
 //retorna 0 si no ha llegado la posicion
@@ -155,16 +157,21 @@ void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) //
 		maskblock[3]= lidar[1] & 0b01111111;
 		maskblock[3]= maskblock[3] | 0b10000000;
 //		maskblock[4]= (posicion/12)+1;					// envia el cuadrante actual 12 es la cantidad de pasos por cuadrante.
+
+/*		maskblock[0]=0b10000001;
+		maskblock[0]=0b00000010;
+		maskblock[0]=0b00000011;
+		maskblock[3]=0b00000100;
 		
 		AS1_SendBlock(maskblock,4,&ptr); // enviamos el entramado (hay que adaptarlo al nuevo poryecto)		   	   
-		
+*/		
 }		
 
 void main(void)	//
 {
   /* Write your local variable definition here */
 char ready=0,init=0; // un retardo antes de iniciar el programa que depende una comparacion con la variable init y el tiempo que se desea
-unsigned int t2;	// variable para tiempo del sonar
+unsigned int t2,ptr6;	// variable para tiempo del sonar
 char maskblock[4]; // vector entramado que se enviara al processing
 
 /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
@@ -176,21 +183,21 @@ char maskblock[4]; // vector entramado que se enviara al processing
    
    for(;;) {
 
-	if((p==1) & (init<10)){ // espera inicial para inicar el programa
-	p=0;
-	init++;
-	}
-	if(init==10){
-		ready=1;
-	}
-	   if((p==1)&(ready==1)){ //programa principal
+	   if(p){ //programa principal
 		p=0;
 		cuadrante=a;		// aqui se esta asignando el cuadrante objetivo por teclado desde processing se debe cambiar a recibir la trama
 		mover_cuadrante();  // la variable cuadrante y posicion son globales, bastan con actualizarlas en cualquier instancia del programa par que el motor se desplaze hasta esa posicion		
 		//mover_paso();
 		t2=sensores();	// grabar en t2 el valor la interrupcion que causo el ultrasonido
-		enviar(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1 y envia por serial// para una prueba estamos metiendo el tiempo en posicion
-	   }
+//		enviar(maskblock,t2,lidar,posicion);	// Llamamos al procedimiento mask1 y envia por serial// para una prueba estamos metiendo el tiempo en posicion
+		if(a){
+		AS1_RecvBlock(b2,4,&ptr6);
+		b2[3]&=0b00000111;
+		AS1_SendBlock(b2,4,&ptr6); // enviamos el entramado (hay que adaptarlo al nuevo poryecto)
+		a=0;
+		Bit1_NegVal();		
+		}
+	}
    }
 
    /*** Don't write any code pass this line, or it will be deleted during code generation. ***/

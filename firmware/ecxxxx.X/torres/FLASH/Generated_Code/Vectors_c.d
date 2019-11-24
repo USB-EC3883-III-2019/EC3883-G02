@@ -1,4 +1,5 @@
 
+
 Generated_Code/Vectors_c.obj: \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers/../Generated_Code/Vectors.c \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/Cpu.h \
@@ -12,7 +13,8 @@ Generated_Code/Vectors_c.obj: \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/Bit1.h \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/PWM1.h \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/AD1.h \
-	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/PWM2.h \
+	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/PWM_IR.h \
 	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/Cap1.h \
-	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/AS2.h 
+	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/IR.h \
+	C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Generated_Code/TI1.h 
 

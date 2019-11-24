@@ -34,7 +34,8 @@
 extern unsigned int a;
 extern unsigned int p;
 extern unsigned int time;
-extern char block5[4],mensaje,z1,z2,z3,z4;
+extern unsigned char b2[4];
+
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
 /*
@@ -72,31 +73,12 @@ void  AS1_OnError(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void  AS1_OnRxChar(void)
-{
-  /* Write your code here ... */
+void  AS1_OnRxChar(void){
+ a=1;	
 }
 
-void  AS1_OnFullRxBuf(void)
-{ 
-	  char b[4];
-	  unsigned int ptr4;
-	  AS1_RecvBlock(b,4,&ptr4);
-	  if((b[0] & 0b10000000) == 0b10000000){
-	  master_position=( b[0] & 0b01110000 ) >> 4;		// en el segundo byte está una posicion adicional que hay que enviar	
-	  mensaje= ( b[0]<<4 ) | ( b[1] & 0b00001111 ) ; 	// 8 BITS DE MENSAJE
-	  z1= ( b[2] & 0b00111000 ) >> 3;					// zona 1
-	  z2= ( b[2] & 0b00000111);							// zona 2
-	  z3= ( b[3] & 0b00111000) >> 3;					// zona 3
-	  z4= ( b[3] & 0b00000111);							// zona 4
-	  block5[0]=b[0];									// block5 es un vector que está en el main por si se necesita usar para algo
-	  block5[1]=b[1];
-	  block5[2]=b[2];
-	  block5[3]=b[3];
-	  ptr4=0;
-	  }
-	  AS1_ClearRxBuf();
-  /* Write your code here ... */
+void  AS1_OnFullRxBuf(void){ 
+	
 }
 
 /*
@@ -170,7 +152,6 @@ void AD1_OnEnd(void)
 {
   /* Write your code here ... */
 }
-
 
 /*
 ** ===================================================================

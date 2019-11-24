@@ -140,6 +140,10 @@ Module "IR"        (component AsynchroSerial)
    - IR_GetCharsInTxBuf -Returns the number of characters in the output buffer. This method is available only if the 
                 transmitter property is enabled.
 
+Module "TI1"       (component TimerInt)
+   - TI1_Enable -This method enables the component - it starts the timer. Events may be generated (<DisableEvent>/<EnableEvent>)
+                .
+
 Module "Cpu"       (component MC9S08QE128_80)
    - Cpu_EnableInt -Enables maskable interrupts
    - Cpu_DisableInt -Disables maskable interrupts

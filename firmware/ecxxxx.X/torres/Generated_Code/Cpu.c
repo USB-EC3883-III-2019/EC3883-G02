@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-18, 17:09, # CodeGen: 43
+**     Date/Time   : 2019-11-23, 15:34, # CodeGen: 46
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -75,6 +75,7 @@
 #include "PWM_IR.h"
 #include "Cap1.h"
 #include "IR.h"
+#include "TI1.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -359,6 +360,8 @@ void PE_low_level_init(void)
   Cap1_Init();
   /* ### Asynchro serial "IR" init code ... */
   IR_Init();
+  /* ### TimerInt "TI1" init code ... */
+  TI1_Init();
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }
