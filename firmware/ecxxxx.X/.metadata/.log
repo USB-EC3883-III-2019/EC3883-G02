@@ -7842,3 +7842,273 @@ org.eclipse.core.runtime.CoreException: HC/RS/S12Z GDI Protocol Adapter : Can't 
 
 !ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-23 17:24:55.853
 !MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-11-24 05:16:22.257
+!MESSAGE Error launching oscilocopio_FLASH_PnE U-MultiLink
+!STACK 1
+org.eclipse.core.runtime.CoreException: HC/RS/S12Z GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-11-24 05:16:22.258
+!MESSAGE HC/RS/S12Z GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 06:48:40.541
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 09:40:18.922
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY com.freescale.core.debugger.cdt 4 0 2019-11-24 09:42:25.787
+!MESSAGE A debug session is already in progress.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 10:04:00.017
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 10:04:26.192
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:28:26.845
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-11-24 11:32:31.468
+!MESSAGE Error launching oscilocopio_FLASH_PnE U-MultiLink
+!STACK 1
+org.eclipse.core.runtime.CoreException: HC/RS/S12Z GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-11-24 11:32:31.468
+!MESSAGE HC/RS/S12Z GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:34:17.187
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:35:21.824
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:35:37.843
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:35:48.786
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:36:36.932
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-11-24 11:39:38.640
+!MESSAGE Error launching oscilocopio_FLASH_PnE U-MultiLink
+!STACK 1
+org.eclipse.core.runtime.CoreException: HC/RS/S12Z GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-11-24 11:39:38.655
+!MESSAGE HC/RS/S12Z GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:41:48.755
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 11:42:20.783
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 12:07:59.790
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 13:29:50.452
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 13:31:32.266
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 13:37:30.234
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 13:37:35.136
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 13:40:39.430
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 13:48:31.391
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 13:55:12.886
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 14:34:01.324
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY org.eclipse.cdt.debug.core 4 105 2019-11-24 16:12:15.671
+!MESSAGE An application file was not specified in the launch configuration.
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 16:57:42.770
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:12:17.403
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:12:17.453
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 17:12:17.475
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:13:18.188
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 17:13:18.223
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 17:24:09.102
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 17:24:09.118
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:49:34.056
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:49:34.069
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 17:49:34.190
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 17:49:34.209
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.debug.core 4 5012 2019-11-24 17:54:47.284
+!MESSAGE Breakpoint does not have an associated marker.
+
+!ENTRY org.eclipse.debug.core 4 5012 2019-11-24 17:54:47.307
+!MESSAGE Breakpoint does not have an associated marker.
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:57:11.888
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:57:12.119
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.freescale.core.debugger.cdt 4 120 2019-11-24 17:57:12.135
+!MESSAGE Error logged from CodeWarrior debugger core:
+!STACK 0
+java.lang.AssertionError: Assertion failed: no target for resolved breakpoint
+	at com.freescale.cdt.debug.cw.CWExceptionLogger.logAssert(CWExceptionLogger.java:100)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$7.run(CWBreakpointNotification.java:419)
+	at com.freescale.cdt.debug.cw.CWBreakpointNotification$1.run(CWBreakpointNotification.java:82)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2019-11-24 17:57:12.143
+!MESSAGE An internal error occurred during: "Dispatch Debugger Events".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleBreakpointInstanceCreatedEvent(CBreakpointManager.java:830)
+	at org.eclipse.cdt.debug.internal.core.CBreakpointManager.handleDebugEvents(CBreakpointManager.java:507)
+	at com.freescale.cdt.debug.cw.core.cdi.EventManager$EventDispatchJob.run(EventManager.java:80)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)

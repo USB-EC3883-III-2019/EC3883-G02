@@ -2,29 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="353" key="DIALOG_WIDTH"/>
-		<item value="190" key="DIALOG_Y_ORIGIN"/>
+		<item value="175" key="DIALOG_Y_ORIGIN"/>
+		<item value="1205" key="DIALOG_X_ORIGIN"/>
 		<item value="513" key="DIALOG_HEIGHT"/>
-		<item value="112" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="full" key="selection"/>
+		<item value="Send" key="selection"/>
 		<list key="findhistory">
-			<item value="full"/>
-			<item value="maskblock"/>
-			<item value="a["/>
-			<item value="a[}"/>
 			<item value="send"/>
-			<item value="PTR"/>
-			<item value="SEND"/>
-			<item value="BIT"/>
+			<item value="a="/>
+			<item value="ms"/>
+			<item value="modo"/>
+			<item value="modo =0"/>
+			<item value="modo=0"/>
+			<item value="estado=-1"/>
+			<item value="recibir"/>
 		</list>
 		<list key="replacehistory">
+			<item value="maestro"/>
 			<item value="lidar"/>
 			<item value="sonar"/>
 		</list>

@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-23, 15:34, # CodeGen: 46
+**     Date/Time   : 2019-11-24, 09:17, # CodeGen: 52
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -76,6 +76,7 @@
 #include "Cap1.h"
 #include "IR.h"
 #include "TI1.h"
+#include "Bit2.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -92,6 +93,7 @@ volatile byte CCR_lock;                /* Nesting level of critical regions */
 
 /*Definition of global shadow variables*/
 byte Shadow_PTE;
+byte Shadow_PTC;
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 
@@ -302,12 +304,12 @@ void PE_low_level_init(void)
   clrReg8Bits(PTAD, 0xC0U);             
   /* APCTL1: ADPC1=1,ADPC0=1 */
   setReg8Bits(APCTL1, 0x03U);           
-  /* PTCPE: PTCPE3=0 */
-  clrReg8Bits(PTCPE, 0x08U);            
-  /* PTCDD: PTCDD7=1,PTCDD6=0,PTCDD3=0 */
-  clrSetReg8Bits(PTCDD, 0x48U, 0x80U);  
-  /* PTCD: PTCD7=1 */
-  setReg8Bits(PTCD, 0x80U);             
+  /* PTCPE: PTCPE3=0,PTCPE0=0 */
+  clrReg8Bits(PTCPE, 0x09U);            
+  /* PTCD: PTCD7=1,PTCD0=0 */
+  clrSetReg8Bits(PTCD, 0x01U, 0x80U);   
+  /* PTCDD: PTCDD7=1,PTCDD6=0,PTCDD3=0,PTCDD0=1 */
+  clrSetReg8Bits(PTCDD, 0x48U, 0x81U);  
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -362,6 +364,8 @@ void PE_low_level_init(void)
   IR_Init();
   /* ### TimerInt "TI1" init code ... */
   TI1_Init();
+  /* ### BitIO "Bit2" init code ... */
+  Shadow_PTC &= 0xFEU;                 /* Initialize pin shadow variable bit */
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }
