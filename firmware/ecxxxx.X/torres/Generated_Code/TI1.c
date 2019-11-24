@@ -6,7 +6,7 @@
 **     Component   : TimerInt
 **     Version     : Component 02.161, Driver 01.23, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-23, 17:38, # CodeGen: 50
+**     Date/Time   : 2019-11-24, 13:55, # CodeGen: 60
 **     Abstract    :
 **         This component "TimerInt" implements a periodic interrupt.
 **         When the component and its events are enabled, the "OnInterrupt"
@@ -21,13 +21,13 @@
 **
 **         High speed mode
 **             Prescaler               : divide-by-1
-**             Clock                   : 4096 Hz
+**             Clock                   : 8192 Hz
 **           Initial period/frequency
-**             Xtal ticks              : 2502441
-**             microseconds            : 50049
-**             milliseconds            : 50
-**             seconds (real)          : 0.050048828125
-**             Hz                      : 20
+**             Xtal ticks              : 1000977
+**             microseconds            : 20020
+**             milliseconds            : 20
+**             seconds (real)          : 0.02001953125
+**             Hz                      : 50
 **
 **         Runtime setting             : none
 **
@@ -149,8 +149,8 @@ static void HWEnDi(void);
 */
 static void HWEnDi(void)
 {
-  /* RTCSC: RTIF=1,RTCLKS=2,RTIE=1,RTCPS=1 */
-  setReg8(RTCSC, 0xD1U);               /* Run RTC (select clock source; set frequency and enable interrupt) */ 
+  /* RTCSC: RTIF=1,RTCLKS=2,RTIE=1,RTCPS=0x0A */
+  setReg8(RTCSC, 0xDAU);               /* Run RTC (select clock source; set frequency and enable interrupt) */ 
 }
 
 /*
@@ -188,7 +188,7 @@ void TI1_Init(void)
 {
   /* RTCSC: RTIF=0,RTCLKS=0,RTIE=0,RTCPS=0 */
   setReg8(RTCSC, 0x00U);               /* Stop HW */ 
-  TI1_SetCV(0xCCU);                    /* Initialize appropriate value to the compare/modulo/reload register */
+  TI1_SetCV(0xA3U);                    /* Initialize appropriate value to the compare/modulo/reload register */
   RTCMOD = RTCMOD;                     /* Reset HW counter */
   HWEnDi();
 }
