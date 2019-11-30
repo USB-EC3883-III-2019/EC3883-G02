@@ -81,10 +81,10 @@ void setup() {
 
 void draw() { 
   //if(puerto.available() > 0){
-   puerto.write(trama[0]);
-   puerto.write(trama[1]);
-   puerto.write(trama[2]); //<>//
-   puerto.write(trama[3]);
+   //puerto.write(trama[0]);
+   //puerto.write(trama[1]);
+   //puerto.write(trama[2]); //<>//
+   //puerto.write(trama[3]);
    //puerto.write(135);
    //puerto.write(13);
    //puerto.write(2);
@@ -118,11 +118,6 @@ void draw() {
     
     break;
 
-  //case 11:
-  //  for(int ci=0;ci<8;ci++){
-  //      mensaje[ci]=input.charAt(ci);
-  //  }
-  //break;
 
   case 12:
     fill(0); 
@@ -274,38 +269,33 @@ void draw() {
   
  // }
   
-        print("mn ");
-        println(binary(mensaje[3]));
-        println("m0" + binary(mensaje[0]));
-        println("m1" + binary(mensaje[1]));
-        println("m2" + binary(mensaje[2]));
-        print("nt ");
-        println(binary(nt));
-        print("zm ");
-        println(binary(zm));
-        print("z1 ");
-        println(binary(z1));
-        print("z2 ");
-        println(binary(z2));
-        print("z3 ");
-        println(binary(z3));
-        print("z4 ");
-        println(binary(z4));
+        //print("mn ");
+        //println(binary(mensaje[3]));
+        //println("m0" + binary(mensaje[0]));
+        //println("m1" + binary(mensaje[1]));
+        //println("m2" + binary(mensaje[2]));
+        //print("nt ");
+        //println(binary(nt));
+        //print("zm ");
+        //println(binary(zm));
+        //print("z1 ");
+        //println(binary(z1));
+        //print("z2 ");
+        //println(binary(z2));
+        //print("z3 ");
+        //println(binary(z3));
+        //print("z4 ");
+        //println(binary(z4));
         
-        
+        puerto.write(trama[0]);
+        puerto.write(trama[1]);
+        puerto.write(trama[2]);
+        puerto.write(trama[3]);
         
         
     //aqui se debe entramar la info en los primeros 4 espacios del vaector char o en un nuevo vector
     //y se deben enviar los 4 bytes
   
-        //print("trama 0 ");
-        //println(trama[0]);
-        //print("trama 1 ");
-        //println(trama[1]);
-        //print("trama 2 ");
-        //println(trama[2]);
-        //print("trama 3 ");
-        //println(trama[3]);
         
     delay(100);
     fill(255, 2, 2); 
