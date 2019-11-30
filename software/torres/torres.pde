@@ -93,14 +93,14 @@ void draw() {
   background(255); 
   
   if(estado==2 | estado==3){
-  text ("Monitor serial IN     : " + binary(U1V[0],8) + " " + binary(U2V[0],8) + " " + binary(H1V[0],8) + " " + binary(H2V[0],8),150,25);
-  text ("Monitor serial OUT : " + binary(trama[0],8) + " " + binary(trama[1],8) + " " + binary(trama[2],8) + " " +binary(trama[3],8),150,50);
-  text ("Sonar : \t\t" + dfsonar,150,75);
-  text ("Lidar : \t\t" + dflidar,150,100);
-  text ("Fusion: \t\t" + dffus,150,125);
-  text ("V_sonar: \t\t" + var_sonar,150,150);
-  text ("V_lidar: \t\t" + var_lidar,150,175);
-  text ("Estado : " + estado,150,200); 
+    text ("Monitor serial IN     : " + binary(U1V[0],8) + " " + binary(U2V[0],8) + " " + binary(H1V[0],8) + " " + binary(H2V[0],8),150,25);
+    text ("Monitor serial OUT : " + binary(trama[0],8) + " " + binary(trama[1],8) + " " + binary(trama[2],8) + " " +binary(trama[3],8),150,50);
+    text ("Sonar : \t\t" + dfsonar,150,75);
+    text ("Lidar : \t\t" + dflidar,150,100);
+    text ("Fusion: \t\t" + dffus,150,125);
+    text ("V_sonar: \t\t" + var_sonar,150,150);
+    text ("V_lidar: \t\t" + var_lidar,150,175);
+    text ("Estado : " + estado,150,200); 
   }
    //<>//
   switch (estado) {
@@ -123,7 +123,7 @@ void draw() {
     fill(0); 
     text ("MODO MAESTRO \n", 150, 250); 
     fill(255, 2, 2); 
-    text ("Ingrese numero de torres: \n"+ntorres, 150, 300);
+    text ("Ingrese numero de torres de esclavos: \n"+ntorres, 150, 300);
     fill(0);
     for(int ci=0;ci<3;ci++){
         mensaje[ci]=input.charAt(ci);
