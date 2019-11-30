@@ -17,6 +17,7 @@ String input6="";
 char[] a = new char [16]; // vector informacion a transmitir por las torres
 char modo;
 int linea=200;           // variable para controlar posicion vertical del cursor al imprimir en pantalla
+int q=0;
 
 int muestras = 20;//para guardar muestreo
 
@@ -52,7 +53,7 @@ int principal=0; //variable de conteo
 int tempps=-1;
 int temppl=-1;
 int temppf=-1;
-float aux=0; //variable auxiliar
+int aux=0; //variable auxiliar
 
 String valores;
 boolean comprobacion=false;
@@ -91,7 +92,7 @@ void draw() {
   //}
   background(255); 
 
-  if (estado==2 | estado==3) {
+  if (estado==2) {
     text ("Monitor serial IN : " + binary(U1V[0], 8) + " " + binary(U2V[0], 8) + " " + binary(H1V[0], 8) + " " + binary(H2V[0], 8), 25, 25);
     text ("Monitor serial OUT: " + binary(trama[0], 8) + " " + binary(trama[1], 8) + " " + binary(trama[2], 8) + " " +binary(trama[3], 8), 25, 50);
     //text ("Sonar : \t\t" + dfsonar,25,75);
@@ -184,9 +185,6 @@ void draw() {
     fill(255, 2, 2); 
     text ("Ingrese zona para el Esclavo 4: \n"+input6, 25, 100);
     fill(0);
-    //for(int ci=18;ci<21;ci++){
-    //  info[ci]=input.charAt(ci); // en este vector de 16 bytes se graba todo el mensaje de 16 digitos dependiendo de como se vaya a recibir el mensaje se dedeber reducir el array info para que sean menos bytes
-    //}
     z3=input5.charAt(0);
     break;
 
@@ -233,71 +231,34 @@ void draw() {
     trama[2] = (z1 << 3) | z2;
     trama[3] = (z3 << 3) | z4;
 
-    //for(int ci=0;ci<32;ci++){
-    //  //print("ci == ");
-    //  //println(ci);
-    //   if(ci == 0){
-    //     //println("ci = 0");
-    //      trama[0] = (info[ci]-48); 
-    //     }
-    //     else if(0 < ci && ci < 8){
-    //       //println("0 < ci < 8");
-    //      trama[0] = trama[0] << 1 | (info[ci]-48); 
-    //     }
-    //     else if(ci == 8){
-    //        //println("ci = 8");
-    //       trama[1] = (info[ci]-48); 
-    //     }
-    //     else if(8 < ci && ci < 16){
-    //       //println("8 < ci < 16");
-    //      trama[1] = (trama[1] << 1) | (info[ci]-48); 
-    //     }
-    //     else if(ci == 16){
-    //       //println("ci = 16");
-    //      trama[2] = info[ci]; 
-    //     }
-    //     else if(16 < ci && ci < 24){
-    //       //println("16 < ci < 24");
-    //      trama[2] = (trama[2] << 1) | (info[ci]-48); 
-    //     }
-    //     else if(ci == 24){
-    //       //println("ci = 24");
-    //      trama[3] = (info[ci]-48); 
-    //     }
-    //     else if(24 < ci && ci < 32){
-    //       //println("24 < ci < 32");
-    //      trama[3] = (trama[3] << 1) | (info[ci]-48); 
-    //     }
-
-    // }
-
-    //print("mn ");
-    //println(binary(mensaje[3]));
-    //println("m0" + binary(mensaje[0]));
-    //println("m1" + binary(mensaje[1]));
-    //println("m2" + binary(mensaje[2]));
-    //print("nt ");
-    //println(binary(nt));
-    //print("zm ");
-    //println(binary(zm));
-    //print("z1 ");
-    //println(binary(z1));
-    //print("z2 ");
-    //println(binary(z2));
-    //print("z3 ");
-    //println(binary(z3));
-    //print("z4 ");
-    //println(binary(z4));
-
+   
     puerto.write(trama[0]);
     puerto.write(trama[1]);
     puerto.write(trama[2]);
     puerto.write(trama[3]);
 
 
-    //aqui se debe entramar la info en los primeros 4 espacios del vaector char o en un nuevo vector
-    //y se deben enviar los 4 bytes
-
+    for(q=0;q<2;q++){
+      if(puerto.available()>0){
+       U1=puerto.read(); //debido a que la lectura del puerto guarda solo un byte, y recibiremos 4, se llama esta funcion 4 veces 
+       if((U1 & 128) == 128){ // ignoramos los datos si no fuesen el inicio de la trama
+          U2=puerto.read(); // de ser el inicio de la trama guardamos en una variable temporal los datos leidos
+          H1=puerto.read();
+          H2=puerto.read();
+          trama[0]=U1;
+          trama[1]=U2;
+          trama[2]=H1;
+          trama[3]=H2;  
+       }
+       else{
+          q--;
+       }
+       
+       aux = (trama[0] & 31) << 4;
+       mensaje[3] = aux | (trama[1] & 31);
+       text ("MENSAJE RECIBIDO: " + mensaje[3], 25, 275);   
+      }
+     }
 
     delay(100);
     fill(255, 2, 2); 
@@ -305,31 +266,33 @@ void draw() {
 
   case 3: //esperar que llegue al cuadrante
 
-fill(0); 
-    text ("MODO ESCLAVO \n", 25, 50); 
+    fill(0); 
+    text ("MODO ESCLAVO \n", 25, 50);
+    text ("Escuchando... \n", 25, 75); 
     fill(255, 2, 2); 
-    text ("PRESIONE CUALQUIER TECLA PARA CONTINUAR \n", 25, 400);
    
-    int q=0;
-        for(q=0;q<muestras;q++)
-        {
-        if(puerto.available()>0)
-        {
-        U1=puerto.read(); //debido a que la lectura del puerto guarda solo un byte, y recibiremos 4, se llama esta funcion 4 veces 
-        if((U1 & 128) == 0) // ignoramos los datos si no fuesen el inicio de la trama
-        {
-         U2=puerto.read(); // de ser el inicio de la trama guardamos en una variable temporal los datos leidos
-         H1=puerto.read();
-         H2=puerto.read();
-         U1V[q]=U1;
-         U2V[q]=U2;
-         H1V[q]=H1;
-         H2V[q]=H2;  
-    
-        }else{q--;}  // de no haberse recibido el dato inicio de la trama, se decrementa q para no dejar espacios vacios o espacios de los vectores con los datos no esperados
-        }
-        }
-
+    for(q=0;q<2;q++){
+      if(puerto.available()>0){
+       U1=puerto.read(); //debido a que la lectura del puerto guarda solo un byte, y recibiremos 4, se llama esta funcion 4 veces 
+       if((U1 & 128) == 128){ // ignoramos los datos si no fuesen el inicio de la trama
+          U2=puerto.read(); // de ser el inicio de la trama guardamos en una variable temporal los datos leidos
+          H1=puerto.read();
+          H2=puerto.read();
+          trama[0]=U1;
+          trama[1]=U2;
+          trama[2]=H1;
+          trama[3]=H2;  
+       }
+       else{
+          q--;
+       }
+       
+       aux = (trama[0] & 31) << 4;
+       mensaje[3] = aux | (trama[1] & 31);
+       text ("MENSAJE: " + mensaje[3], 25, 125);   
+      }
+     }
+  
     break;
 
   case 40:  // CENTRAR
