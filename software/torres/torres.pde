@@ -1,4 +1,4 @@
-import processing.serial.*; //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+import processing.serial.*;  //<>//
 Serial puerto;
 String portName = Serial.list()[0];  //para determinar en que puerto estamos
 int U1, U2, H1, H2; // estos son desde el mas signficativo del mayor hasta el menos significativo del menor
@@ -13,9 +13,8 @@ String input3="";
 String input4="";
 String input5="";
 String input6="";
-char[] a = new char [16]; // vector informacion a transmitir por las torres
 char modo;
-int linea=200;           // variable para controlar posicion vertical del cursor al imprimir en pantalla
+
 int q=0;
 
 int muestras = 20;//para guardar muestreo
@@ -29,18 +28,12 @@ int[] U2V = new int[muestras];
 int[] H1V = new int[muestras];
 int[] H2V = new int[muestras];
 
-//String mensaje, ntorres, zm, z1, z2, z3, z4;
-
 String ntorres = "";
 
 int principal=0; //variable de conteo
-int tempps=-1;
-int temppl=-1;
-int temppf=-1;
+
 int aux=0; //variable auxiliar
 
-String valores;
-boolean comprobacion=false;
 
 
 void setup() { 
@@ -193,6 +186,11 @@ void draw() {
     trama[2] = (z1 << 3) | z2;
     trama[3] = (z3 << 3) | z4;
 
+    //trama[0] = 159;
+    //trama[1] = 15;
+    //trama[2] = 15;
+    //trama[3] = 15;
+   
    
     puerto.write(trama[0]);
     puerto.write(trama[1]);
@@ -368,44 +366,3 @@ void keyPressed() {
     }
   }
 }
-
-//void serialEvent (Serial puerto) {
-
-//  char inBuffer;
-//  if (puerto.available()>0) {
-//    inBuffer = puerto.readChar();
-//    if (i<muestras) {
-
-//      if (p==0 && ((inBuffer & 128) == 128)) {
-//        U1V[i] = inBuffer;
-//        p++;
-//      } else if (p==1) {
-//        U2V[i] = inBuffer;
-//        p++;
-//      } else if (p==2) {
-//        H1V[i] = inBuffer;
-//        p++;
-//      } else if (p==3) {
-//        H2V[i] = inBuffer;
-//        p=0;
-//        i++;
-//      }
-//    } else {
-//      i=0;
-//      if (p==0 && ((inBuffer & 128) == 128)) {
-//        U1V[i] = inBuffer;
-//        p++;
-//      } else if (p==1) {
-//        U2V[i] = inBuffer;
-//        p++;
-//      } else if (p==2) {
-//        H1V[i] = inBuffer;
-//        p++;
-//      } else if (p==3) {
-//        H2V[i] = inBuffer;
-//        p=0;
-//        i++;
-//      }
-//    }
-//  }
-//}
