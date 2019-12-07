@@ -6,10 +6,11 @@
 **     Component   : BitIO
 **     Version     : Component 02.086, Driver 03.27, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-24, 09:17, # CodeGen: 52
+**     Date/Time   : 2019-11-30, 09:37, # CodeGen: 65
 **     Abstract    :
 **         This component "BitIO" implements an one-bit input/output.
 **         It uses one bit/pin of a port.
+**         Note: This component is set to work in Output direction only.
 **         Methods of this component are mostly implemented as a macros
 **         (if supported by target language and compiler).
 **     Settings    :
@@ -17,17 +18,16 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       34            |  PTC0_TPM3CH0
+**                       33            |  PTC1_TPM3CH1
 **             ----------------------------------------------------
 **
 **         Port name                   : PTC
 **
-**         Bit number (in port)        : 0
-**         Bit mask of the port        : $0001
+**         Bit number (in port)        : 1
+**         Bit mask of the port        : $0002
 **
-**         Initial direction           : Output (direction can be changed)
-**         Safe mode                   : yes
-**         Initial output value        : 0
+**         Initial direction           : Output (direction cannot be changed)
+**         Initial output value        : 1
 **         Initial pull option         : off
 **
 **         Port data register          : PTCD      [$0004]
@@ -35,7 +35,6 @@
 **
 **         Optimization for            : speed
 **     Contents    :
-**         SetDir - void Bit2_SetDir(bool Dir);
 **         GetVal - bool Bit2_GetVal(void);
 **         PutVal - void Bit2_PutVal(bool Val);
 **         ClrVal - void Bit2_ClrVal(void);
@@ -78,6 +77,7 @@
 ** @brief
 **         This component "BitIO" implements an one-bit input/output.
 **         It uses one bit/pin of a port.
+**         Note: This component is set to work in Output direction only.
 **         Methods of this component are mostly implemented as a macros
 **         (if supported by target language and compiler).
 */         
@@ -106,6 +106,7 @@
 **           a) direction = Input  : reads the input value from the
 **                                   pin and returns it
 **           b) direction = Output : returns the last written value
+**         Note: This component is set to work in Output direction only.
 **     Parameters  : None
 **     Returns     :
 **         ---             - Input value. Possible values:
@@ -125,13 +126,6 @@ bool Bit2_GetVal(void)
 **     Method      :  Bit2_PutVal (component BitIO)
 **     Description :
 **         This method writes the new output value.
-**           a) direction = Input  : sets the new output value;
-**                                   this operation will be shown on
-**                                   output after the direction has
-**                                   been switched to output
-**                                   (SetDir(TRUE);)
-**           b) direction = Output : directly writes the value to the
-**                                   appropriate pin
 **     Parameters  :
 **         NAME       - DESCRIPTION
 **         Val             - Output value. Possible values:
@@ -143,11 +137,9 @@ bool Bit2_GetVal(void)
 void Bit2_PutVal(bool Val)
 {
   if (Val) {
-    setReg8Bits(PTCD, 0x01U);          /* PTCD0=0x01U */
-    Shadow_PTC |= 0x01U;               /* Set-up shadow variable */
+    setReg8Bits(PTCD, 0x02U);          /* PTCD1=0x01U */
   } else { /* !Val */
-    clrReg8Bits(PTCD, 0x01U);          /* PTCD0=0x00U */
-    Shadow_PTC &= 0xFEU;               /* Set-up shadow variable */
+    clrReg8Bits(PTCD, 0x02U);          /* PTCD1=0x00U */
   } /* !Val */
 }
 
@@ -156,13 +148,6 @@ void Bit2_PutVal(bool Val)
 **     Method      :  Bit2_ClrVal (component BitIO)
 **     Description :
 **         This method clears (sets to zero) the output value.
-**           a) direction = Input  : sets the output value to "0";
-**                                   this operation will be shown on
-**                                   output after the direction has
-**                                   been switched to output
-**                                   (SetDir(TRUE);)
-**           b) direction = Output : directly writes "0" to the
-**                                   appropriate pin
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================
@@ -178,13 +163,6 @@ void Bit2_ClrVal(void)
 **     Method      :  Bit2_SetVal (component BitIO)
 **     Description :
 **         This method sets (sets to one) the output value.
-**           a) direction = Input  : sets the output value to "1";
-**                                   this operation will be shown on
-**                                   output after the direction has
-**                                   been switched to output
-**                                   (SetDir(TRUE);)
-**           b) direction = Output : directly writes "1" to the
-**                                   appropriate pin
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================
@@ -194,28 +172,6 @@ void Bit2_SetVal(void)
 
 **  This method is implemented as a macro. See Bit2.h file.  **
 */
-
-/*
-** ===================================================================
-**     Method      :  Bit2_SetDir (component BitIO)
-**     Description :
-**         This method sets direction of the component.
-**     Parameters  :
-**         NAME       - DESCRIPTION
-**         Dir        - Direction to set (FALSE or TRUE)
-**                      FALSE = Input, TRUE = Output
-**     Returns     : Nothing
-** ===================================================================
-*/
-void Bit2_SetDir(bool Dir)
-{
-  if (Dir) {
-    setReg8(PTCD, (getReg8(PTCD) & (byte)(~(byte)0x01U)) | (Shadow_PTC & 0x01U)); /* PTCD0=Shadow_PTC[bit 0] */
-    setReg8Bits(PTCDD, 0x01U);         /* PTCDD0=0x01U */
-  } else { /* !Dir */
-    clrReg8Bits(PTCDD, 0x01U);         /* PTCDD0=0x00U */
-  } /* !Dir */
-}
 
 
 /* END Bit2. */

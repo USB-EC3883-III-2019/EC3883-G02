@@ -1,0 +1,6 @@
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:138:warning:C2705 Possible loss of data
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:133:information:C5702 Local variable 'ptr' declared in function 'enviar' but not referenced
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:134:information:C5702 Local variable 'ptr2' declared in function 'enviar' but not referenced
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:139:warning:C5651 Local variable "temp2" may be not initialized
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:190:warning:C5917 Removed dead assignment
+C:/Users/ALE/Documents/GitHub/EC3883-G02/firmware/ecxxxx.X/torres/Project_Headers\../Sources\main.c:207:error:C2450 Expected:  ~ ( IDENT auto const extern register static typedef volatile __interrupt     

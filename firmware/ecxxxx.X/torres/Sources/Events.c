@@ -32,6 +32,7 @@
 #include "Events.h"
 
 extern unsigned int a;
+extern unsigned int c;
 extern unsigned int p;
 extern unsigned int time;
 
@@ -245,7 +246,7 @@ void  IR_OnTxChar(void)
 */
 void  IR_OnFullRxBuf(void)
 {
-	
+	c=1;
   /* Write your code here ... */
 }
 
@@ -307,6 +308,163 @@ void  IR_OnFreeTxBuf(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  AS1_OnFullRxBuf (module Events)
+**
+**     Component   :  AS1 [AsynchroSerial]
+**     Description :
+**         This event is called when the input buffer is full;
+**         i.e. after reception of the last character 
+**         that was successfully placed into input buffer.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
 
 /* END Events */
 

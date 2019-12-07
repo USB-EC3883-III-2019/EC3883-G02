@@ -35,7 +35,7 @@
       <File Name="Generated_Code/PE_Timer.h" FileDate="2019-10-16, 09:25:54" FileAge="1571234154593" FileType="45637" />
       <File Name="Generated_Code/Cpu.c" FileDate="2019-11-06, 12:09:22" FileAge="1573058362774" FileType="45637" CompNumb="4" />
       <File Name="Generated_Code/PE_Timer.c" FileDate="2019-10-16, 09:25:54" FileAge="1571234154609" FileType="45637" />
-      <File Name="Documentation/Oscilocopio-EC3882_SIGNALS.txt" FileDate="2019-11-09, 07:33:51" FileAge="1573301031049" FileType="3072" />
+      <File Name="Documentation/Oscilocopio-EC3882_SIGNALS.txt" FileDate="2019-12-07, 09:23:43" FileAge="1575726823666" FileType="3072" />
       <File Name="Generated_Code/PWM1.h" FileDate="2019-10-21, 14:14:44" FileAge="1571683484147" FileType="45637" CompNumb="48" />
       <File Name="Generated_Code/TI2.h" FileDate="2019-10-25, 18:02:41" FileAge="1572042761550" FileType="45637" CompNumb="41" />
       <File Name="Generated_Code/PWM1.c" FileDate="2019-10-21, 14:14:44" FileAge="1571683484173" FileType="45637" CompNumb="48" />
@@ -44,12 +44,12 @@
       <File Name="Generated_Code/PE_Const.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559996" FileType="45637" />
       <File Name="Generated_Code/Byte1.h" FileDate="2019-10-09, 05:24:01" FileAge="1570614841039" FileType="45637" CompNumb="47" />
       <File Name="Sources/Events.c" FileDate="2019-11-06, 12:09:17" FileAge="1573058357595" FileType="131328" />
-      <File Name="Generated_Code/PE_Types.h" FileDate="2019-10-07, 12:29:20" FileAge="1570467560046" FileType="45637" />
-      <File Name="Generated_Code/TI1.h" FileDate="2019-10-28, 12:19:33" FileAge="1572281373352" FileType="45637" CompNumb="10" />
       <File Name="Documentation/Oscilocopio-EC3882_Settings.xml" FileDate="2019-11-06, 12:09:22" FileAge="1573058362896" FileType="3072" />
+      <File Name="Generated_Code/TI1.h" FileDate="2019-10-28, 12:19:33" FileAge="1572281373352" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/PE_Types.h" FileDate="2019-10-07, 12:29:20" FileAge="1570467560046" FileType="45637" />
       <File Name="Generated_Code/Bit4.h" FileDate="2019-10-07, 12:29:19" FileAge="1570467559878" FileType="45637" CompNumb="42" />
       <File Name="Generated_Code/PE_Error.h" FileDate="2019-10-07, 12:29:20" FileAge="1570467560020" FileType="45637" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>110</CodeGenReference>
+  <CodeGenReference>111</CodeGenReference>
 </CodeGenerationInfo>

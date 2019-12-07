@@ -1,0 +1,359 @@
+/* ###################################################################
+**     Filename    : main.c
+**     Project     : oscilocopio
+**     Processor   : MC9S08QE128CLK
+**     Version     : Driver 01.12
+**     Compiler    : CodeWarrior HCS08 C Compiler
+**     Date/Time   : 2019-02-25, 10:53, # CodeGen: 0
+**     Abstract    :
+**         Main module.
+**         This module contains user's application code.
+**     Settings    :
+**     Contents    :
+**         No public methods
+**
+** ###################################################################*/
+/*!
+** @file main.c
+** @version 01.12
+** @brief
+**         Main module.
+**         This module contains user's application code.
+*/         
+/*!
+**  @addtogroup main_module main module documentation
+**  @{
+*/         
+/* MODULE main */
+
+
+/* Including needed modules to compile this module/procedure */
+#include "Cpu.h"
+#include "Events.h"
+#include "AS1.h"
+#include "Byte1.h"
+#include "Bit1.h"
+#include "PWM1.h"
+#include "Cap1.h"
+#include "IR.h"
+#include "TI1.h"
+#include "Bit2.h"
+#include "Bit3.h"
+#include "AD1.h"
+#include "PWM_IR.h"
+/* Include shared modules, which are used for whole project */
+#include "PE_Types.h"
+#include "PE_Error.h"
+#include "PE_Const.h"
+#include "IO_Map.h"
+
+/* User includes (#include below this line is not maintained by Processor Expert) */
+/*	INFO GENERAL
+ * 
+ * 	PIN 	ANTES	DESCRIPCION 	VARIABLE	I/O		NOTAS
+ * 	-----------------------------------------------------------------------
+ *  1	VDD	   		+3V							O		SALIDA DE VOLTAGE POSITIVO DEMOQE	
+ *  3	VSS		   	0							O		TIERRA DEL DEMOQE 
+ *  	PTD0		MOTOR 1 (VERDE)				O		BOBINA MOTOR
+ *  	PTD1		MOTOR 2	(ROJO)				O		BOBINA MOTOR
+ *  	PTD2		MOTOR 3	(GRIS1)				O		BOBINA MOTOR
+ *  	PTD3		MOTOR 4	(GRIS2)				O		BOBINA MOTOR
+ *  23	PTC3(PTB5)	SONAR			Cap1		I		COMPONENTE DE CAPTURA PARA DETECTAR CAMBIO EN EL PIN ECHO DEL ULTRASONIDO
+ *  24	PTA7		TRIGGER			PWM1		O		PIN PARA ACTIVAR LA RAFAGA ACUSTICA DE MEDICION, SE HACE MEDIANTE UNA ONDA CUADRADA QUE SE GENERA CADA 15ms
+ *  14	PTA0		LIDAR						I		SENSOR SHARP
+ *  16	PTA1		POTENCIOMETRO				I		TENTATIVO CONECTAR POTENCIOMETRO PARA OBTENER POSICION
+ */
+
+char E,estado=0;
+unsigned char b=0;
+char mensaje,z1,z2,z3,z4,master_position,maestro;			// este vector contiene lo recibido por serial
+unsigned int p=0,a,c=0;
+char posicion=0;	// posicion del motor, esta variable es global dado que se utiliza en varias funciones y requiere estar actualizada en todo momento
+char cuadrante=1;    ////cuadrante al cual se quiere mover
+char cuadrante_a=1;  //variable de control para verificar que se va a cambiar a un cuadrante nuevo
+int control=0;
+unsigned int time;   // variable para guardar el tiempo del sonar
+char lidar[2];
+unsigned char b2[4],ir[4]; // vectores de comunicacion serial pc e infrarroja respectivamente
+char pasos=63; 	// pasos totales de barrido de la torre esta variable se puede cambiar solo se utiliza como limite, mas pasos mas grados de barrido
+char div=5;		// cantidad de cuadrantes
+char error,prueba1,prueba2,prueba3,prueba4;
+
+//funcion mueve el motor hasta el inicio (grado menor) del cuadrante enviado
+//retorna 0 si no ha llegado la posicion
+//retorna 1 si llegó a la posicion
+
+
+void mover_cuadrante()	//mueve el motor al cuadrante (zona) solicitado
+{	
+	char secuencia[8]={0b00110101,0b00110001,0b00111001,0b00111000,0b00111010,0b00110010,0b00110110,0b00110100};
+	
+	char objetivo=(pasos/div)*(cuadrante-1);
+	
+	if((cuadrante_a!=cuadrante)&(cuadrante>=1 & cuadrante<=6)){
+	   if(posicion>objetivo)
+		   {
+			   posicion--;
+		   }
+		   
+		   if(posicion<objetivo)
+		   {
+			   posicion++;
+		   }
+		   if(posicion==objetivo){
+			  cuadrante_a=cuadrante;
+		  }
+	}
+			Byte1_PutVal(secuencia[posicion%8]);			     
+}
+
+unsigned int sensores(){	//Lee los dos sensores
+	unsigned int t2=0;
+	if(cuadrante_a==cuadrante){
+		E=AD1_MeasureChan(TRUE,1); // Lee el lidar conectado al canal 1
+		E=AD1_GetChanValue(1, &lidar); // se asigna el valor leido a la variable lidar		
+		t2=time/58;
+	}
+	return t2;
+}
+
+
+void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) // OPERATIVO Y PROBADO enviando datos al pc
+{
+	   /* Las variables son:
+	    * maskblock hace referencia a los 4 bytes completos que envía el demoQE, sería la trama según el protocolo
+	    * sonar cuenta con 2 bytes del sonar
+	    * lidar son los 2 bytes del canal 2
+	    */
+		
+		/* funcionamiento:
+		 * Se enviara una trama teniendo en cuenta la cabezera de la trama 
+		 * los la trama de prueba sera 00000001 10000011 10000111 10001111
+		 */
+		unsigned int ptr;
+		unsigned int ptr2;
+		char temp2[2];
+			
+		posicion=posicion & 0b00111111;
+		temp2[0]=sonar2;
+		temp2[1]=(temp2[1]>>5) | (temp2[0]<< 3);
+		temp2[0]=(temp2[0] & 0b01111111) >> 5;
+		maskblock[0]= (posicion<<1) ;//& 0b01111110; 		// posicion garantizando la cabecera 00	
+		maskblock[0]= maskblock[0] | ((temp2[0] & 0b00000011) >> 1);
+		maskblock[1]= (temp2[0] & 0b00000001) << 6;					// desplaza el bit hasta la posicion en la que inicia
+		maskblock[1]= maskblock[1] | (temp2[1] >> 2);	// 
+		maskblock[1]= maskblock[1] | 0b10000000;		
+		maskblock[2]= (temp2[1] & 0b00000011) << 5 ;		
+		lidar[0]	= lidar[0] & 0b00001111;
+		maskblock[2]= maskblock[2] | (lidar[0]<< 1);
+		maskblock[2]= maskblock[2] | (lidar[1] >> 7);
+		maskblock[2]= maskblock[2] | 0b10000000;
+		maskblock[3]= lidar[1] & 0b01111111;
+		maskblock[3]= maskblock[3] | 0b10000000;
+}		
+
+void recibir(){
+	unsigned int ptr6=0;
+	if(a){
+	unsigned char aux[4];
+	E=AS1_RecvBlock(aux,4,&ptr6);
+	if(( aux[0] & 128 ) == 128){
+		b2[0]=aux[0];
+		b2[1]=aux[1];
+		b2[2]=aux[2];
+		b2[3]=aux[3];
+		
+		mensaje=( b2[0] << 4 ) | (b2[1] & 0b00001111); 
+		z1=  b2[3] & 0b00000111;
+		z2= (b2[3] & 0b00111000) >> 3;
+		z3= (b2[2] & 0b00000111);
+		z4= (b2[2] & 0b00111000) >> 3;
+
+		
+		master_position= (b2[1] & 0b01110000) >> 4; // posicion que se le da a la primera torre		
+		maestro=(b2[0] & 0b00110000) >> 4;
+		// maestro = 1 maestro
+		// maestro = 2 esclavo
+	}
+	a=0;
+	}
+}
+
+void recibir_ir(){
+	// trama de comunicacion
+	// 10 00MMMM  // 00 00MMMM // 00 WWWZZZ // 00 YYYXXX 
+	unsigned int ptr6=0;
+	if(c){
+		c=0;	
+		IR_RecvBlock(ir,4,&ptr6);
+		if(( ir[0] & 128 ) == 128){		
+		Bit3_PutVal(0);		
+		c=0;
+	if(estado=0){
+		estado=1;
+	}
+		
+	mensaje=( ir[0] << 4 ) | (ir[1] & 0b00001111); 	
+	cuadrante=( ir[2] & 0b00111000 ) >> 3;
+	ir[2] &= 0b00000111;
+	
+	if( cuadrante == 0 ){
+		cuadrante = ( ir[2] & 0b00000111 );
+		ir[2] &= 0b00000000;
+		if( cuadrante == 0 ){
+			cuadrante =( ir[3] & 0b00111000 ) >> 3;
+			ir[3] &= 0b00000111;
+			if(cuadrante == 0){
+				cuadrante = ir[3] & 0b00000111 ;
+				ir[3] &= 0b00000000;
+				if(cuadrante == 0){} // si esto pasa ya se recorieron las 4 torres.
+			}
+		}
+	}
+  }
+}
+}
+
+void enviar_ir(){
+	
+	unsigned int ptr6=0;
+	mensaje=( b2[0] << 4 ) | (b2[1] & 0b00001111); 
+
+	z1=  b2[3] & 0b00000111;
+	z2= (b2[3] & 0b00111000) >> 3;
+	z3= (b2[2] & 0b00000111);
+	z4= (b2[2] & 0b00111000) >> 3;
+	
+	ir[0]=0b10001111;
+	ir[1]=0b00110011;
+	ir[2]=0b00010111;
+	ir[3]=0b01010101;
+	
+	IR_SendBlock(ir,4,&ptr6);
+}
+
+void main(void)	//
+{
+  /* Write your local variable definition here */
+char ready=0,t2,ptr6;	// variable para tiempo del sonar
+char maskblock[4]; // vector entramado que se enviara al processing
+char secuencia[8]={0b00110101,0b00110001,0b00111001,0b00111000,0b00111010,0b00110010,0b00110110,0b00110100};
+char init_barrido;
+unsigned int k=0;
+char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor durante el barrido
+/*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
+  PE_low_level_init();
+  /*** End of Processor Expert internal initialization.                    ***/
+
+  /* Write your code here */
+  /* For example: for(;;) { } */
+   
+   for(;;) {
+	   if(p){ //programa principal
+		p=0;
+		estado=10;
+		recibir_ir();
+		switch(estado){		
+		case 0:
+			recibir();
+			maestro=2; // esto se debe borrar despues es para forzar el modo esclavo
+			if(maestro==1){ // se seleccionó modo maestro
+				Bit1_PutVal(0);
+				Bit2_PutVal(1);
+				b2[0]=b2[0] & 0b10001111; 				// quitar modo (M/S)
+				b2[1]=b2[1] & 0b00001111;				// quitar posicion del maestro		
+				cuadrante=master_position; // como es maestro asigna a cuadrante la posicion de master, la variable cuadrante determina el cuadrante hacia el cual se moverá
+				estado=1;
+			}else if(maestro==2){ // este es el modo esclavo
+				Bit1_PutVal(1);
+				Bit2_PutVal(0);
+				recibir_ir(); // recibe info por IR
+			}
+			
+			break;
+		
+		case 1: // ir al cuadrante especificado aplica para Maestro y Esclavo
+			mover_cuadrante();
+			if(cuadrante==cuadrante_a){
+				// si se cumple la condicion es que ya llego al inicio del
+				// cuadrante requerido ahora pasa al estado de barrido
+				estado=2;
+				init_barrido=posicion;
+				// en init barrido se guarda la posicion (en pasos) en que se
+				// ecuentra el motor cuando llegó al cuadrante requerido
+			}
+			break;
+			
+		case 2: // barrido sentido positivo
+			k++;
+			if(k>tiempo_barrido){
+				posicion++;
+				k=0;
+			}
+			Byte1_PutVal(secuencia[posicion%8]);			     
+							
+			if( posicion >= (init_barrido + (pasos/div))){
+				// la condicion se cumple cuando la posicion es la de inicio del barrido
+				// más los pasos que tiene un cuadrante (pasos/div da los pasos de un cuadrante)
+				estado=3; // en el estado 3 se hace el barrido en sentido negativo
+			}else{estado=21;} // como no ha terimnado el barrido va al estado 21 donde leera y _,,,,,,,,,,á por serial ir
+			
+			break;
+		
+		case 21:	// con este estado envia y recibe por infrarrojo en cada paso
+			enviar_ir(); 
+			recibir_ir();
+			estado=2;
+			
+			break;
+		
+		case 3: // barrido sentido negativo
+			k++;
+			if(k>tiempo_barrido){
+				posicion--;
+				k=0;
+			}
+			Byte1_PutVal(secuencia[posicion%8]);			     
+
+			if( posicion <= init_barrido){
+				// la condicion se cumple cuando la posicion es la de inicio del barrido
+				estado=2; // en el estado 2 se hace el barrido en sentido positivo
+			}else {estado=31;}
+			
+			break;
+			
+		case 31:		// con este estado envia y recibe por infrarrojo en cada paso
+			enviar_ir(); 
+			recibir_ir();
+			estado=3;
+			break;
+		}
+		
+		
+//		AS1_SendBlock(b2,4,&ptr6);
+			}
+   }
+
+   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
+  /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
+  #ifdef PEX_RTOS_START
+    PEX_RTOS_START();                  /* Startup of the selected RTOS. Macro is defined by the RTOS component. */
+  #endif
+  /*** End of RTOS startup code.  ***/
+  /*** Processor Expert end of main routine. DON'T MODIFY THIS CODE!!! ***/
+  for(;;){}
+  /*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/
+} /*** End of main routine. DO NOT MODIFY THIS TEXT!!! ***/
+
+/* END main */
+/*!
+** @}
+*/
+/*
+** ###################################################################
+**
+**     This file was created by Processor Expert 10.3 [05.09]
+**     for the Freescale HCS08 series of microcontrollers.
+**
+** ###################################################################
+*/

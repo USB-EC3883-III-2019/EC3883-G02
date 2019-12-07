@@ -6,7 +6,7 @@
 **     Component   : BitIO
 **     Version     : Component 02.086, Driver 03.27, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-04, 12:54, # CodeGen: 11
+**     Date/Time   : 2019-11-30, 09:30, # CodeGen: 64
 **     Abstract    :
 **         This component "BitIO" implements an one-bit input/output.
 **         It uses one bit/pin of a port.
@@ -17,21 +17,21 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       7             |  PTE7_TPM3CLK
+**                       34            |  PTC0_TPM3CH0
 **             ----------------------------------------------------
 **
-**         Port name                   : PTE
+**         Port name                   : PTC
 **
-**         Bit number (in port)        : 7
-**         Bit mask of the port        : $0080
+**         Bit number (in port)        : 0
+**         Bit mask of the port        : $0001
 **
 **         Initial direction           : Output (direction can be changed)
 **         Safe mode                   : yes
-**         Initial output value        : 0
+**         Initial output value        : 1
 **         Initial pull option         : off
 **
-**         Port data register          : PTED      [$0008]
-**         Port control register       : PTEDD     [$0009]
+**         Port data register          : PTCD      [$0004]
+**         Port control register       : PTCDD     [$0005]
 **
 **         Optimization for            : speed
 **     Contents    :
@@ -117,7 +117,7 @@
 ** ===================================================================
 */
 #define Bit1_GetVal() ( \
-    (bool)((getReg8(PTED) & 0x80U))    /* Return port data */ \
+    (bool)((getReg8(PTCD) & 0x01U))    /* Return port data */ \
   )
 
 /*
@@ -159,8 +159,8 @@ void Bit1_PutVal(bool Val);
 ** ===================================================================
 */
 #define Bit1_ClrVal() ( \
-    (void)clrReg8Bits(PTED, 0x80U)     /* PTED7=0x00U */, \
-    (Shadow_PTE &= 0x7FU)              /* Set appropriate bit in shadow variable */ \
+    (void)clrReg8Bits(PTCD, 0x01U)     /* PTCD0=0x00U */, \
+    (Shadow_PTC &= 0xFEU)              /* Set appropriate bit in shadow variable */ \
   )
 
 /*
@@ -180,8 +180,8 @@ void Bit1_PutVal(bool Val);
 ** ===================================================================
 */
 #define Bit1_SetVal() ( \
-    (void)setReg8Bits(PTED, 0x80U)     /* PTED7=0x01U */, \
-    (Shadow_PTE |= 0x80U)              /* Set appropriate bit in shadow variable */ \
+    (void)setReg8Bits(PTCD, 0x01U)     /* PTCD0=0x01U */, \
+    (Shadow_PTC |= 0x01U)              /* Set appropriate bit in shadow variable */ \
   )
 
 /*
@@ -201,8 +201,8 @@ void Bit1_PutVal(bool Val);
 ** ===================================================================
 */
 #define Bit1_NegVal() ( \
-    (void)setReg8(PTETOG, 0x80U)       /* PTETOG7=0x01U */, \
-    (Shadow_PTE ^= 0x80U)              /* Set appropriate bit in shadow variable */ \
+    (void)setReg8(PTCTOG, 0x01U)       /* PTCTOG0=0x01U */, \
+    (Shadow_PTC ^= 0x01U)              /* Set appropriate bit in shadow variable */ \
   )
 
 /*
