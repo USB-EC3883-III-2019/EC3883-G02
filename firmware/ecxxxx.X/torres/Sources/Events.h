@@ -43,6 +43,7 @@
 #include "IR.h"
 #include "TI1.h"
 #include "Bit2.h"
+#include "Bit3.h"
 #include "AD1.h"
 #include "PWM_IR.h"
 

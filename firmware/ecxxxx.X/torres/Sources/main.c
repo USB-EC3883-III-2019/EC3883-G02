@@ -38,6 +38,7 @@
 #include "IR.h"
 #include "TI1.h"
 #include "Bit2.h"
+#include "Bit3.h"
 #include "AD1.h"
 #include "PWM_IR.h"
 /* Include shared modules, which are used for whole project */
@@ -66,7 +67,7 @@
 char E,estado=0;
 unsigned char b=0;
 char mensaje,z1,z2,z3,z4,master_position,maestro;			// este vector contiene lo recibido por serial
-unsigned int p=0,a;
+unsigned int p=0,a,c=0;
 char posicion=0;	// posicion del motor, esta variable es global dado que se utiliza en varias funciones y requiere estar actualizada en todo momento
 char cuadrante=1;    ////cuadrante al cual se quiere mover
 char cuadrante_a=1;  //variable de control para verificar que se va a cambiar a un cuadrante nuevo
@@ -76,6 +77,7 @@ char lidar[2];
 unsigned char b2[4],ir[4]; // vectores de comunicacion serial pc e infrarroja respectivamente
 char pasos=63; 	// pasos totales de barrido de la torre esta variable se puede cambiar solo se utiliza como limite, mas pasos mas grados de barrido
 char div=5;		// cantidad de cuadrantes
+char error,prueba1,prueba2,prueba3,prueba4;
 
 //funcion mueve el motor hasta el inicio (grado menor) del cuadrante enviado
 //retorna 0 si no ha llegado la posicion
@@ -115,6 +117,7 @@ unsigned int sensores(){	//Lee los dos sensores
 	return t2;
 }
 
+
 void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) // OPERATIVO Y PROBADO enviando datos al pc
 {
 	   /* Las variables son:
@@ -152,13 +155,21 @@ void enviar(char maskblock[5],unsigned int sonar2,char lidar[],char posicion) //
 void recibir(){
 	unsigned int ptr6=0;
 	if(a){
-	E=AS1_RecvBlock(b2,4,&ptr6);
-	if(( b2[0] & 128 ) == 128){
+	unsigned char aux[4];
+	E=AS1_RecvBlock(aux,4,&ptr6);
+	if(( aux[0] & 128 ) == 128){
+		b2[0]=aux[0];
+		b2[1]=aux[1];
+		b2[2]=aux[2];
+		b2[3]=aux[3];
+		
 		mensaje=( b2[0] << 4 ) | (b2[1] & 0b00001111); 
 		z1=  b2[3] & 0b00000111;
 		z2= (b2[3] & 0b00111000) >> 3;
 		z3= (b2[2] & 0b00000111);
 		z4= (b2[2] & 0b00111000) >> 3;
+
+		
 		master_position= (b2[1] & 0b01110000) >> 4; // posicion que se le da a la primera torre		
 		maestro=(b2[0] & 0b00110000) >> 4;
 		// maestro = 1 maestro
@@ -168,11 +179,78 @@ void recibir(){
 	}
 }
 
-
 void recibir_ir(){
-	
+	// trama de comunicacion
+	// 10 00MMMM  // 00 00MMMM // 00 WWWZZZ // 00 YYYXXX 
+	unsigned int ptr6=0;
+	unsigned char aux2[4];
+	char error_ir;
+	if(c==0 || c==1){
+		c=0;	
+		error_ir=IR_RecvBlock(aux2,4,&ptr6);
+		/*		if(( aux2[0] & 0b11110000 ) == 0b10000000){
+			if(aux2[1] & 0b11110000 ) == 0b00000000){
+				if( (aux2[2] >= 0b00001001) && (aux2[2] <= 0b00100100)){
+					if((aux2[3] >= 0b00001001) && (aux2[3] <= 0b00100100)){
+						Bit3_PutVal(0);
+						Bit2_PutVal(1);  
+						c=0;
+					}
+				}
+			}
+*/			
+  }else{
+		Bit3_PutVal(1);
+		Bit2_PutVal(0);  
+  }
 }
 
+
+/*	if(estado=0){
+		estado=1;
+	}
+		
+	mensaje=( ir[0] << 4 ) | (ir[1] & 0b00001111); 	
+	cuadrante=( ir[2] & 0b00111000 ) >> 3;
+	ir[2] &= 0b00000111;
+	
+	if( cuadrante == 0 ){
+		cuadrante = ( ir[2] & 0b00000111 );
+		ir[2] &= 0b00000000;
+		if( cuadrante == 0 ){
+			cuadrante =( ir[3] & 0b00111000 ) >> 3;
+			ir[3] &= 0b00000111;
+			if(cuadrante == 0){
+				cuadrante = ir[3] & 0b00000111 ;
+				ir[3] &= 0b00000000;
+				if(cuadrante == 0){} // si esto pasa ya se recorieron las 4 torres.
+			}
+		}
+	}
+	*/
+
+
+/*
+void enviar_ir(){
+	
+	unsigned int ptr6=0;
+	mensaje=( b2[0] << 4 ) | (b2[1] & 0b00001111); 
+
+	
+	ir[0]=0b10001111;
+	ir[1]=0b00110011;
+	ir[2]=0b00010111;
+	ir[3]=0b01010101;
+
+	z1=  b2[3] & 0b00000111;
+	z2= (b2[3] & 0b00111000) >> 3;
+	z3= (b2[2] & 0b00000111);
+	z4= (b2[2] & 0b00111000) >> 3;
+
+	
+	IR_SendBlock(ir,4,&ptr6);
+}
+*/
 void main(void)	//
 {
   /* Write your local variable definition here */
@@ -190,31 +268,25 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
   /* For example: for(;;) { } */
    
    for(;;) {
-
 	   if(p){ //programa principal
 		p=0;
-		
-		switch(estado){
+		recibir_ir();
+		IR_ClearRxBuf();
+/*		switch(estado){		
 		case 0:
 			recibir();
+			maestro=2; // esto se debe borrar despues es para forzar el modo esclavo
 			if(maestro==1){ // se seleccionó modo maestro
+				Bit1_PutVal(0);
+				Bit2_PutVal(1);
 				b2[0]=b2[0] & 0b10001111; 				// quitar modo (M/S)
 				b2[1]=b2[1] & 0b00001111;				// quitar posicion del maestro		
 				cuadrante=master_position; // como es maestro asigna a cuadrante la posicion de master, la variable cuadrante determina el cuadrante hacia el cual se moverá
 				estado=1;
 			}else if(maestro==2){ // este es el modo esclavo
+				Bit1_PutVal(1);
+				Bit2_PutVal(0);
 				recibir_ir(); // recibe info por IR
-				cuadrante=ir[3] & 0b00000111;
-				if( cuadrante == 0 ){
-					cuadrante = ( ir[3] & 0b00111000 ) >> 3;
-					if( cuadrante == 0 ){
-						cuadrante = ir[2] & 0b00000111;
-						if(cuadrante == 0){
-							cuadrante = (ir[2] & 0b00111000 ) >> 3;
-						}
-					}
-				}
-			estado=1;	
 			}
 			
 			break;
@@ -222,7 +294,6 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
 		case 1: // ir al cuadrante especificado aplica para Maestro y Esclavo
 			mover_cuadrante();
 			if(cuadrante==cuadrante_a){
-				Bit1_NegVal();
 				// si se cumple la condicion es que ya llego al inicio del
 				// cuadrante requerido ahora pasa al estado de barrido
 				estado=2;
@@ -244,10 +315,17 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
 				// la condicion se cumple cuando la posicion es la de inicio del barrido
 				// más los pasos que tiene un cuadrante (pasos/div da los pasos de un cuadrante)
 				estado=3; // en el estado 3 se hace el barrido en sentido negativo
-			}
+			}else{estado=21;} // como no ha terimnado el barrido va al estado 21 donde leera y _,,,,,,,,,,á por serial ir
 			
 			break;
-
+		
+		case 21:	// con este estado envia y recibe por infrarrojo en cada paso
+			enviar_ir(); 
+			recibir_ir();
+			estado=2;
+			
+			break;
+		
 		case 3: // barrido sentido negativo
 			k++;
 			if(k>tiempo_barrido){
@@ -259,10 +337,16 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
 			if( posicion <= init_barrido){
 				// la condicion se cumple cuando la posicion es la de inicio del barrido
 				estado=2; // en el estado 2 se hace el barrido en sentido positivo
-			}
+			}else {estado=31;}
 			
 			break;
-		}
+			
+		case 31:		// con este estado envia y recibe por infrarrojo en cada paso
+			enviar_ir(); 
+			recibir_ir();
+			estado=3;
+			break;
+		}*/
 		
 		
 //		AS1_SendBlock(b2,4,&ptr6);

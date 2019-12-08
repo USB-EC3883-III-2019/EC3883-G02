@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Send" key="selection"/>
+		<item value="recibir_ir" key="selection"/>
 		<list key="findhistory">
-			<item value="send"/>
-			<item value="a="/>
-			<item value="ms"/>
-			<item value="modo"/>
-			<item value="modo =0"/>
-			<item value="modo=0"/>
-			<item value="estado=-1"/>
+			<item value="recibir_ir"/>
+			<item value="error_ir"/>
+			<item value="main"/>
 			<item value="recibir"/>
+			<item value="ir["/>
+			<item value="ir_rec"/>
+			<item value="5"/>
+			<item value="ir,5"/>
 		</list>
 		<list key="replacehistory">
 			<item value="maestro"/>

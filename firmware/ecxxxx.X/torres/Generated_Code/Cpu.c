@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2019-11-24, 09:17, # CodeGen: 52
+**     Date/Time   : 2019-12-01, 14:37, # CodeGen: 66
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -77,6 +77,7 @@
 #include "IR.h"
 #include "TI1.h"
 #include "Bit2.h"
+#include "Bit3.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -92,7 +93,6 @@ volatile byte CCR_reg;                 /* Current CCR register */
 volatile byte CCR_lock;                /* Nesting level of critical regions */
 
 /*Definition of global shadow variables*/
-byte Shadow_PTE;
 byte Shadow_PTC;
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
@@ -292,24 +292,24 @@ void PE_low_level_init(void)
   setReg8(PTDPE, 0x00U);                
   /* PTDDD: PTDDD7=1,PTDDD6=1,PTDDD5=1,PTDDD4=1,PTDDD3=1,PTDDD2=1,PTDDD1=1,PTDDD0=1 */
   setReg8(PTDDD, 0xFFU);                
-  /* PTED: PTED7=0 */
-  clrReg8Bits(PTED, 0x80U);             
-  /* PTEPE: PTEPE7=0 */
-  clrReg8Bits(PTEPE, 0x80U);            
-  /* PTEDD: PTEDD7=1 */
-  setReg8Bits(PTEDD, 0x80U);            
+  /* PTCD: PTCD7=1,PTCD1=1,PTCD0=1 */
+  setReg8Bits(PTCD, 0x83U);             
+  /* PTCPE: PTCPE3=0,PTCPE1=0,PTCPE0=0 */
+  clrReg8Bits(PTCPE, 0x0BU);            
+  /* PTCDD: PTCDD7=1,PTCDD6=0,PTCDD3=0,PTCDD1=1,PTCDD0=1 */
+  clrSetReg8Bits(PTCDD, 0x48U, 0x83U);  
   /* PTADD: PTADD7=1,PTADD6=1 */
   setReg8Bits(PTADD, 0xC0U);            
   /* PTAD: PTAD7=0,PTAD6=0 */
   clrReg8Bits(PTAD, 0xC0U);             
   /* APCTL1: ADPC1=1,ADPC0=1 */
   setReg8Bits(APCTL1, 0x03U);           
-  /* PTCPE: PTCPE3=0,PTCPE0=0 */
-  clrReg8Bits(PTCPE, 0x09U);            
-  /* PTCD: PTCD7=1,PTCD0=0 */
-  clrSetReg8Bits(PTCD, 0x01U, 0x80U);   
-  /* PTCDD: PTCDD7=1,PTCDD6=0,PTCDD3=0,PTCDD0=1 */
-  clrSetReg8Bits(PTCDD, 0x48U, 0x81U);  
+  /* PTED: PTED6=1 */
+  setReg8Bits(PTED, 0x40U);             
+  /* PTEPE: PTEPE6=0 */
+  clrReg8Bits(PTEPE, 0x40U);            
+  /* PTEDD: PTEDD6=1 */
+  setReg8Bits(PTEDD, 0x40U);            
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -351,7 +351,7 @@ void PE_low_level_init(void)
   AS1_Init();
   /* ### ByteIO "Byte1" init code ... */
   /* ### BitIO "Bit1" init code ... */
-  Shadow_PTE &= 0x7FU;                 /* Initialize pin shadow variable bit */
+  Shadow_PTC |= (byte)0x01U;           /* Initialize pin shadow variable bit */
   /* ### Programable pulse generation "PWM1" init code ... */
   PWM1_Init();
   /* ###  "AD1" init code ... */
@@ -365,7 +365,7 @@ void PE_low_level_init(void)
   /* ### TimerInt "TI1" init code ... */
   TI1_Init();
   /* ### BitIO "Bit2" init code ... */
-  Shadow_PTC &= 0xFEU;                 /* Initialize pin shadow variable bit */
+  /* ### BitIO "Bit3" init code ... */
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }
