@@ -183,13 +183,30 @@ void recibir_ir(){
 	// trama de comunicacion
 	// 10 00MMMM  // 00 00MMMM // 00 WWWZZZ // 00 YYYXXX 
 	unsigned int ptr6=0;
-	if(c){
+	unsigned char aux2[4];
+	char error_ir;
+	if(c==0 || c==1){
 		c=0;	
-		IR_RecvBlock(ir,4,&ptr6);
-		if(( ir[0] & 128 ) == 128){		
-		Bit3_PutVal(0);		
-		c=0;
-	if(estado=0){
+		error_ir=IR_RecvBlock(aux2,4,&ptr6);
+		/*		if(( aux2[0] & 0b11110000 ) == 0b10000000){
+			if(aux2[1] & 0b11110000 ) == 0b00000000){
+				if( (aux2[2] >= 0b00001001) && (aux2[2] <= 0b00100100)){
+					if((aux2[3] >= 0b00001001) && (aux2[3] <= 0b00100100)){
+						Bit3_PutVal(0);
+						Bit2_PutVal(1);  
+						c=0;
+					}
+				}
+			}
+*/			
+  }else{
+		Bit3_PutVal(1);
+		Bit2_PutVal(0);  
+  }
+}
+
+
+/*	if(estado=0){
 		estado=1;
 	}
 		
@@ -210,28 +227,30 @@ void recibir_ir(){
 			}
 		}
 	}
-  }
-}
-}
+	*/
 
+
+/*
 void enviar_ir(){
 	
 	unsigned int ptr6=0;
 	mensaje=( b2[0] << 4 ) | (b2[1] & 0b00001111); 
 
+	
+	ir[0]=0b10001111;
+	ir[1]=0b00110011;
+	ir[2]=0b00010111;
+	ir[3]=0b01010101;
+
 	z1=  b2[3] & 0b00000111;
 	z2= (b2[3] & 0b00111000) >> 3;
 	z3= (b2[2] & 0b00000111);
 	z4= (b2[2] & 0b00111000) >> 3;
+
 	
-/*	ir[0]=0b10001111;
-	ir[1]=0b00110011;
-	ir[2]=0b00010111;
-	ir[3]=0b01010101;
-*/	
 	IR_SendBlock(ir,4,&ptr6);
 }
-
+*/
 void main(void)	//
 {
   /* Write your local variable definition here */
@@ -251,9 +270,9 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
    for(;;) {
 	   if(p){ //programa principal
 		p=0;
-		estado=10;
-		enviar_ir();
-		switch(estado){		
+		recibir_ir();
+		IR_ClearRxBuf();
+/*		switch(estado){		
 		case 0:
 			recibir();
 			maestro=2; // esto se debe borrar despues es para forzar el modo esclavo
@@ -327,7 +346,7 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
 			recibir_ir();
 			estado=3;
 			break;
-		}
+		}*/
 		
 		
 //		AS1_SendBlock(b2,4,&ptr6);

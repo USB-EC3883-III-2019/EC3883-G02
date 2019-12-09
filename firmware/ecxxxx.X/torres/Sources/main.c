@@ -185,10 +185,14 @@ void recibir_ir(){
 	unsigned int ptr6=0;
 	unsigned char aux2[4];
 	char error_ir;
-	if(c==0 || c==1){
+	if(c){ // entra aquí solo si ocurre la interrupcino de buffer lleno
 		c=0;	
 		error_ir=IR_RecvBlock(aux2,4,&ptr6);
-		/*		if(( aux2[0] & 0b11110000 ) == 0b10000000){
+		// la siguiente seccion de codigo garantiza el dato recibido
+		// utilizando los rangos maximos y minimos de los datos esperados 
+		// con el fin de minimizar el riesgo de leer ruido
+		
+		if(( aux2[0] & 0b11110000 ) == 0b10000000){	
 			if(aux2[1] & 0b11110000 ) == 0b00000000){
 				if( (aux2[2] >= 0b00001001) && (aux2[2] <= 0b00100100)){
 					if((aux2[3] >= 0b00001001) && (aux2[3] <= 0b00100100)){
@@ -198,7 +202,7 @@ void recibir_ir(){
 					}
 				}
 			}
-*/			
+			
   }else{
 		Bit3_PutVal(1);
 		Bit2_PutVal(0);  
@@ -206,7 +210,7 @@ void recibir_ir(){
 }
 
 
-/*	if(estado=0){
+	if(estado=0){
 		estado=1;
 	}
 		
@@ -272,7 +276,7 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
 		p=0;
 		recibir_ir();
 		IR_ClearRxBuf();
-/*		switch(estado){		
+		switch(estado){		
 		case 0:
 			recibir();
 			maestro=2; // esto se debe borrar despues es para forzar el modo esclavo
@@ -346,7 +350,7 @@ char tiempo_barrido=25; // esta variable determina la velocidad de paso de motor
 			recibir_ir();
 			estado=3;
 			break;
-		}*/
+		}
 		
 		
 //		AS1_SendBlock(b2,4,&ptr6);
